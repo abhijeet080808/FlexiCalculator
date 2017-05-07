@@ -26,14 +26,16 @@ public class CalculatorTest {
         Vector<Pair> tests = new Vector<>();
         tests.add(new Pair("4", "2 + 2"));
         tests.add(new Pair("9", "5 + 2 * 2"));
-        tests.add(new Pair("4", "5 / 2 * 2"));
+        tests.add(new Pair("5", "5 / 2 * 2"));
         tests.add(new Pair("2", "( 2 )"));
-        tests.add(new Pair("1", "5 / ( 2 * 2 )"));
+        tests.add(new Pair("1.25", "5 / ( 2 * 2 )"));
         tests.add(new Pair("4", "( 2 * 2 )"));
         tests.add(new Pair("12", "5 + ( 2 * 2 + 4 - 1 )"));
         tests.add(new Pair("15", "5 + ( 2 * ( 2 + 4 - 1 ) )"));
         tests.add(new Pair("35", "5 + ( 2 * ( 2 + 4 - 1 ) ) * ( 2 + 1 )"));
         tests.add(new Pair("35", "( 2 * ( 2 + 4 - 1 ) ) * ( 2 + 1 ) + 5"));
+        tests.add(new Pair("3.142857", "( 22 / 7 )"));
+        tests.add(new Pair("4.714286", "( 33 / 7 )"));
 
         for (Pair test : tests) {
             assertEquals(

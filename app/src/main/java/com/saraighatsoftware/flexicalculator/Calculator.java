@@ -2,6 +2,9 @@ package com.saraighatsoftware.flexicalculator;
 
 import android.util.Log;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Stack;
 import java.util.Vector;
@@ -25,7 +28,10 @@ class Calculator {
             SUBTRACT,
             ADD };
 
+    private static final int SCALE = 12;
+
     private final HashMap<String, Integer> mOperatorPrecedence;
+    private final DecimalFormat mFormat;
 
     Calculator() {
         mOperatorPrecedence = new HashMap<>();
@@ -35,6 +41,12 @@ class Calculator {
         mOperatorPrecedence.put(MULTIPLY, 2);
         mOperatorPrecedence.put(SUBTRACT, 3);
         mOperatorPrecedence.put(ADD, 3);
+
+        mFormat = new DecimalFormat();
+        mFormat.setMaximumFractionDigits(6);
+        mFormat.setMinimumFractionDigits(0);
+        mFormat.setGroupingUsed(false);
+        mFormat.setRoundingMode(RoundingMode.HALF_EVEN);
     }
 
     /*
@@ -73,7 +85,7 @@ class Calculator {
     */
 
     String Evaluate(final Vector<String> infixExpression) throws Exception {
-        // evaluate something like [3, +, 2]
+        // evaluate something like [30, +, 2]
         // each vector element either contains a digit in string form
         // or contains a operator in string form
 
@@ -83,13 +95,13 @@ class Calculator {
                     "Calculator::Evaluate: Invalid expression " + infixExpression.toString());
         }
 
-        Stack<String> operands = new Stack<>();  // for numbers
+        Stack<BigDecimal> operands = new Stack<>();  // for numbers
         Stack<String> operators = new Stack<>(); // for operators and parenthesis
 
         for (String item : infixExpression) {
             if (IsOperand(item)) {
                 Log.v(TAG, "Processing " + item);
-                operands.push(item);
+                operands.push(new BigDecimal(item));
             } else if (item.equals(OPEN_BRACKET)) {
                 Log.v(TAG, "Processing " + item);
                 operators.push(item);
@@ -97,8 +109,8 @@ class Calculator {
                 Log.v(TAG, "Processing " + item);
                 while (!operators.peek().equals(OPEN_BRACKET)) {
                     String operator = operators.pop();
-                    String operand2 = operands.pop();
-                    String operand1 = operands.pop();
+                    BigDecimal operand2 = operands.pop();
+                    BigDecimal operand1 = operands.pop();
                     Log.v(TAG, "Got close bracket - " + operand1 + " " + operator + " " + operand2);
                     operands.push(operate(operator, operand1, operand2));
                 }
@@ -114,8 +126,8 @@ class Calculator {
                     }
                     // lower the precedence value, higher is the precedence
                     String operator = operators.pop();
-                    String operand2 = operands.pop();
-                    String operand1 = operands.pop();
+                    BigDecimal operand2 = operands.pop();
+                    BigDecimal operand1 = operands.pop();
                     Log.v(TAG, "Got higher precedence than " + item + " - " + operand1 + " " + operator + " " + operand2);
                     operands.push(operate(operator, operand1, operand2));
                 }
@@ -125,8 +137,8 @@ class Calculator {
 
         while (!operators.isEmpty()) {
             String operator = operators.pop();
-            String operand2 = operands.pop();
-            String operand1 = operands.pop();
+            BigDecimal operand2 = operands.pop();
+            BigDecimal operand1 = operands.pop();
             Log.v(TAG, "Got operator in stack - " + operand1 + " " + operator + " " + operand2);
             operands.push(operate(operator, operand1, operand2));
         }
@@ -135,7 +147,7 @@ class Calculator {
             throw new IllegalStateException("Calculator::Evaluate: Invalid state");
         }
 
-        return operands.firstElement();
+        return mFormat.format(operands.firstElement());
     }
 
     static boolean IsSane(final Vector<String> infixExpression, boolean isComplete) {
@@ -165,22 +177,20 @@ class Calculator {
         }
     }
 
-    private static String operate(final String operator,
-                                  final String operand1,
-                                  final String operand2) throws Exception {
+    private static BigDecimal operate(final String operator,
+                                  final BigDecimal operand1,
+                                  final BigDecimal operand2) throws Exception {
         Log.v(TAG, "Processing " + operand1 + " " + operator + " " + operand2);
-        Integer value1 = Integer.valueOf(operand1);
-        Integer value2 = Integer.valueOf(operand2);
 
         switch (operator) {
             case ADD:
-                return String.valueOf(value1 + value2);
+                return operand1.add(operand2);
             case SUBTRACT:
-                return String.valueOf(value1 - value2);
+                return operand1.subtract(operand2);
             case MULTIPLY:
-                return String.valueOf(value1 * value2);
+                return operand1.multiply(operand2);
             case DIVIDE:
-                return String.valueOf(value1 / value2);
+                return operand1.divide(operand2, SCALE, BigDecimal.ROUND_HALF_EVEN);
             default:
                 throw new IllegalArgumentException(
                         "Calculator::operate: Invalid operator " + operator);
@@ -189,15 +199,14 @@ class Calculator {
 
     static boolean IsOperand(final String s) {
         for(char c : s.toCharArray()) {
-            if (!Character.isDigit(c)) {
+            if (!(Character.isDigit(c) || (c == '.'))) {
                 return false;
             }
         }
         return true;
     }
 
-    static boolean IsOperator(final String s,
-                                     boolean includingBrackets) {
+    static boolean IsOperator(final String s, boolean includingBrackets) {
         for (String item : OPERATORS) {
             if (!includingBrackets && (item.equals(OPEN_BRACKET) || item.equals(CLOSE_BRACKET))) {
                 continue;
@@ -212,6 +221,7 @@ class Calculator {
     static boolean IsAllowed(final String s) {
         // check if maximum length is reached
         // TODO restrict to BigDecimal capacity, restrict to 6 decimal points
+        // TODO study scale and precision
         return s.length() <= 10;
     }
 }
