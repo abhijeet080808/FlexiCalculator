@@ -211,6 +211,7 @@ class Calculator {
 
     static boolean IsAllowed(final String s) {
         // check if maximum length is reached
+        // TODO restrict to BigDecimal capacity, restrict to 6 decimal points
         return s.length() <= 10;
     }
 }
