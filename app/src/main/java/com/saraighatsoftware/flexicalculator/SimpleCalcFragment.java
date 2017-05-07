@@ -10,17 +10,17 @@ import android.widget.TextView;
 
 import java.util.Vector;
 
-public class ConventionalCalcFragment extends Fragment {
+public class SimpleCalcFragment extends Fragment {
 
-    private static final String TAG = "ConvCalcFragment";
+    private static final String TAG = "SimpleCalcFragment";
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    private Calculator mCalculator;
-    private Vector<String> mInfixExpression;
+    private final Calculator mCalculator;
+    private final Vector<String> mInfixExpression;
     private boolean mIsResultSet;
 
-    public ConventionalCalcFragment() {
+    public SimpleCalcFragment() {
         mCalculator = new Calculator();
         mInfixExpression = new Vector<>();
         mIsResultSet = false;
@@ -36,142 +36,142 @@ public class ConventionalCalcFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_calculator, container, false);
+        View root_view = inflater.inflate(R.layout.fragment_calculator, container, false);
 
         mInfixExpression.clear();
         mIsResultSet = false;
 
-        TextView textView = (TextView) rootView.findViewById(R.id.text_display);
+        TextView textView = (TextView) root_view.findViewById(R.id.text_display);
         textView.setText("0");
         //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
-        rootView.findViewById(R.id.button_zero).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_zero).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("0");
             }
         });
 
-        rootView.findViewById(R.id.button_one).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_one).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("1");
             }
         });
 
-        rootView.findViewById(R.id.button_two).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_two).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("2");
             }
         });
 
-        rootView.findViewById(R.id.button_three).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_three).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("3");
             }
         });
 
-        rootView.findViewById(R.id.button_four).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_four).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("4");
             }
         });
 
-        rootView.findViewById(R.id.button_five).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_five).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("5");
             }
         });
 
-        rootView.findViewById(R.id.button_six).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_six).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("6");
             }
         });
 
-        rootView.findViewById(R.id.button_seven).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_seven).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("7");
             }
         });
 
-        rootView.findViewById(R.id.button_eight).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_eight).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("8");
             }
         });
 
-        rootView.findViewById(R.id.button_nine).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_nine).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("9");
             }
         });
 
-        rootView.findViewById(R.id.button_open_bracket).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_open_bracket).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.OPEN_BRACKET);
             }
         });
 
-        rootView.findViewById(R.id.button_close_bracket).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_close_bracket).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.CLOSE_BRACKET);
             }
         });
 
-        rootView.findViewById(R.id.button_divide).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_divide).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.DIVIDE);
             }
         });
 
-        rootView.findViewById(R.id.button_multiply).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_multiply).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.MULTIPLY);
             }
         });
 
-        rootView.findViewById(R.id.button_subtract).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_subtract).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.SUBTRACT);
             }
         });
 
-        rootView.findViewById(R.id.button_add).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.ADD);
             }
         });
 
-        rootView.findViewById(R.id.button_equal).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_equal).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 evaluate();
             }
         });
 
-        rootView.findViewById(R.id.button_del).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clear();
             }
         });
 
-        return rootView;
+        return root_view;
     }
 
     private void expressionListener(String token) {
@@ -192,7 +192,7 @@ public class ConventionalCalcFragment extends Fragment {
                 mInfixExpression.remove(mInfixExpression.size() - 1);
                 mInfixExpression.add(token);
                 mIsResultSet = false;
-            } else if (token.equals(Calculator.CLOSE_BRACKET)) {
+            //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                 // result operand can not be followed by close bracket
             } else if (Calculator.IsOperand(token)) {
                 mInfixExpression.remove(mInfixExpression.size() - 1);
@@ -210,7 +210,7 @@ public class ConventionalCalcFragment extends Fragment {
                     mInfixExpression.add(token);
                 } else if (token.equals(Calculator.OPEN_BRACKET)) {
                     mInfixExpression.add(token);
-                } else if (token.equals(Calculator.CLOSE_BRACKET)) {
+                //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     // operator can not be followed by close bracket
                 } else if (Calculator.IsOperand(token)) {
                     mInfixExpression.add(token);
@@ -218,11 +218,12 @@ public class ConventionalCalcFragment extends Fragment {
 
             } else if (last_token.equals(Calculator.OPEN_BRACKET)) {
 
-                if (Calculator.IsOperator(token, false)) {
+                //if (Calculator.IsOperator(token, false)) {
                     // open bracket can not be followed by operator
-                } else if (token.equals(Calculator.OPEN_BRACKET)) {
+                //} else
+                if (token.equals(Calculator.OPEN_BRACKET)) {
                     mInfixExpression.add(token);
-                } else if (token.equals(Calculator.CLOSE_BRACKET)) {
+                //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     // open bracket can not be followed by close bracket
                 } else if (Calculator.IsOperand(token)) {
                     mInfixExpression.add(token);
@@ -232,7 +233,7 @@ public class ConventionalCalcFragment extends Fragment {
 
                 if (Calculator.IsOperator(token, false)) {
                     mInfixExpression.add(token);
-                } else if (token.equals(Calculator.OPEN_BRACKET)) {
+                //} else if (token.equals(Calculator.OPEN_BRACKET)) {
                     // close bracket can not be followed by open bracket
                 } else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     mInfixExpression.add(token);
@@ -240,7 +241,7 @@ public class ConventionalCalcFragment extends Fragment {
                     if (!Calculator.IsSane(mInfixExpression, false)) {
                         mInfixExpression.remove(mInfixExpression.size() - 1);
                     }
-                } else if (Calculator.IsOperand(token)) {
+                //} else if (Calculator.IsOperand(token)) {
                     // close bracket can not be followed by operand
                 }
 
@@ -248,7 +249,7 @@ public class ConventionalCalcFragment extends Fragment {
 
                 if (Calculator.IsOperator(token, false)) {
                     mInfixExpression.add(token);
-                } else if (token.equals(Calculator.OPEN_BRACKET)) {
+                //} else if (token.equals(Calculator.OPEN_BRACKET)) {
                     // operand can not be followed by open bracket
                 } else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     mInfixExpression.add(token);
@@ -302,7 +303,9 @@ public class ConventionalCalcFragment extends Fragment {
     }
 
     private void updateText() {
-        TextView textView = (TextView) getView().findViewById(R.id.text_display);
+        View root_view = getView();
+        if (root_view == null) return;
+        TextView textView = (TextView) root_view.findViewById(R.id.text_display);
         if (mInfixExpression.isEmpty()) {
             textView.setText("0");
         } else {

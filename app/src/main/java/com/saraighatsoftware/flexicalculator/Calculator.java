@@ -25,7 +25,7 @@ class Calculator {
             SUBTRACT,
             ADD };
 
-    private HashMap<String, Integer> mOperatorPrecedence;
+    private final HashMap<String, Integer> mOperatorPrecedence;
 
     Calculator() {
         mOperatorPrecedence = new HashMap<>();
@@ -139,10 +139,9 @@ class Calculator {
     }
 
     static boolean IsSane(final Vector<String> infixExpression, boolean isComplete) {
-        if (infixExpression.isEmpty()) {
-            return false;
-        }
         // check that open and close brackets are balanced
+        if (infixExpression.isEmpty()) { return false; }
+
         int brackets = 0;
         for (String item : infixExpression) {
             if (!IsOperand(item) && !IsOperator(item, true)) {
@@ -158,6 +157,7 @@ class Calculator {
             }
         }
 
+        //noinspection SimplifiableIfStatement
         if (isComplete) {
             return (!IsOperator(infixExpression.lastElement(), false) && brackets == 0);
         } else {
