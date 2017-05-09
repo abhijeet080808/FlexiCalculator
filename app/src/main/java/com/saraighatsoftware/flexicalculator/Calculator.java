@@ -15,10 +15,14 @@ class Calculator {
 
     static final String OPEN_BRACKET = "(";
     static final String CLOSE_BRACKET = ")";
-    static final String DIVIDE = "/";
-    static final String MULTIPLY = "*";
-    static final String SUBTRACT = "-";
+    static final String DIVIDE = "\u00f7";
+    static final String MULTIPLY = "\u00d7";
+    static final String SUBTRACT = "\u2212";
     static final String ADD = "+";
+
+    static final char SUBTRACT_CHAR = '\u2212';
+
+    private static final char POINT_CHAR = '.';
 
     private static final String[] OPERATORS = {
             OPEN_BRACKET,
@@ -28,10 +32,15 @@ class Calculator {
             SUBTRACT,
             ADD };
 
-    private static final int SCALE = 12;
+    private static final int INTERNAL_SCALE = 12;
+    private static final int RESULT_SCALE = 6;
+    // Precision is the total number of digits
+    private static final int INPUT_PRECISION = 12;
+    // Scale is the number of digits after the decimal point
+    private static final int INPUT_SCALE = 6;
 
     private final HashMap<String, Integer> mOperatorPrecedence;
-    private final DecimalFormat mFormat;
+    private final DecimalFormat mResultFormat;
 
     Calculator() {
         mOperatorPrecedence = new HashMap<>();
@@ -42,11 +51,11 @@ class Calculator {
         mOperatorPrecedence.put(SUBTRACT, 3);
         mOperatorPrecedence.put(ADD, 3);
 
-        mFormat = new DecimalFormat();
-        mFormat.setMaximumFractionDigits(6);
-        mFormat.setMinimumFractionDigits(0);
-        mFormat.setGroupingUsed(false);
-        mFormat.setRoundingMode(RoundingMode.HALF_EVEN);
+        mResultFormat = new DecimalFormat();
+        mResultFormat.setMaximumFractionDigits(RESULT_SCALE);
+        mResultFormat.setMinimumFractionDigits(0);
+        mResultFormat.setGroupingUsed(false);
+        mResultFormat.setRoundingMode(RoundingMode.HALF_EVEN);
     }
 
     /*
@@ -101,7 +110,7 @@ class Calculator {
         for (String item : infixExpression) {
             if (IsOperand(item)) {
                 Log.v(TAG, "Processing " + item);
-                operands.push(new BigDecimal(item));
+                operands.push(new BigDecimal(item.replace(SUBTRACT_CHAR, '-')));
             } else if (item.equals(OPEN_BRACKET)) {
                 Log.v(TAG, "Processing " + item);
                 operators.push(item);
@@ -147,7 +156,7 @@ class Calculator {
             throw new IllegalStateException("Calculator::Evaluate: Invalid state");
         }
 
-        return mFormat.format(operands.firstElement());
+        return mResultFormat.format(operands.firstElement());
     }
 
     static boolean IsSane(final Vector<String> infixExpression, boolean isComplete) {
@@ -178,8 +187,8 @@ class Calculator {
     }
 
     private static BigDecimal operate(final String operator,
-                                  final BigDecimal operand1,
-                                  final BigDecimal operand2) throws Exception {
+                                      final BigDecimal operand1,
+                                      final BigDecimal operand2) throws Exception {
         Log.v(TAG, "Processing " + operand1 + " " + operator + " " + operand2);
 
         switch (operator) {
@@ -190,7 +199,7 @@ class Calculator {
             case MULTIPLY:
                 return operand1.multiply(operand2);
             case DIVIDE:
-                return operand1.divide(operand2, SCALE, BigDecimal.ROUND_HALF_EVEN);
+                return operand1.divide(operand2, INTERNAL_SCALE, BigDecimal.ROUND_HALF_EVEN);
             default:
                 throw new IllegalArgumentException(
                         "Calculator::operate: Invalid operator " + operator);
@@ -198,12 +207,25 @@ class Calculator {
     }
 
     static boolean IsOperand(final String s) {
+        // can contain a single decimal point and a single minus sign and one or more numbers
+        int point_count = 0;
+        int minus_count = 0;
+        int digit_count = 0;
         for(char c : s.toCharArray()) {
-            if (!(Character.isDigit(c) || (c == '.'))) {
+            if (Character.isDigit(c)) {
+                digit_count++;
+            } else if (c == POINT_CHAR) {
+                point_count++;
+            } else if (c == SUBTRACT_CHAR) {
+                minus_count++;
+            } else {
+                return false;
+            }
+            if (point_count > 1 || minus_count > 1) {
                 return false;
             }
         }
-        return true;
+        return digit_count > 0 && (minus_count == 0 || (minus_count == 1 && s.charAt(0) == SUBTRACT_CHAR));
     }
 
     static boolean IsOperator(final String s, boolean includingBrackets) {
@@ -218,10 +240,40 @@ class Calculator {
         return false;
     }
 
-    static boolean IsAllowed(final String s) {
-        // check if maximum length is reached
-        // TODO restrict to BigDecimal capacity, restrict to 6 decimal points
-        // TODO study scale and precision
-        return s.length() <= 10;
+    static boolean IsAllowed(final String existingOperand, final char newChar) {
+        // returns true if the new character can be appended to the existing operand
+        if (existingOperand.isEmpty()) {
+            return newChar == SUBTRACT_CHAR || newChar == POINT_CHAR || Character.isDigit(newChar);
+        } else if (existingOperand.length() == 1) {
+            // allowed -> -. -1 .1 11
+            final char existingChar = existingOperand.charAt(0);
+            if (existingChar == SUBTRACT_CHAR) {
+                return newChar == POINT_CHAR || Character.isDigit(newChar);
+            } else if (existingChar == POINT_CHAR) {
+                return Character.isDigit(newChar);
+            } else { // Character.isDigit(existingChar)
+                // TODO consider leading zeroes
+                return Character.isDigit(newChar);
+            }
+        } else { // length > 1
+            if (newChar == POINT_CHAR) {
+                // only one point allowed
+                return existingOperand.indexOf(POINT_CHAR) < 0;
+            } else if (Character.isDigit(newChar)) {
+                // TODO consider leading zeroes
+                // precision is number of digits
+                // scale is number of digits after decimal point
+                final int decimal = existingOperand.indexOf(POINT_CHAR);
+                final boolean is_negative = (existingOperand.charAt(0) == SUBTRACT_CHAR);
+                int precision = existingOperand.length();
+                precision = (decimal >= 0) ? precision - 1 : precision;
+                precision = is_negative ? precision - 1 : precision;
+                final int scale = (decimal >= 0) ? existingOperand.length() - decimal - 1 : 0;
+                Log.v(TAG, existingOperand + " scale " + scale + " precision " + precision);
+                return (precision < INPUT_PRECISION && scale < INPUT_SCALE);
+            } else {
+                return false;
+            }
+        }
     }
 }

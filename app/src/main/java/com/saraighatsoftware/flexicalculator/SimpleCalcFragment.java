@@ -179,6 +179,7 @@ public class SimpleCalcFragment extends Fragment {
         if (mInfixExpression.isEmpty()) {
             // allow only operand to be stored or open bracket
             if (Calculator.IsOperand(token)) {
+                // TODO use IsAllowed
                 mInfixExpression.add(token);
             } else if (token.equals(Calculator.OPEN_BRACKET)) {
                 mInfixExpression.add(token);
@@ -259,7 +260,7 @@ public class SimpleCalcFragment extends Fragment {
                     }
                 } else if (Calculator.IsOperand(token)) {
                     // check for allowed size
-                    if (Calculator.IsAllowed(last_token + token)) {
+                    if (Calculator.IsAllowed(last_token, token.charAt(0))) {
                         mInfixExpression.remove(mInfixExpression.size() - 1);
                         mInfixExpression.add(last_token + token);
                     }

@@ -19,8 +19,8 @@
     <string name="divide">\u00f7</string>
     <string name="multiply">\u00d7</string>
     <string name="subtract">\u2212</string>
-    <string name="add">\u002b</string>
-    <string name="equal">\u003d</string>
+    <string name="add">+</string>
+    <string name="equal">=</string>
 
     <string name="del">DEL</string>
 

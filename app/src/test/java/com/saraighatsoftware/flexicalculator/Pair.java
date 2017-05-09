@@ -1,14 +1,14 @@
 package com.saraighatsoftware.flexicalculator;
 
-class Pair {
-    private final String mFirst;
-    private final String mSecond;
+class Pair<T1, T2> {
+    private final T1 mFirst;
+    private final T2 mSecond;
 
-    Pair(String first, String second) {
+    Pair(T1 first, T2 second) {
         mFirst = first;
         mSecond = second;
     }
 
-    String first() { return mFirst; }
-    String second() { return mSecond; }
+    T1 first() { return mFirst; }
+    T2 second() { return mSecond; }
 }
