@@ -160,7 +160,7 @@ class Calculator {
     }
 
     static boolean IsSane(final Vector<String> infixExpression, boolean isComplete) {
-        // check that open and close brackets are balanced
+        // check that expression is not empty and open/close brackets are balanced
         if (infixExpression.isEmpty()) { return false; }
 
         int brackets = 0;
@@ -207,25 +207,28 @@ class Calculator {
     }
 
     static boolean IsOperand(final String s) {
-        // can contain a single decimal point and a single minus sign and one or more numbers
-        int point_count = 0;
+        // operand can start with zero or one negative sign
+        // operand can have zero or one decimal point
+        // operand must have one or more digits
         int minus_count = 0;
+        int point_count = 0;
         int digit_count = 0;
         for(char c : s.toCharArray()) {
-            if (Character.isDigit(c)) {
-                digit_count++;
+            if (c == SUBTRACT_CHAR) {
+                minus_count++;
             } else if (c == POINT_CHAR) {
                 point_count++;
-            } else if (c == SUBTRACT_CHAR) {
-                minus_count++;
+            } else if (Character.isDigit(c)) {
+                digit_count++;
             } else {
                 return false;
             }
-            if (point_count > 1 || minus_count > 1) {
+            if (minus_count > 1 || point_count > 1) {
                 return false;
             }
         }
-        return digit_count > 0 && (minus_count == 0 || (minus_count == 1 && s.charAt(0) == SUBTRACT_CHAR));
+        return digit_count > 0 &&
+                (minus_count == 0 || (minus_count == 1 && s.charAt(0) == SUBTRACT_CHAR));
     }
 
     static boolean IsOperator(final String s, boolean includingBrackets) {
