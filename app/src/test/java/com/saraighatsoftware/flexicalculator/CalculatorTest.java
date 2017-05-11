@@ -41,7 +41,7 @@ public class CalculatorTest {
         tests.add(new Pair<>("1.1", "0.1 + 1"));
         tests.add(new Pair<>("1.1", "1 + 0.1"));
         tests.add(new Pair<>("2", "4 - 2"));
-        tests.add(new Pair<>("4", "2 - - 2"));
+        tests.add(new Pair<>("4", "2 - ( -2 )"));
 
         for (Pair<String, String> test : tests) {
             String input = test.second().
