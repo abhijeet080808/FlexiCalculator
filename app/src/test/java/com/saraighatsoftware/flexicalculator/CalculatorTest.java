@@ -36,6 +36,12 @@ public class CalculatorTest {
         tests.add(new Pair<>("35", "( 2 * ( 2 + 4 - 1 ) ) * ( 2 + 1 ) + 5"));
         tests.add(new Pair<>("3.142857", "( 22 / 7 )"));
         tests.add(new Pair<>("4.714286", "( 33 / 7 )"));
+        tests.add(new Pair<>("1.1", ".1 + 1"));
+        tests.add(new Pair<>("1.1", "1 + .1"));
+        tests.add(new Pair<>("1.1", "0.1 + 1"));
+        tests.add(new Pair<>("1.1", "1 + 0.1"));
+        tests.add(new Pair<>("2", "4 - 2"));
+        tests.add(new Pair<>("4", "2 - - 2"));
 
         for (Pair<String, String> test : tests) {
             String input = test.second().
@@ -72,6 +78,7 @@ public class CalculatorTest {
         pass_tests.add(new Pair<>("", '-'));
         pass_tests.add(new Pair<>("", '.'));
         pass_tests.add(new Pair<>("", '0'));
+        pass_tests.add(new Pair<>("1", '.'));
         pass_tests.add(new Pair<>("12345678901", '0'));
         pass_tests.add(new Pair<>("123456789.01", '0'));
         pass_tests.add(new Pair<>("123456789012", '.'));
@@ -93,17 +100,20 @@ public class CalculatorTest {
         fail_test.add(new Pair<>(".123456", '0'));
         fail_test.add(new Pair<>("-123456789012", '0'));
         fail_test.add(new Pair<>("-123456789.012", '0'));
+        fail_test.add(new Pair<>("12", '+'));
+        fail_test.add(new Pair<>("+", '1'));
+        fail_test.add(new Pair<>("1-", '1'));
 
         for (Pair<String, Character> test : pass_tests) {
             assertEquals(true,
-                    Calculator.IsAllowed(
+                    Calculator.IsOperandAllowed(
                             test.first().replace("-", Calculator.SUBTRACT),
                             test.second() == '-' ? Calculator.SUBTRACT_CHAR : test.second()));
         }
 
         for (Pair<String, Character> test : fail_test) {
             assertEquals(false,
-                    Calculator.IsAllowed(
+                    Calculator.IsOperandAllowed(
                             test.first().replace("-", Calculator.SUBTRACT),
                             test.second() == '-' ? Calculator.SUBTRACT_CHAR : test.second()));
         }

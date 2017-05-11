@@ -19,6 +19,7 @@ class Calculator {
     static final String MULTIPLY = "\u00d7";
     static final String SUBTRACT = "\u2212";
     static final String ADD = "+";
+    static final String POINT = ".";
 
     static final char SUBTRACT_CHAR = '\u2212';
 
@@ -159,6 +160,26 @@ class Calculator {
         return mResultFormat.format(operands.firstElement());
     }
 
+    private static BigDecimal operate(final String operator,
+                                      final BigDecimal operand1,
+                                      final BigDecimal operand2) throws Exception {
+        Log.v(TAG, "Processing " + operand1 + " " + operator + " " + operand2);
+
+        switch (operator) {
+            case ADD:
+                return operand1.add(operand2);
+            case SUBTRACT:
+                return operand1.subtract(operand2);
+            case MULTIPLY:
+                return operand1.multiply(operand2);
+            case DIVIDE:
+                return operand1.divide(operand2, INTERNAL_SCALE, BigDecimal.ROUND_HALF_EVEN);
+            default:
+                throw new IllegalArgumentException(
+                        "Calculator::operate: Invalid operator " + operator);
+        }
+    }
+
     static boolean IsSane(final Vector<String> infixExpression, boolean isComplete) {
         // check that expression is not empty and open/close brackets are balanced
         if (infixExpression.isEmpty()) { return false; }
@@ -183,26 +204,6 @@ class Calculator {
             return (!IsOperator(infixExpression.lastElement(), false) && brackets == 0);
         } else {
             return true;
-        }
-    }
-
-    private static BigDecimal operate(final String operator,
-                                      final BigDecimal operand1,
-                                      final BigDecimal operand2) throws Exception {
-        Log.v(TAG, "Processing " + operand1 + " " + operator + " " + operand2);
-
-        switch (operator) {
-            case ADD:
-                return operand1.add(operand2);
-            case SUBTRACT:
-                return operand1.subtract(operand2);
-            case MULTIPLY:
-                return operand1.multiply(operand2);
-            case DIVIDE:
-                return operand1.divide(operand2, INTERNAL_SCALE, BigDecimal.ROUND_HALF_EVEN);
-            default:
-                throw new IllegalArgumentException(
-                        "Calculator::operate: Invalid operator " + operator);
         }
     }
 
@@ -243,12 +244,23 @@ class Calculator {
         return false;
     }
 
-    static boolean IsAllowed(final String existingOperand, final char newChar) {
+    static boolean IsOperandAllowed(final String existingOperand, final char newChar) {
         // returns true if the new character can be appended to the existing operand
+
+        for (char c : existingOperand.toCharArray()) {
+            if (!(c == SUBTRACT_CHAR || c == POINT_CHAR || Character.isDigit(c))) {
+                return false;
+            }
+        }
+        int subtract_pos = existingOperand.indexOf(SUBTRACT_CHAR);
+        if (subtract_pos != -1 && subtract_pos != 0) {
+            return false;
+        }
+
         if (existingOperand.isEmpty()) {
             return newChar == SUBTRACT_CHAR || newChar == POINT_CHAR || Character.isDigit(newChar);
         } else if (existingOperand.length() == 1) {
-            // allowed -> -. -1 .1 11
+            // allowed -> -. -1 .1 11 1.
             final char existingChar = existingOperand.charAt(0);
             if (existingChar == SUBTRACT_CHAR) {
                 return newChar == POINT_CHAR || Character.isDigit(newChar);
@@ -256,7 +268,7 @@ class Calculator {
                 return Character.isDigit(newChar);
             } else { // Character.isDigit(existingChar)
                 // TODO consider leading zeroes
-                return Character.isDigit(newChar);
+                return Character.isDigit(newChar) || (newChar == POINT_CHAR);
             }
         } else { // length > 1
             if (newChar == POINT_CHAR) {

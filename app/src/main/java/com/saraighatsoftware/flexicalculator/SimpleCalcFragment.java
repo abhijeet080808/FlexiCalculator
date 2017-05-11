@@ -115,6 +115,13 @@ public class SimpleCalcFragment extends Fragment {
             }
         });
 
+        root_view.findViewById(R.id.button_dot).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.POINT);
+            }
+        });
+
         root_view.findViewById(R.id.button_open_bracket).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,8 +185,7 @@ public class SimpleCalcFragment extends Fragment {
         // reads 0-9 and operators
         if (mInfixExpression.isEmpty()) {
             // allow only operand to be stored or open bracket
-            if (Calculator.IsOperand(token)) {
-                // TODO use IsAllowed
+            if (Calculator.IsOperandAllowed("", token.charAt(0))) {
                 mInfixExpression.add(token);
             } else if (token.equals(Calculator.OPEN_BRACKET)) {
                 mInfixExpression.add(token);
@@ -195,17 +201,24 @@ public class SimpleCalcFragment extends Fragment {
                 mIsResultSet = false;
             //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                 // result operand can not be followed by close bracket
-            } else if (Calculator.IsOperand(token)) {
+            } else if (Calculator.IsOperandAllowed("", token.charAt(0))) {
                 mInfixExpression.remove(mInfixExpression.size() - 1);
                 mInfixExpression.add(token);
                 mIsResultSet = false;
             }
 
         } else {
-            String last_token = mInfixExpression.lastElement();
+            final String last_token = mInfixExpression.lastElement();
 
-            if (Calculator.IsOperator(last_token, false)) {
+            if (Calculator.IsOperandAllowed(last_token, token.charAt(0))) {
 
+                // TODO bug -> 2 - 1 -> - is here an operator
+                mInfixExpression.remove(mInfixExpression.size() - 1);
+                mInfixExpression.add(last_token + token);
+
+            } else if (Calculator.IsOperator(last_token, false)) {
+
+                // TODO bug -> can do (- and then replace - with other operators
                 if (Calculator.IsOperator(token, false)) {
                     mInfixExpression.remove(mInfixExpression.size() - 1);
                     mInfixExpression.add(token);
@@ -213,7 +226,7 @@ public class SimpleCalcFragment extends Fragment {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     // operator can not be followed by close bracket
-                } else if (Calculator.IsOperand(token)) {
+                } else if (Calculator.IsOperandAllowed("", token.charAt(0))) {
                     mInfixExpression.add(token);
                 }
 
@@ -226,7 +239,7 @@ public class SimpleCalcFragment extends Fragment {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     // open bracket can not be followed by close bracket
-                } else if (Calculator.IsOperand(token)) {
+                } else if (Calculator.IsOperandAllowed("", token.charAt(0))) {
                     mInfixExpression.add(token);
                 }
 
@@ -257,12 +270,6 @@ public class SimpleCalcFragment extends Fragment {
                     // check that number of close bracket is balanced
                     if (!Calculator.IsSane(mInfixExpression, false)) {
                         mInfixExpression.remove(mInfixExpression.size() - 1);
-                    }
-                } else if (Calculator.IsOperand(token)) {
-                    // check for allowed size
-                    if (Calculator.IsAllowed(last_token, token.charAt(0))) {
-                        mInfixExpression.remove(mInfixExpression.size() - 1);
-                        mInfixExpression.add(last_token + token);
                     }
                 }
 
