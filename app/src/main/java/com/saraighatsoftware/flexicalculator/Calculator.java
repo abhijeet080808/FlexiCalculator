@@ -21,6 +21,8 @@ class Calculator {
     static final String ADD = "+";
     static final String POINT = ".";
 
+    static final char DIVIDE_CHAR = '\u00f7';
+    static final char MULTIPLY_CHAR = '\u00d7';
     static final char SUBTRACT_CHAR = '\u2212';
 
     private static final char POINT_CHAR = '.';
@@ -157,7 +159,7 @@ class Calculator {
             throw new IllegalStateException("Calculator::Evaluate: Invalid state");
         }
 
-        return mResultFormat.format(operands.firstElement());
+        return mResultFormat.format(operands.firstElement()).replace('-', SUBTRACT_CHAR);
     }
 
     private static BigDecimal operate(final String operator,

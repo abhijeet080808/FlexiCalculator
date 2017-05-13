@@ -184,12 +184,14 @@ public class SimpleCalcFragment extends Fragment {
     private void expressionListener(String token) {
         // reads 0-9 and operators
         if (mInfixExpression.isEmpty()) {
+
             // allow only operand to be stored or open bracket
             if (Calculator.IsOperandAllowed("", token.charAt(0))) {
                 mInfixExpression.add(token);
             } else if (token.equals(Calculator.OPEN_BRACKET)) {
                 mInfixExpression.add(token);
             }
+
         } else if (mIsResultSet) {
 
             if (Calculator.IsOperator(token, false)) {
@@ -209,16 +211,23 @@ public class SimpleCalcFragment extends Fragment {
 
         } else {
             final String last_token = mInfixExpression.lastElement();
+            final String last_to_last_token =
+                    mInfixExpression.size() > 1 ? mInfixExpression.get(mInfixExpression.size() - 2) : "";
 
-            if (Calculator.IsOperandAllowed(last_token, token.charAt(0))) {
+            // '-' is a special case
+            // consider as part of operand only when it is the first operand
+            // or when it is just after an open bracket
 
-                // TODO bug -> 2 - 1 -> - is here an operator
-                mInfixExpression.remove(mInfixExpression.size() - 1);
-                mInfixExpression.add(last_token + token);
+            if (last_token.equals(Calculator.SUBTRACT) &&
+                    (last_to_last_token.equals(Calculator.OPEN_BRACKET) || last_to_last_token.equals(""))) {
+
+                if(Calculator.IsOperandAllowed(last_token, token.charAt(0))) {
+                    mInfixExpression.remove(mInfixExpression.size() - 1);
+                    mInfixExpression.add(last_token + token);
+                }
 
             } else if (Calculator.IsOperator(last_token, false)) {
 
-                // TODO bug -> can do (- and then replace - with other operators
                 if (Calculator.IsOperator(token, false)) {
                     mInfixExpression.remove(mInfixExpression.size() - 1);
                     mInfixExpression.add(token);
@@ -259,6 +268,11 @@ public class SimpleCalcFragment extends Fragment {
                     // close bracket can not be followed by operand
                 }
 
+            } else if (Calculator.IsOperandAllowed(last_token, token.charAt(0))) {
+
+                mInfixExpression.remove(mInfixExpression.size() - 1);
+                mInfixExpression.add(last_token + token);
+
             } else if (Calculator.IsOperand(last_token)) {
 
                 if (Calculator.IsOperator(token, false)) {
@@ -283,6 +297,7 @@ public class SimpleCalcFragment extends Fragment {
         if (mInfixExpression.isEmpty()) return;
 
         try {
+            Log.v(TAG, "Evaluating " + mInfixExpression.toString());
             String result = mCalculator.Evaluate(mInfixExpression);
             mInfixExpression.clear();
             mInfixExpression.add(result);
