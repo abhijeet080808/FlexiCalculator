@@ -15,8 +15,15 @@ class Calculator {
 
     static final String OPEN_BRACKET = "(";
     static final String CLOSE_BRACKET = ")";
+    static final String SIN = "sin";
+    static final String COS = "cos";
+    static final String TAN = "tan";
+    static final String LOG = "log";
+    static final String LN = "ln";
+    static final String POWER = "^";
     static final String DIVIDE = "\u00f7";
     static final String MULTIPLY = "\u00d7";
+    static final String MODULUS = "mod";
     static final String SUBTRACT = "\u2212";
     static final String ADD = "+";
     static final String DECIMAL = ".";
@@ -30,8 +37,15 @@ class Calculator {
     private static final String[] OPERATORS = {
             OPEN_BRACKET,
             CLOSE_BRACKET,
+            SIN,
+            COS,
+            TAN,
+            LOG,
+            LN,
+            POWER,
             DIVIDE,
             MULTIPLY,
+            MODULUS,
             SUBTRACT,
             ADD };
 
@@ -49,10 +63,17 @@ class Calculator {
         mOperatorPrecedence = new HashMap<>();
         mOperatorPrecedence.put(OPEN_BRACKET, 1);
         mOperatorPrecedence.put(CLOSE_BRACKET, 1);
-        mOperatorPrecedence.put(DIVIDE, 2);
-        mOperatorPrecedence.put(MULTIPLY, 2);
-        mOperatorPrecedence.put(SUBTRACT, 3);
-        mOperatorPrecedence.put(ADD, 3);
+        mOperatorPrecedence.put(SIN, 2);
+        mOperatorPrecedence.put(COS, 2);
+        mOperatorPrecedence.put(TAN, 2);
+        mOperatorPrecedence.put(LOG, 2);
+        mOperatorPrecedence.put(LN, 2);
+        mOperatorPrecedence.put(POWER, 3); // is the only right associative operator
+        mOperatorPrecedence.put(DIVIDE, 4);
+        mOperatorPrecedence.put(MULTIPLY, 4);
+        mOperatorPrecedence.put(MODULUS, 4);
+        mOperatorPrecedence.put(SUBTRACT, 5);
+        mOperatorPrecedence.put(ADD, 5);
 
         mResultFormat = new DecimalFormat();
         mResultFormat.setMaximumFractionDigits(RESULT_SCALE);
@@ -62,6 +83,7 @@ class Calculator {
     }
 
     /*
+    http://wcipeg.com/wiki/Shunting_yard_algorithm
     http://www.geeksforgeeks.org/expression-evaluation/
 
     Shunting Yard Algorithm by Edgar Dijkstra
@@ -80,8 +102,9 @@ class Calculator {
                     4 Push the result onto the value stack.
                 2 Pop the left parenthesis from the operator stack, and discard it.
             1.2.5 An operator (call it thisOp):
-                1 While the operator stack is not empty, and the top thing on the operator stack has
-                the same or greater precedence as thisOp,
+                1 While the operator stack is not empty, and the top operator on the operator stack has
+                the same or greater precedence as thisOp (if this is left associative) or the top
+                operator has greater precedence than thisOp (if it is right associative) -
                     1 Pop the operator from the operator stack.
                     2 Pop the value stack twice, getting two operands.
                     3 Apply the operator to the operands, in the correct order.
@@ -94,6 +117,9 @@ class Calculator {
         4 Push the result onto the value stack.
     3. At this point the operator stack should be empty, and the value stack should have only one
     value in it, which is the final result.
+
+    Left associativity - 7 - 4 + 2 = (7 - 4) + 2
+    Right associativity - 1 ^ 2 ^ 3 = 1 ^ (2 ^ 3)
     */
 
     String Evaluate(final Vector<String> infixExpression) throws Exception {
@@ -121,27 +147,48 @@ class Calculator {
                 Log.v(TAG, "Processing " + item);
                 while (!operators.peek().equals(OPEN_BRACKET)) {
                     String operator = operators.pop();
-                    BigDecimal operand2 = operands.pop();
-                    BigDecimal operand1 = operands.pop();
-                    Log.v(TAG, "Got close bracket - " + operand1 + " " + operator + " " + operand2);
-                    operands.push(operate(operator, operand1, operand2));
+                    if (IsPreUnaryOperator(operator)) {
+                        BigDecimal operand = operands.pop();
+                        Log.v(TAG, "Got close bracket - "
+                                + operator + " " + operand);
+                        operands.push(operate(operator, operand));
+                    } else {
+                        BigDecimal operand2 = operands.pop();
+                        BigDecimal operand1 = operands.pop();
+                        Log.v(TAG, "Got close bracket - "
+                                + operand1 + " " + operator + " " + operand2);
+                        operands.push(operate(operator, operand1, operand2));
+                    }
                 }
                 operators.pop(); // discard the open bracket
             } else { // it is an operator
                 // process all operators with higher or same precedence as current operator
                 Log.v(TAG, "Processing " + item);
                 while (!operators.isEmpty() &&
-                        mOperatorPrecedence.get(operators.peek()) <= mOperatorPrecedence.get(item)) {
+                        ((!item.equals(POWER) &&
+                                mOperatorPrecedence.get(operators.peek()) <= mOperatorPrecedence.get(item))
+                        || (item.equals(POWER) &&
+                                mOperatorPrecedence.get(operators.peek()) < mOperatorPrecedence.get(item)))) {
+                    // lower the precedence value, higher is the precedence
+
                     if (operators.peek().equals(OPEN_BRACKET) ||
                             operators.peek().equals(CLOSE_BRACKET)) {
                         break;
                     }
-                    // lower the precedence value, higher is the precedence
+
                     String operator = operators.pop();
-                    BigDecimal operand2 = operands.pop();
-                    BigDecimal operand1 = operands.pop();
-                    Log.v(TAG, "Got higher precedence than " + item + " - " + operand1 + " " + operator + " " + operand2);
-                    operands.push(operate(operator, operand1, operand2));
+                    if (IsPreUnaryOperator(operator)) {
+                        BigDecimal operand = operands.pop();
+                        Log.v(TAG, "Got higher precedence than " + item + " - "
+                                + operator + " " + operand);
+                        operands.push(operate(operator, operand));
+                    } else {
+                        BigDecimal operand2 = operands.pop();
+                        BigDecimal operand1 = operands.pop();
+                        Log.v(TAG, "Got higher precedence than " + item + " - "
+                                + operand1 + " " + operator + " " + operand2);
+                        operands.push(operate(operator, operand1, operand2));
+                    }
                 }
                 operators.push(item);
             }
@@ -149,10 +196,18 @@ class Calculator {
 
         while (!operators.isEmpty()) {
             String operator = operators.pop();
-            BigDecimal operand2 = operands.pop();
-            BigDecimal operand1 = operands.pop();
-            Log.v(TAG, "Got operator in stack - " + operand1 + " " + operator + " " + operand2);
-            operands.push(operate(operator, operand1, operand2));
+            if (IsPreUnaryOperator(operator)) {
+                BigDecimal operand = operands.pop();
+                Log.v(TAG, "Got operator in stack - "
+                        + operator + " " + operand);
+                operands.push(operate(operator, operand));
+            } else {
+                BigDecimal operand2 = operands.pop();
+                BigDecimal operand1 = operands.pop();
+                Log.v(TAG, "Got operator in stack - "
+                        + operand1 + " " + operator + " " + operand2);
+                operands.push(operate(operator, operand1, operand2));
+            }
         }
 
         if (operands.size() != 1) {
@@ -176,6 +231,31 @@ class Calculator {
                 return operand1.multiply(operand2);
             case DIVIDE:
                 return operand1.divide(operand2, INTERNAL_SCALE, BigDecimal.ROUND_HALF_EVEN);
+            case MODULUS:
+                return operand1.remainder(operand2);
+            case POWER:
+                return new BigDecimal(Math.pow(operand1.doubleValue(), operand2.doubleValue()));
+            default:
+                throw new IllegalArgumentException(
+                        "Calculator::operate: Invalid operator " + operator);
+        }
+    }
+
+    private static BigDecimal operate(final String operator,
+                                      final BigDecimal operand) throws Exception {
+        Log.v(TAG, "Processing " + operator + " " + operand);
+
+        switch (operator) {
+            case SIN:
+                return new BigDecimal(Math.sin(Math.toRadians(operand.doubleValue())));
+            case COS:
+                return new BigDecimal(Math.cos(Math.toRadians(operand.doubleValue())));
+            case TAN:
+                return new BigDecimal(Math.tan(Math.toRadians(operand.doubleValue())));
+            case LOG:
+                return new BigDecimal(Math.log10(operand.doubleValue()));
+            case LN:
+                return new BigDecimal(Math.log(operand.doubleValue()));
             default:
                 throw new IllegalArgumentException(
                         "Calculator::operate: Invalid operator " + operator);
@@ -244,6 +324,10 @@ class Calculator {
             }
         }
         return false;
+    }
+
+    static boolean IsPreUnaryOperator(final String s) {
+        return s.equals(SIN) || s.equals(COS) || s.equals(TAN) || s.equals(LOG) || s.equals(LN);
     }
 
     static boolean IsOperandAllowed(final String existingOperand, final char newChar) {

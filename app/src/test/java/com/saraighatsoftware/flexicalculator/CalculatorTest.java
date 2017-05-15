@@ -44,6 +44,13 @@ public class CalculatorTest {
         tests.add(new Pair<>("4", "2 - ( -2 )"));
         tests.add(new Pair<>("4", "-2 + 6"));
         tests.add(new Pair<>("4", "6 + -2"));
+        tests.add(new Pair<>("5", "7 - 4 + 2")); // (7 - 4) + 2 and not 7 - (4 + 2) left associative
+        tests.add(new Pair<>("262144", "4 ^ 3 ^ 2")); // 4 ^ (3 ^ 2) right associative
+        tests.add(new Pair<>("2", "sin 90 * 2"));
+        tests.add(new Pair<>("0", "cos 90"));
+        tests.add(new Pair<>("1", "tan ( 45 + 10 - ( 2 * 5 ) )"));
+        tests.add(new Pair<>("2", "log 100"));
+        tests.add(new Pair<>("2.995732", "ln 20"));
 
         for (Pair<String, String> test : tests) {
             String input = test.second().

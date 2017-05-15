@@ -183,6 +183,55 @@ public class SimpleCalcFragment extends Fragment {
             }
         });
 
+        root_view.findViewById(R.id.button_modulus).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.MODULUS);
+            }
+        });
+
+        root_view.findViewById(R.id.button_power).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.POWER);
+            }
+        });
+
+        root_view.findViewById(R.id.button_sin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.SIN);
+            }
+        });
+
+        root_view.findViewById(R.id.button_cos).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.COS);
+            }
+        });
+
+        root_view.findViewById(R.id.button_tan).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.TAN);
+            }
+        });
+
+        root_view.findViewById(R.id.button_log).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.LOG);
+            }
+        });
+
+        root_view.findViewById(R.id.button_ln).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.LN);
+            }
+        });
+
         return root_view;
     }
 
@@ -190,16 +239,18 @@ public class SimpleCalcFragment extends Fragment {
         // reads 0-9 and operators
         if (mInfixExpression.isEmpty()) {
 
-            // allow only operand to be stored or open bracket
+            // allow only operand to be stored or open bracket or pre operators
             if (Calculator.IsOperandAllowed("", token.charAt(0))) {
                 mInfixExpression.add(token);
             } else if (token.equals(Calculator.OPEN_BRACKET)) {
+                mInfixExpression.add(token);
+            } else if (Calculator.IsPreUnaryOperator(token)) {
                 mInfixExpression.add(token);
             }
 
         } else if (mIsResultSet) {
 
-            if (Calculator.IsOperator(token, false)) {
+            if (Calculator.IsOperator(token, false) && !Calculator.IsPreUnaryOperator(token)) {
                 mInfixExpression.add(token);
                 mIsResultSet = false;
             } else if (token.equals(Calculator.OPEN_BRACKET)) {
@@ -215,6 +266,7 @@ public class SimpleCalcFragment extends Fragment {
             }
 
         } else {
+
             final String last_token = mInfixExpression.lastElement();
             final String last_to_last_token =
                     mInfixExpression.size() > 1 ? mInfixExpression.get(mInfixExpression.size() - 2) : "";
@@ -231,9 +283,24 @@ public class SimpleCalcFragment extends Fragment {
                     mInfixExpression.add(last_token + token);
                 }
 
-            } else if (Calculator.IsOperator(last_token, false)) {
+            } else if (Calculator.IsOperator(last_token, false) && !Calculator.IsPreUnaryOperator(last_token)) {
 
-                if (Calculator.IsOperator(token, false)) {
+                if (Calculator.IsOperator(token, false) && !Calculator.IsPreUnaryOperator(token)) {
+                    mInfixExpression.remove(mInfixExpression.size() - 1);
+                    mInfixExpression.add(token);
+                } else if (Calculator.IsOperator(token, false) && Calculator.IsPreUnaryOperator(token)) {
+                    mInfixExpression.add(token);
+                } else if (token.equals(Calculator.OPEN_BRACKET)) {
+                    mInfixExpression.add(token);
+                //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
+                    // operator can not be followed by close bracket
+                } else if (Calculator.IsOperandAllowed("", token.charAt(0))) {
+                    mInfixExpression.add(token);
+                }
+
+            } else if (Calculator.IsOperator(last_token, false) && Calculator.IsPreUnaryOperator(last_token)) {
+
+                if (Calculator.IsOperator(token, false) && Calculator.IsPreUnaryOperator(token)) {
                     mInfixExpression.remove(mInfixExpression.size() - 1);
                     mInfixExpression.add(token);
                 } else if (token.equals(Calculator.OPEN_BRACKET)) {
@@ -249,7 +316,9 @@ public class SimpleCalcFragment extends Fragment {
                 //if (Calculator.IsOperator(token, false)) {
                     // open bracket can not be followed by operator
                 //} else
-                if (token.equals(Calculator.OPEN_BRACKET)) {
+                if (Calculator.IsPreUnaryOperator(token)) {
+                    mInfixExpression.add(token);
+                } else if (token.equals(Calculator.OPEN_BRACKET)) {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     // open bracket can not be followed by close bracket
@@ -259,7 +328,7 @@ public class SimpleCalcFragment extends Fragment {
 
             } else if (last_token.equals(Calculator.CLOSE_BRACKET)) {
 
-                if (Calculator.IsOperator(token, false)) {
+                if (Calculator.IsOperator(token, false)  && !Calculator.IsPreUnaryOperator(token)) {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.OPEN_BRACKET)) {
                     // close bracket can not be followed by open bracket
@@ -280,7 +349,7 @@ public class SimpleCalcFragment extends Fragment {
 
             } else if (Calculator.IsOperand(last_token)) {
 
-                if (Calculator.IsOperator(token, false)) {
+                if (Calculator.IsOperator(token, false) && !Calculator.IsPreUnaryOperator(token)) {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.OPEN_BRACKET)) {
                     // operand can not be followed by open bracket
@@ -320,7 +389,14 @@ public class SimpleCalcFragment extends Fragment {
         if (mInfixExpression.isEmpty()) return;
 
         String last_element = mInfixExpression.lastElement();
-        if (last_element.length() == 1 || mIsResultSet) {
+        if (last_element.equals(Calculator.SIN)
+                || last_element.equals(Calculator.COS)
+                || last_element.equals(Calculator.TAN)
+                || last_element.equals(Calculator.LOG)
+                || last_element.equals(Calculator.LN)
+                || last_element.equals(Calculator.MODULUS)) {
+            mInfixExpression.remove(mInfixExpression.size() - 1);
+        } else if (last_element.length() == 1 || mIsResultSet) {
             mInfixExpression.remove(mInfixExpression.size() - 1);
         } else {
             mInfixExpression.remove(mInfixExpression.size() - 1);
