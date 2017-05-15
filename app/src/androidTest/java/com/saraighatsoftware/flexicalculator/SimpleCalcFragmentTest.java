@@ -45,7 +45,7 @@ public class SimpleCalcFragmentTest {
 
         // test 1 DEL
         click(R.id.button_one, "1");
-        click(R.id.button_del, "0");
+        click(R.id.button_delete, "0");
 
         // test 1 + 1 =
         click(R.id.button_one, "1");
@@ -94,7 +94,7 @@ public class SimpleCalcFragmentTest {
         click(R.id.button_equal, "3");
 
         //test -1 + 2 =
-        click(R.id.button_del, "0");
+        click(R.id.button_delete, "0");
         click(R.id.button_subtract, "-");
         click(R.id.button_one, "-1");
         click(R.id.button_add, "-1+");
@@ -143,7 +143,7 @@ public class SimpleCalcFragmentTest {
         click(R.id.button_equal, "10");
 
         // - + 1 + 3 =
-        click(R.id.button_del, "0");
+        click(R.id.button_delete, "0");
         click(R.id.button_subtract, "-");
         click(R.id.button_add, "-");
         click(R.id.button_one, "-1");
@@ -175,8 +175,8 @@ public class SimpleCalcFragmentTest {
         click(R.id.button_add, "10/(");
         click(R.id.button_subtract, "10/(-");
         click(R.id.button_divide, "10/(-");
-        click(R.id.button_dot, "10/(-.");
-        click(R.id.button_dot, "10/(-.");
+        click(R.id.button_decimal, "10/(-.");
+        click(R.id.button_decimal, "10/(-.");
         click(R.id.button_subtract, "10/(-.");
         click(R.id.button_add, "10/(-.");
         click(R.id.button_five, "10/(-.5");

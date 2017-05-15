@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 import java.util.Vector;
@@ -19,6 +20,8 @@ public class SimpleCalcFragment extends Fragment {
     private final Calculator mCalculator;
     private final Vector<String> mInfixExpression;
     private boolean mIsResultSet;
+    private TextView mTextDisplay;
+    private HorizontalScrollView mScrollDisplay;
 
     public SimpleCalcFragment() {
         mCalculator = new Calculator();
@@ -41,9 +44,11 @@ public class SimpleCalcFragment extends Fragment {
         mInfixExpression.clear();
         mIsResultSet = false;
 
-        TextView textView = (TextView) root_view.findViewById(R.id.text_display);
-        textView.setText("0");
+        mTextDisplay = (TextView) root_view.findViewById(R.id.text_display);
+        mTextDisplay.setText("0");
         //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
+        mScrollDisplay = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display);
 
         root_view.findViewById(R.id.button_zero).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,10 +120,10 @@ public class SimpleCalcFragment extends Fragment {
             }
         });
 
-        root_view.findViewById(R.id.button_dot).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_decimal).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.POINT);
+                expressionListener(Calculator.DECIMAL);
             }
         });
 
@@ -171,7 +176,7 @@ public class SimpleCalcFragment extends Fragment {
             }
         });
 
-        root_view.findViewById(R.id.button_del).setOnClickListener(new View.OnClickListener() {
+        root_view.findViewById(R.id.button_delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clear();
@@ -299,6 +304,7 @@ public class SimpleCalcFragment extends Fragment {
         try {
             Log.v(TAG, "Evaluating " + mInfixExpression.toString());
             String result = mCalculator.Evaluate(mInfixExpression);
+            Log.v(TAG, "Result " + result);
             mInfixExpression.clear();
             mInfixExpression.add(result);
             mIsResultSet = true;
@@ -328,15 +334,22 @@ public class SimpleCalcFragment extends Fragment {
     private void updateText() {
         View root_view = getView();
         if (root_view == null) return;
-        TextView textView = (TextView) root_view.findViewById(R.id.text_display);
         if (mInfixExpression.isEmpty()) {
-            textView.setText("0");
+            mTextDisplay.setText("0");
         } else {
             StringBuilder buffer = new StringBuilder();
             for (String item : mInfixExpression) {
                 buffer.append(item);
             }
-            textView.setText(buffer.toString());
+            mTextDisplay.setText(buffer.toString());
         }
+
+        // scroll after text is displayed
+        mScrollDisplay.post(new Runnable() {
+            public void run() {
+                mScrollDisplay.fullScroll(View.FOCUS_RIGHT);
+            }
+        });
+
     }
 }

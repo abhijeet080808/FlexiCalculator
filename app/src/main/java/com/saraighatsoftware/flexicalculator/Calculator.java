@@ -19,13 +19,13 @@ class Calculator {
     static final String MULTIPLY = "\u00d7";
     static final String SUBTRACT = "\u2212";
     static final String ADD = "+";
-    static final String POINT = ".";
+    static final String DECIMAL = ".";
 
     static final char DIVIDE_CHAR = '\u00f7';
     static final char MULTIPLY_CHAR = '\u00d7';
     static final char SUBTRACT_CHAR = '\u2212';
 
-    private static final char POINT_CHAR = '.';
+    private static final char DECIMAL_CHAR = '.';
 
     private static final String[] OPERATORS = {
             OPEN_BRACKET,
@@ -219,7 +219,7 @@ class Calculator {
         for(char c : s.toCharArray()) {
             if (c == SUBTRACT_CHAR) {
                 minus_count++;
-            } else if (c == POINT_CHAR) {
+            } else if (c == DECIMAL_CHAR) {
                 point_count++;
             } else if (Character.isDigit(c)) {
                 digit_count++;
@@ -250,7 +250,7 @@ class Calculator {
         // returns true if the new character can be appended to the existing operand
 
         for (char c : existingOperand.toCharArray()) {
-            if (!(c == SUBTRACT_CHAR || c == POINT_CHAR || Character.isDigit(c))) {
+            if (!(c == SUBTRACT_CHAR || c == DECIMAL_CHAR || Character.isDigit(c))) {
                 return false;
             }
         }
@@ -260,27 +260,27 @@ class Calculator {
         }
 
         if (existingOperand.isEmpty()) {
-            return newChar == SUBTRACT_CHAR || newChar == POINT_CHAR || Character.isDigit(newChar);
+            return newChar == SUBTRACT_CHAR || newChar == DECIMAL_CHAR || Character.isDigit(newChar);
         } else if (existingOperand.length() == 1) {
             // allowed -> -. -1 .1 11 1.
             final char existingChar = existingOperand.charAt(0);
             if (existingChar == SUBTRACT_CHAR) {
-                return newChar == POINT_CHAR || Character.isDigit(newChar);
-            } else if (existingChar == POINT_CHAR) {
+                return newChar == DECIMAL_CHAR || Character.isDigit(newChar);
+            } else if (existingChar == DECIMAL_CHAR) {
                 return Character.isDigit(newChar);
             } else { // Character.isDigit(existingChar)
                 // TODO consider leading zeroes
-                return Character.isDigit(newChar) || (newChar == POINT_CHAR);
+                return Character.isDigit(newChar) || (newChar == DECIMAL_CHAR);
             }
         } else { // length > 1
-            if (newChar == POINT_CHAR) {
+            if (newChar == DECIMAL_CHAR) {
                 // only one point allowed
-                return existingOperand.indexOf(POINT_CHAR) < 0;
+                return existingOperand.indexOf(DECIMAL_CHAR) < 0;
             } else if (Character.isDigit(newChar)) {
                 // TODO consider leading zeroes
                 // precision is number of digits
                 // scale is number of digits after decimal point
-                final int decimal = existingOperand.indexOf(POINT_CHAR);
+                final int decimal = existingOperand.indexOf(DECIMAL_CHAR);
                 final boolean is_negative = (existingOperand.charAt(0) == SUBTRACT_CHAR);
                 int precision = existingOperand.length();
                 precision = (decimal >= 0) ? precision - 1 : precision;
