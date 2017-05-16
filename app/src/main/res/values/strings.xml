@@ -43,6 +43,6 @@
     <string name="factorial">n!</string>
     <string name="square_root">\u221a</string>
     <string name="square">x\u00b2</string>
-    <string name="base_10_power">10\u02e3</string>
+    <string name="cube">x\u00b3</string>
 
 </resources>

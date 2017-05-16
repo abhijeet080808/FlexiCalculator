@@ -232,6 +232,41 @@ public class SimpleCalcFragment extends Fragment {
             }
         });
 
+        root_view.findViewById(R.id.button_percentage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.PERCENTAGE);
+            }
+        });
+
+        root_view.findViewById(R.id.button_factorial).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.FACTORIAL);
+            }
+        });
+
+        root_view.findViewById(R.id.button_square_root).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.SQUARE_ROOT);
+            }
+        });
+
+        root_view.findViewById(R.id.button_square).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.SQUARE);
+            }
+        });
+
+        root_view.findViewById(R.id.button_cube).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.CUBE);
+            }
+        });
+
         return root_view;
     }
 

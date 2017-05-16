@@ -2,6 +2,8 @@ package com.saraighatsoftware.flexicalculator;
 
 import android.util.Log;
 
+import org.apache.commons.math3.util.CombinatoricsUtils;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -38,6 +40,11 @@ class Calculator {
     static final String TAN = "tan";
     static final String LOG = "log";
     static final String LN = "ln";
+    static final String PERCENTAGE = "%";
+    static final String FACTORIAL = "!";
+    static final String SQUARE_ROOT = "\u221a";
+    static final String SQUARE = "\u00b2";
+    static final String CUBE = "\u00b3";
     static final String POWER = "^";
     static final String DIVIDE = "\u00f7";
     static final String MULTIPLY = "\u00d7";
@@ -70,6 +77,11 @@ class Calculator {
         mOperators.put(TAN, new OperatorInfo(TAN, OperatorType.PRE_UNARY, 2, false));
         mOperators.put(LOG, new OperatorInfo(LOG, OperatorType.PRE_UNARY, 2, false));
         mOperators.put(LN, new OperatorInfo(LN, OperatorType.PRE_UNARY, 2, false));
+        mOperators.put(PERCENTAGE, new OperatorInfo(PERCENTAGE, OperatorType.POST_UNARY, 2, false));
+        mOperators.put(FACTORIAL, new OperatorInfo(FACTORIAL, OperatorType.POST_UNARY, 2, false));
+        mOperators.put(SQUARE_ROOT, new OperatorInfo(SQUARE_ROOT, OperatorType.PRE_UNARY, 2, false));
+        mOperators.put(SQUARE, new OperatorInfo(SQUARE, OperatorType.POST_UNARY, 2, false));
+        mOperators.put(CUBE, new OperatorInfo(CUBE, OperatorType.POST_UNARY, 2, false));
         // power is the only right associative operator
         mOperators.put(POWER, new OperatorInfo(POWER, OperatorType.BINARY, 3, true));
         mOperators.put(DIVIDE, new OperatorInfo(DIVIDE, OperatorType.BINARY, 4, false));
@@ -86,6 +98,7 @@ class Calculator {
     }
 
     /*
+    https://en.wikipedia.org/wiki/Shunting-yard_algorithm
     http://wcipeg.com/wiki/Shunting_yard_algorithm
     http://www.geeksforgeeks.org/expression-evaluation/
 
@@ -150,7 +163,7 @@ class Calculator {
                 Log.v(TAG, "Processing " + item);
                 while (!operators.peek().equals(OPEN_BRACKET)) {
                     String operator = operators.pop();
-                    if (IsPreUnaryOperator(operator)) {
+                    if (IsPreUnaryOperator(operator) || IsPostUnaryOperator(operator)) {
                         BigDecimal operand = operands.pop();
                         Log.v(TAG, "Got close bracket - "
                                 + operator + " " + operand);
@@ -180,7 +193,7 @@ class Calculator {
                     }
 
                     String operator = operators.pop();
-                    if (IsPreUnaryOperator(operator)) {
+                    if (IsPreUnaryOperator(operator) || IsPostUnaryOperator(operator)) {
                         BigDecimal operand = operands.pop();
                         Log.v(TAG, "Got higher precedence than " + item + " - "
                                 + operator + " " + operand);
@@ -199,7 +212,7 @@ class Calculator {
 
         while (!operators.isEmpty()) {
             String operator = operators.pop();
-            if (IsPreUnaryOperator(operator)) {
+            if (IsPreUnaryOperator(operator) || IsPostUnaryOperator(operator)) {
                 BigDecimal operand = operands.pop();
                 Log.v(TAG, "Got operator in stack - "
                         + operator + " " + operand);
@@ -259,6 +272,17 @@ class Calculator {
                 return new BigDecimal(Math.log10(operand.doubleValue()));
             case LN:
                 return new BigDecimal(Math.log(operand.doubleValue()));
+            case PERCENTAGE:
+                return operand.divide(new BigDecimal(100), INTERNAL_SCALE, BigDecimal.ROUND_HALF_EVEN);
+            case FACTORIAL:
+                // TODO handle decimal
+                return new BigDecimal(CombinatoricsUtils.factorialDouble(operand.intValue()));
+            case SQUARE_ROOT:
+                return new BigDecimal(Math.sqrt(operand.doubleValue()));
+            case SQUARE:
+                return new BigDecimal(Math.pow(operand.doubleValue(), 2));
+            case CUBE:
+                return new BigDecimal(Math.pow(operand.doubleValue(), 3));
             default:
                 throw new IllegalArgumentException(
                         "Calculator::operate: Invalid operator " + operator);
@@ -286,7 +310,9 @@ class Calculator {
 
         //noinspection SimplifiableIfStatement
         if (isComplete) {
-            return (!IsOperator(infixExpression.lastElement(), false) && brackets == 0);
+            return (!IsBinaryOperator(infixExpression.lastElement())
+                    && !IsPreUnaryOperator(infixExpression.lastElement())
+                    && brackets == 0);
         } else {
             return true;
         }

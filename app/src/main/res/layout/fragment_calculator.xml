@@ -221,13 +221,14 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/button_base_10_power"
+            android:id="@+id/button_cube"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/base_10_power"
+            android:text="@string/cube"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 

@@ -51,6 +51,11 @@ public class CalculatorTest {
         tests.add(new Pair<>("1", "tan ( 45 + 10 - ( 2 * 5 ) )"));
         tests.add(new Pair<>("2", "log 100"));
         tests.add(new Pair<>("2.995732", "ln 20"));
+        tests.add(new Pair<>("100", "500 * 20 %"));
+        tests.add(new Pair<>("125", "5 ! + 5"));
+        tests.add(new Pair<>("5", Calculator.SQUARE_ROOT + " 25"));
+        tests.add(new Pair<>("25", "5 " + Calculator.SQUARE ));
+        tests.add(new Pair<>("125", "5 " + Calculator.CUBE ));
 
         for (Pair<String, String> test : tests) {
             String input = test.second().
