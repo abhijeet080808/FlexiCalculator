@@ -240,17 +240,17 @@ public class SimpleCalcFragment extends Fragment {
         if (mInfixExpression.isEmpty()) {
 
             // allow only operand to be stored or open bracket or pre operators
-            if (Calculator.IsOperandAllowed("", token.charAt(0))) {
+            if (mCalculator.IsOperandAllowed("", token.charAt(0))) {
                 mInfixExpression.add(token);
             } else if (token.equals(Calculator.OPEN_BRACKET)) {
                 mInfixExpression.add(token);
-            } else if (Calculator.IsPreUnaryOperator(token)) {
+            } else if (mCalculator.IsPreUnaryOperator(token)) {
                 mInfixExpression.add(token);
             }
 
         } else if (mIsResultSet) {
 
-            if (Calculator.IsOperator(token, false) && !Calculator.IsPreUnaryOperator(token)) {
+            if (mCalculator.IsBinaryOperator(token) || mCalculator.IsPostUnaryOperator(token)) {
                 mInfixExpression.add(token);
                 mIsResultSet = false;
             } else if (token.equals(Calculator.OPEN_BRACKET)) {
@@ -259,7 +259,7 @@ public class SimpleCalcFragment extends Fragment {
                 mIsResultSet = false;
             //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                 // result operand can not be followed by close bracket
-            } else if (Calculator.IsOperandAllowed("", token.charAt(0))) {
+            } else if (mCalculator.IsOperandAllowed("", token.charAt(0))) {
                 mInfixExpression.remove(mInfixExpression.size() - 1);
                 mInfixExpression.add(token);
                 mIsResultSet = false;
@@ -278,36 +278,47 @@ public class SimpleCalcFragment extends Fragment {
             if (last_token.equals(Calculator.SUBTRACT) &&
                     (last_to_last_token.equals(Calculator.OPEN_BRACKET) || last_to_last_token.equals(""))) {
 
-                if(Calculator.IsOperandAllowed(last_token, token.charAt(0))) {
+                if(mCalculator.IsOperandAllowed(last_token, token.charAt(0))) {
                     mInfixExpression.remove(mInfixExpression.size() - 1);
                     mInfixExpression.add(last_token + token);
                 }
 
-            } else if (Calculator.IsOperator(last_token, false) && !Calculator.IsPreUnaryOperator(last_token)) {
+            } else if (mCalculator.IsBinaryOperator(last_token)) {
 
-                if (Calculator.IsOperator(token, false) && !Calculator.IsPreUnaryOperator(token)) {
+                if (mCalculator.IsBinaryOperator(token)) {
                     mInfixExpression.remove(mInfixExpression.size() - 1);
                     mInfixExpression.add(token);
-                } else if (Calculator.IsOperator(token, false) && Calculator.IsPreUnaryOperator(token)) {
+                } else if (mCalculator.IsPreUnaryOperator(token)) {
                     mInfixExpression.add(token);
                 } else if (token.equals(Calculator.OPEN_BRACKET)) {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     // operator can not be followed by close bracket
-                } else if (Calculator.IsOperandAllowed("", token.charAt(0))) {
+                } else if (mCalculator.IsOperandAllowed("", token.charAt(0))) {
                     mInfixExpression.add(token);
                 }
 
-            } else if (Calculator.IsOperator(last_token, false) && Calculator.IsPreUnaryOperator(last_token)) {
+            } else if (mCalculator.IsPreUnaryOperator(last_token)) {
 
-                if (Calculator.IsOperator(token, false) && Calculator.IsPreUnaryOperator(token)) {
+                if (mCalculator.IsPreUnaryOperator(token)) {
                     mInfixExpression.remove(mInfixExpression.size() - 1);
                     mInfixExpression.add(token);
                 } else if (token.equals(Calculator.OPEN_BRACKET)) {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     // operator can not be followed by close bracket
-                } else if (Calculator.IsOperandAllowed("", token.charAt(0))) {
+                } else if (mCalculator.IsOperandAllowed("", token.charAt(0))) {
+                    mInfixExpression.add(token);
+                }
+
+            } else if (mCalculator.IsPostUnaryOperator(last_token)) {
+
+                if (mCalculator.IsPostUnaryOperator(token)) {
+                    mInfixExpression.remove(mInfixExpression.size() - 1);
+                    mInfixExpression.add(token);
+                } else if (token.equals(Calculator.CLOSE_BRACKET)) {
+                    mInfixExpression.add(token);
+                } else if (mCalculator.IsBinaryOperator(token)) {
                     mInfixExpression.add(token);
                 }
 
@@ -316,47 +327,47 @@ public class SimpleCalcFragment extends Fragment {
                 //if (Calculator.IsOperator(token, false)) {
                     // open bracket can not be followed by operator
                 //} else
-                if (Calculator.IsPreUnaryOperator(token)) {
+                if (mCalculator.IsPreUnaryOperator(token)) {
                     mInfixExpression.add(token);
                 } else if (token.equals(Calculator.OPEN_BRACKET)) {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     // open bracket can not be followed by close bracket
-                } else if (Calculator.IsOperandAllowed("", token.charAt(0))) {
+                } else if (mCalculator.IsOperandAllowed("", token.charAt(0))) {
                     mInfixExpression.add(token);
                 }
 
             } else if (last_token.equals(Calculator.CLOSE_BRACKET)) {
 
-                if (Calculator.IsOperator(token, false)  && !Calculator.IsPreUnaryOperator(token)) {
+                if (mCalculator.IsBinaryOperator(token) || mCalculator.IsPostUnaryOperator(token)) {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.OPEN_BRACKET)) {
                     // close bracket can not be followed by open bracket
                 } else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     mInfixExpression.add(token);
                     // check that number of close bracket is balanced
-                    if (!Calculator.IsSane(mInfixExpression, false)) {
+                    if (!mCalculator.IsSane(mInfixExpression, false)) {
                         mInfixExpression.remove(mInfixExpression.size() - 1);
                     }
                 //} else if (Calculator.IsOperand(token)) {
                     // close bracket can not be followed by operand
                 }
 
-            } else if (Calculator.IsOperandAllowed(last_token, token.charAt(0))) {
+            } else if (mCalculator.IsOperandAllowed(last_token, token.charAt(0))) {
 
                 mInfixExpression.remove(mInfixExpression.size() - 1);
                 mInfixExpression.add(last_token + token);
 
-            } else if (Calculator.IsOperand(last_token)) {
+            } else if (mCalculator.IsOperand(last_token)) {
 
-                if (Calculator.IsOperator(token, false) && !Calculator.IsPreUnaryOperator(token)) {
+                if (mCalculator.IsBinaryOperator(token) || mCalculator.IsPostUnaryOperator(token)) {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.OPEN_BRACKET)) {
                     // operand can not be followed by open bracket
                 } else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     mInfixExpression.add(token);
                     // check that number of close bracket is balanced
-                    if (!Calculator.IsSane(mInfixExpression, false)) {
+                    if (!mCalculator.IsSane(mInfixExpression, false)) {
                         mInfixExpression.remove(mInfixExpression.size() - 1);
                     }
                 }

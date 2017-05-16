@@ -13,6 +13,24 @@ class Calculator {
 
     private static final String TAG = "Calculator";
 
+    private enum OperatorType {
+        BINARY, PRE_UNARY, POST_UNARY, OTHER
+    }
+
+    private class OperatorInfo {
+        OperatorInfo(String representation, OperatorType type, int precedence, boolean isRightAssoc) {
+            mRepresentation = representation;
+            mType = type;
+            mPrecedence = precedence;
+            mIsRightAssoc = isRightAssoc;
+        }
+
+        String mRepresentation;
+        OperatorType mType;
+        int mPrecedence;
+        boolean mIsRightAssoc;
+    }
+
     static final String OPEN_BRACKET = "(";
     static final String CLOSE_BRACKET = ")";
     static final String SIN = "sin";
@@ -31,23 +49,7 @@ class Calculator {
     static final char DIVIDE_CHAR = '\u00f7';
     static final char MULTIPLY_CHAR = '\u00d7';
     static final char SUBTRACT_CHAR = '\u2212';
-
     private static final char DECIMAL_CHAR = '.';
-
-    private static final String[] OPERATORS = {
-            OPEN_BRACKET,
-            CLOSE_BRACKET,
-            SIN,
-            COS,
-            TAN,
-            LOG,
-            LN,
-            POWER,
-            DIVIDE,
-            MULTIPLY,
-            MODULUS,
-            SUBTRACT,
-            ADD };
 
     private static final int INTERNAL_SCALE = 12;
     private static final int RESULT_SCALE = 6;
@@ -56,24 +58,25 @@ class Calculator {
     // Scale is the number of digits after the decimal point
     private static final int INPUT_SCALE = 6;
 
-    private final HashMap<String, Integer> mOperatorPrecedence;
+    private final HashMap<String, OperatorInfo> mOperators;
     private final DecimalFormat mResultFormat;
 
     Calculator() {
-        mOperatorPrecedence = new HashMap<>();
-        mOperatorPrecedence.put(OPEN_BRACKET, 1);
-        mOperatorPrecedence.put(CLOSE_BRACKET, 1);
-        mOperatorPrecedence.put(SIN, 2);
-        mOperatorPrecedence.put(COS, 2);
-        mOperatorPrecedence.put(TAN, 2);
-        mOperatorPrecedence.put(LOG, 2);
-        mOperatorPrecedence.put(LN, 2);
-        mOperatorPrecedence.put(POWER, 3); // is the only right associative operator
-        mOperatorPrecedence.put(DIVIDE, 4);
-        mOperatorPrecedence.put(MULTIPLY, 4);
-        mOperatorPrecedence.put(MODULUS, 4);
-        mOperatorPrecedence.put(SUBTRACT, 5);
-        mOperatorPrecedence.put(ADD, 5);
+        mOperators = new HashMap<>();
+        mOperators.put(OPEN_BRACKET, new OperatorInfo(OPEN_BRACKET, OperatorType.OTHER, 1, false));
+        mOperators.put(CLOSE_BRACKET, new OperatorInfo(CLOSE_BRACKET, OperatorType.OTHER, 1, false));
+        mOperators.put(SIN, new OperatorInfo(SIN, OperatorType.PRE_UNARY, 2, false));
+        mOperators.put(COS, new OperatorInfo(COS, OperatorType.PRE_UNARY, 2, false));
+        mOperators.put(TAN, new OperatorInfo(TAN, OperatorType.PRE_UNARY, 2, false));
+        mOperators.put(LOG, new OperatorInfo(LOG, OperatorType.PRE_UNARY, 2, false));
+        mOperators.put(LN, new OperatorInfo(LN, OperatorType.PRE_UNARY, 2, false));
+        // power is the only right associative operator
+        mOperators.put(POWER, new OperatorInfo(POWER, OperatorType.BINARY, 3, true));
+        mOperators.put(DIVIDE, new OperatorInfo(DIVIDE, OperatorType.BINARY, 4, false));
+        mOperators.put(MULTIPLY, new OperatorInfo(MULTIPLY, OperatorType.BINARY, 4, false));
+        mOperators.put(MODULUS, new OperatorInfo(MODULUS, OperatorType.BINARY, 4, false));
+        mOperators.put(SUBTRACT, new OperatorInfo(SUBTRACT, OperatorType.BINARY, 5, false));
+        mOperators.put(ADD, new OperatorInfo(ADD, OperatorType.BINARY, 5, false));
 
         mResultFormat = new DecimalFormat();
         mResultFormat.setMaximumFractionDigits(RESULT_SCALE);
@@ -165,10 +168,10 @@ class Calculator {
                 // process all operators with higher or same precedence as current operator
                 Log.v(TAG, "Processing " + item);
                 while (!operators.isEmpty() &&
-                        ((!item.equals(POWER) &&
-                                mOperatorPrecedence.get(operators.peek()) <= mOperatorPrecedence.get(item))
-                        || (item.equals(POWER) &&
-                                mOperatorPrecedence.get(operators.peek()) < mOperatorPrecedence.get(item)))) {
+                        ((!mOperators.get(item).mIsRightAssoc &&
+                                mOperators.get(operators.peek()).mPrecedence <= mOperators.get(item).mPrecedence)
+                        || (!mOperators.get(item).mIsRightAssoc &&
+                                mOperators.get(operators.peek()).mPrecedence < mOperators.get(item).mPrecedence))) {
                     // lower the precedence value, higher is the precedence
 
                     if (operators.peek().equals(OPEN_BRACKET) ||
@@ -217,9 +220,9 @@ class Calculator {
         return mResultFormat.format(operands.firstElement()).replace('-', SUBTRACT_CHAR);
     }
 
-    private static BigDecimal operate(final String operator,
-                                      final BigDecimal operand1,
-                                      final BigDecimal operand2) throws Exception {
+    private BigDecimal operate(final String operator,
+                               final BigDecimal operand1,
+                               final BigDecimal operand2) throws Exception {
         Log.v(TAG, "Processing " + operand1 + " " + operator + " " + operand2);
 
         switch (operator) {
@@ -241,8 +244,8 @@ class Calculator {
         }
     }
 
-    private static BigDecimal operate(final String operator,
-                                      final BigDecimal operand) throws Exception {
+    private BigDecimal operate(final String operator,
+                               final BigDecimal operand) throws Exception {
         Log.v(TAG, "Processing " + operator + " " + operand);
 
         switch (operator) {
@@ -262,7 +265,7 @@ class Calculator {
         }
     }
 
-    static boolean IsSane(final Vector<String> infixExpression, boolean isComplete) {
+    boolean IsSane(final Vector<String> infixExpression, boolean isComplete) {
         // check that expression is not empty and open/close brackets are balanced
         if (infixExpression.isEmpty()) { return false; }
 
@@ -289,7 +292,7 @@ class Calculator {
         }
     }
 
-    static boolean IsOperand(final String s) {
+    boolean IsOperand(final String s) {
         // operand can start with zero or one negative sign
         // operand can have zero or one decimal point
         // operand must have one or more digits
@@ -314,23 +317,31 @@ class Calculator {
                 (minus_count == 0 || (minus_count == 1 && s.charAt(0) == SUBTRACT_CHAR));
     }
 
-    static boolean IsOperator(final String s, boolean includingBrackets) {
-        for (String item : OPERATORS) {
-            if (!includingBrackets && (item.equals(OPEN_BRACKET) || item.equals(CLOSE_BRACKET))) {
-                continue;
-            }
-            if (s.equals(item)) {
-                return true;
-            }
+    boolean IsOperator(final String s, boolean includingBrackets) {
+        OperatorInfo info = mOperators.get(s);
+        if (includingBrackets) {
+            return (info != null);
+        } else {
+            return (info != null && !(s.equals(OPEN_BRACKET) || s.equals(CLOSE_BRACKET)));
         }
-        return false;
     }
 
-    static boolean IsPreUnaryOperator(final String s) {
-        return s.equals(SIN) || s.equals(COS) || s.equals(TAN) || s.equals(LOG) || s.equals(LN);
+    boolean IsBinaryOperator(final String s) {
+        OperatorInfo info = mOperators.get(s);
+        return (info != null && info.mType == OperatorType.BINARY);
     }
 
-    static boolean IsOperandAllowed(final String existingOperand, final char newChar) {
+    boolean IsPreUnaryOperator(final String s) {
+        OperatorInfo info = mOperators.get(s);
+        return (info != null && info.mType == OperatorType.PRE_UNARY);
+    }
+
+    boolean IsPostUnaryOperator(final String s) {
+        OperatorInfo info = mOperators.get(s);
+        return (info != null && info.mType == OperatorType.POST_UNARY);
+    }
+
+    boolean IsOperandAllowed(final String existingOperand, final char newChar) {
         // returns true if the new character can be appended to the existing operand
 
         for (char c : existingOperand.toCharArray()) {

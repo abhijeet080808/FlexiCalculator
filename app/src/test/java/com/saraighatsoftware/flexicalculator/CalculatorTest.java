@@ -113,16 +113,18 @@ public class CalculatorTest {
         fail_test.add(new Pair<>("+", '1'));
         fail_test.add(new Pair<>("1-", '1'));
 
+        Calculator mCalculator = new Calculator();
+
         for (Pair<String, Character> test : pass_tests) {
             assertEquals(true,
-                    Calculator.IsOperandAllowed(
+                    mCalculator.IsOperandAllowed(
                             test.first().replace("-", Calculator.SUBTRACT),
                             test.second() == '-' ? Calculator.SUBTRACT_CHAR : test.second()));
         }
 
         for (Pair<String, Character> test : fail_test) {
             assertEquals(false,
-                    Calculator.IsOperandAllowed(
+                    mCalculator.IsOperandAllowed(
                             test.first().replace("-", Calculator.SUBTRACT),
                             test.second() == '-' ? Calculator.SUBTRACT_CHAR : test.second()));
         }
