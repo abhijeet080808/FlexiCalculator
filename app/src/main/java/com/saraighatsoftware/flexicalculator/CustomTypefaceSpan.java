@@ -10,8 +10,8 @@ import android.text.style.TypefaceSpan;
 class CustomTypefaceSpan extends TypefaceSpan {
     private final Typeface newType;
 
-    CustomTypefaceSpan(String family, Typeface type) {
-        super(family);
+    CustomTypefaceSpan( Typeface type) {
+        super("");
         newType = type;
     }
 

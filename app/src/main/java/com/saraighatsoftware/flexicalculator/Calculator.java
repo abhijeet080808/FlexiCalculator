@@ -20,17 +20,15 @@ class Calculator {
     }
 
     private class OperatorInfo {
-        OperatorInfo(String representation, OperatorType type, int precedence, boolean isRightAssoc) {
-            mRepresentation = representation;
+        OperatorInfo(OperatorType type, int precedence, boolean isRightAssoc) {
             mType = type;
             mPrecedence = precedence;
             mIsRightAssoc = isRightAssoc;
         }
 
-        String mRepresentation;
-        OperatorType mType;
-        int mPrecedence;
-        boolean mIsRightAssoc;
+        final OperatorType mType;
+        final int mPrecedence;
+        final boolean mIsRightAssoc;
     }
 
     static final String OPEN_BRACKET = "(";
@@ -70,25 +68,25 @@ class Calculator {
 
     Calculator() {
         mOperators = new HashMap<>();
-        mOperators.put(OPEN_BRACKET, new OperatorInfo(OPEN_BRACKET, OperatorType.OTHER, 1, false));
-        mOperators.put(CLOSE_BRACKET, new OperatorInfo(CLOSE_BRACKET, OperatorType.OTHER, 1, false));
-        mOperators.put(SIN, new OperatorInfo(SIN, OperatorType.PRE_UNARY, 2, false));
-        mOperators.put(COS, new OperatorInfo(COS, OperatorType.PRE_UNARY, 2, false));
-        mOperators.put(TAN, new OperatorInfo(TAN, OperatorType.PRE_UNARY, 2, false));
-        mOperators.put(LOG, new OperatorInfo(LOG, OperatorType.PRE_UNARY, 2, false));
-        mOperators.put(LN, new OperatorInfo(LN, OperatorType.PRE_UNARY, 2, false));
-        mOperators.put(PERCENTAGE, new OperatorInfo(PERCENTAGE, OperatorType.POST_UNARY, 2, false));
-        mOperators.put(FACTORIAL, new OperatorInfo(FACTORIAL, OperatorType.POST_UNARY, 2, false));
-        mOperators.put(SQUARE_ROOT, new OperatorInfo(SQUARE_ROOT, OperatorType.PRE_UNARY, 2, false));
-        mOperators.put(SQUARE, new OperatorInfo(SQUARE, OperatorType.POST_UNARY, 2, false));
-        mOperators.put(CUBE, new OperatorInfo(CUBE, OperatorType.POST_UNARY, 2, false));
+        mOperators.put(OPEN_BRACKET, new OperatorInfo(OperatorType.OTHER, 1, false));
+        mOperators.put(CLOSE_BRACKET, new OperatorInfo(OperatorType.OTHER, 1, false));
+        mOperators.put(SIN, new OperatorInfo(OperatorType.PRE_UNARY, 2, false));
+        mOperators.put(COS, new OperatorInfo(OperatorType.PRE_UNARY, 2, false));
+        mOperators.put(TAN, new OperatorInfo(OperatorType.PRE_UNARY, 2, false));
+        mOperators.put(LOG, new OperatorInfo(OperatorType.PRE_UNARY, 2, false));
+        mOperators.put(LN, new OperatorInfo(OperatorType.PRE_UNARY, 2, false));
+        mOperators.put(PERCENTAGE, new OperatorInfo(OperatorType.POST_UNARY, 2, false));
+        mOperators.put(FACTORIAL, new OperatorInfo(OperatorType.POST_UNARY, 2, false));
+        mOperators.put(SQUARE_ROOT, new OperatorInfo(OperatorType.PRE_UNARY, 2, false));
+        mOperators.put(SQUARE, new OperatorInfo(OperatorType.POST_UNARY, 2, false));
+        mOperators.put(CUBE, new OperatorInfo(OperatorType.POST_UNARY, 2, false));
         // power is the only right associative operator
-        mOperators.put(POWER, new OperatorInfo(POWER, OperatorType.BINARY, 3, true));
-        mOperators.put(DIVIDE, new OperatorInfo(DIVIDE, OperatorType.BINARY, 4, false));
-        mOperators.put(MULTIPLY, new OperatorInfo(MULTIPLY, OperatorType.BINARY, 4, false));
-        mOperators.put(MODULUS, new OperatorInfo(MODULUS, OperatorType.BINARY, 4, false));
-        mOperators.put(SUBTRACT, new OperatorInfo(SUBTRACT, OperatorType.BINARY, 5, false));
-        mOperators.put(ADD, new OperatorInfo(ADD, OperatorType.BINARY, 5, false));
+        mOperators.put(POWER, new OperatorInfo(OperatorType.BINARY, 3, true));
+        mOperators.put(DIVIDE, new OperatorInfo(OperatorType.BINARY, 4, false));
+        mOperators.put(MULTIPLY, new OperatorInfo(OperatorType.BINARY, 4, false));
+        mOperators.put(MODULUS, new OperatorInfo(OperatorType.BINARY, 4, false));
+        mOperators.put(SUBTRACT, new OperatorInfo(OperatorType.BINARY, 5, false));
+        mOperators.put(ADD, new OperatorInfo(OperatorType.BINARY, 5, false));
 
         mResultFormat = new DecimalFormat();
         mResultFormat.setMaximumFractionDigits(RESULT_SCALE);
@@ -295,7 +293,7 @@ class Calculator {
 
         int brackets = 0;
         for (String item : infixExpression) {
-            if (!IsOperand(item) && !IsOperator(item, true)) {
+            if (!IsOperand(item) && !IsOperator(item)) {
                 return false;
             }
             if (item.equals(OPEN_BRACKET)) {
@@ -343,13 +341,9 @@ class Calculator {
                 (minus_count == 0 || (minus_count == 1 && s.charAt(0) == SUBTRACT_CHAR));
     }
 
-    private boolean IsOperator(final String s, boolean includingBrackets) {
+    private boolean IsOperator(final String s) {
         OperatorInfo info = mOperators.get(s);
-        if (includingBrackets) {
-            return (info != null);
-        } else {
-            return (info != null && !(s.equals(OPEN_BRACKET) || s.equals(CLOSE_BRACKET)));
-        }
+        return (info != null);
     }
 
     boolean IsBinaryOperator(final String s) {

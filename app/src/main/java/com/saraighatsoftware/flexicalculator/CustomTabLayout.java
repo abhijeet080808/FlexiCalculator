@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class CustomTabLayout extends TabLayout {
 
-    private Typeface mTypeface;
+    private final Typeface mTypeface;
 
     public CustomTabLayout(Context context) {
         super(context);
