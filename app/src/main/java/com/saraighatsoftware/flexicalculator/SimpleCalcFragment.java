@@ -149,6 +149,24 @@ public class SimpleCalcFragment extends Fragment {
         });
         button.setTypeface(bold_button_font);
 
+        button = (Button) root_view.findViewById(R.id.button_a);
+        button.setTypeface(button_font);
+
+        button = (Button) root_view.findViewById(R.id.button_b);
+        button.setTypeface(button_font);
+
+        button = (Button) root_view.findViewById(R.id.button_c);
+        button.setTypeface(button_font);
+
+        button = (Button) root_view.findViewById(R.id.button_d);
+        button.setTypeface(button_font);
+
+        button = (Button) root_view.findViewById(R.id.button_e);
+        button.setTypeface(button_font);
+
+        button = (Button) root_view.findViewById(R.id.button_f);
+        button.setTypeface(button_font);
+
         button = (Button) root_view.findViewById(R.id.button_decimal);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

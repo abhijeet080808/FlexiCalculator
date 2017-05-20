@@ -13,6 +13,13 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
 
+    <string name="a">a</string>
+    <string name="b">b</string>
+    <string name="c">c</string>
+    <string name="d">d</string>
+    <string name="e">e</string>
+    <string name="f">f</string>
+
     <string name="decimal">.</string>
     <string name="open_bracket">(</string>
     <string name="close_bracket">)</string>

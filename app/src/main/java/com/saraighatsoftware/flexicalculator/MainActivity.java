@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         if (action_bar != null) {
             String title = getString(R.string.app_name);
             SpannableString ss = new SpannableString(title);
-            Typeface font = Typeface.createFromAsset(getAssets(),  "fonts/Teko-Light.ttf");
+            Typeface font = Typeface.createFromAsset(getAssets(),  "fonts/Teko-SemiBold.ttf");
             TypefaceSpan type_span = new CustomTypefaceSpan(font);
             ss.setSpan(type_span, 0, title.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             action_bar.setTitle(ss);

@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.5"
-        android:background="@color/colorCalcBack">
+        android:background="@drawable/display">
 
         <TextView
             android:id="@+id/text_display"
@@ -26,7 +26,7 @@
             android:layout_gravity="end"
             android:includeFontPadding="false"
             android:text="@string/zero"
-            android:textSize="48sp"
+            android:textSize="@dimen/display_font_size"
             android:textColor="@color/colorCalcText"/>
 
     </HorizontalScrollView>
@@ -45,7 +45,7 @@
             android:layout_weight="1"
             android:text="@string/sin"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
         <Button
@@ -55,7 +55,7 @@
             android:layout_weight="1"
             android:text="@string/cos"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
         <Button
@@ -65,7 +65,7 @@
             android:layout_weight="1"
             android:text="@string/tan"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
         <Button
@@ -75,7 +75,7 @@
             android:layout_weight="1"
             android:text="@string/log"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
         <Button
@@ -85,7 +85,7 @@
             android:layout_weight="1"
             android:text="@string/ln"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
         <Button
@@ -95,7 +95,7 @@
             android:layout_weight="1"
             android:text="@string/pow"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
     </LinearLayout>
@@ -114,7 +114,7 @@
             android:layout_weight="1"
             android:text="@string/lsh"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
         <Button
@@ -124,7 +124,7 @@
             android:layout_weight="1"
             android:text="@string/rsh"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
         <Button
@@ -134,7 +134,7 @@
             android:layout_weight="1"
             android:text="@string/and"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
         <Button
@@ -144,7 +144,7 @@
             android:layout_weight="1"
             android:text="@string/or"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
         <Button
@@ -154,7 +154,7 @@
             android:layout_weight="1"
             android:text="@string/xor"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
         <Button
@@ -164,7 +164,7 @@
             android:layout_weight="1"
             android:text="@string/not"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
     </LinearLayout>
@@ -183,7 +183,7 @@
             android:layout_weight="1"
             android:text="@string/modulus"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
         <Button
@@ -193,7 +193,7 @@
             android:layout_weight="1"
             android:text="@string/percentage"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp" />
+            android:textSize="@dimen/advanced_buttons_font_size" />
 
         <Button
             android:id="@+id/button_factorial"
@@ -202,7 +202,7 @@
             android:layout_weight="1"
             android:text="@string/factorial"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
         <Button
@@ -212,7 +212,7 @@
             android:layout_weight="1"
             android:text="@string/square_root"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp" />
+            android:textSize="@dimen/advanced_buttons_font_size" />
 
         <Button
             android:id="@+id/button_square"
@@ -221,7 +221,7 @@
             android:layout_weight="1"
             android:text="@string/square"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
         <Button
@@ -231,7 +231,7 @@
             android:layout_weight="1"
             android:text="@string/cube"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="18sp"
+            android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
     </LinearLayout>
@@ -242,6 +242,69 @@
         android:layout_weight="2.5"
         android:orientation="horizontal"
         android:baselineAligned="false">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            style="?android:attr/buttonBarStyle">
+
+            <Button
+                android:id="@+id/button_f"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/f"
+                style="?android:attr/buttonBarButtonStyle"
+                android:textSize="@dimen/main_buttons_font_size" />
+
+            <Button
+                android:id="@+id/button_e"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/e"
+                style="?android:attr/buttonBarButtonStyle"
+                android:textSize="@dimen/main_buttons_font_size" />
+
+            <Button
+                android:id="@+id/button_d"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/d"
+                style="?android:attr/buttonBarButtonStyle"
+                android:textSize="@dimen/main_buttons_font_size" />
+
+            <Button
+                android:id="@+id/button_c"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/c"
+                style="?android:attr/buttonBarButtonStyle"
+                android:textSize="@dimen/main_buttons_font_size" />
+
+            <Button
+                android:id="@+id/button_b"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/b"
+                style="?android:attr/buttonBarButtonStyle"
+                android:textSize="@dimen/main_buttons_font_size" />
+
+            <Button
+                android:id="@+id/button_a"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/a"
+                style="?android:attr/buttonBarButtonStyle"
+                android:textSize="@dimen/main_buttons_font_size" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -263,7 +326,7 @@
                     android:layout_weight="1"
                     android:text="@string/seven"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/main_buttons_font_size" />
 
                 <Button
                     android:id="@+id/button_eight"
@@ -272,7 +335,7 @@
                     android:layout_weight="1"
                     android:text="@string/eight"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/main_buttons_font_size" />
 
                 <Button
                     android:id="@+id/button_nine"
@@ -281,7 +344,7 @@
                     android:layout_weight="1"
                     android:text="@string/nine"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/main_buttons_font_size" />
 
             </LinearLayout>
 
@@ -299,7 +362,7 @@
                     android:layout_weight="1"
                     android:text="@string/four"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/main_buttons_font_size" />
 
                 <Button
                     android:id="@+id/button_five"
@@ -308,7 +371,7 @@
                     android:layout_weight="1"
                     android:text="@string/five"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/main_buttons_font_size" />
 
                 <Button
                     android:id="@+id/button_six"
@@ -317,7 +380,7 @@
                     android:layout_weight="1"
                     android:text="@string/six"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/main_buttons_font_size" />
 
             </LinearLayout>
 
@@ -335,7 +398,7 @@
                     android:layout_weight="1"
                     android:text="@string/one"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/main_buttons_font_size" />
 
                 <Button
                     android:id="@+id/button_two"
@@ -344,7 +407,7 @@
                     android:layout_weight="1"
                     android:text="@string/two"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/main_buttons_font_size" />
 
                 <Button
                     android:id="@+id/button_three"
@@ -353,7 +416,7 @@
                     android:layout_weight="1"
                     android:text="@string/three"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/main_buttons_font_size" />
 
             </LinearLayout>
 
@@ -371,7 +434,7 @@
                     android:layout_weight="1"
                     android:text="@string/decimal"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/main_buttons_font_size" />
 
                 <Button
                     android:id="@+id/button_zero"
@@ -380,7 +443,7 @@
                     android:layout_weight="1"
                     android:text="@string/zero"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/main_buttons_font_size" />
 
                 <Button
                     android:id="@+id/button_delete"
@@ -389,7 +452,7 @@
                     android:layout_weight="1"
                     android:text="@string/delete"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/main_buttons_font_size" />
 
             </LinearLayout>
 
@@ -415,7 +478,7 @@
                     android:layout_weight="1"
                     android:text="@string/open_bracket"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/main_buttons_font_size" />
 
                 <Button
                     android:id="@+id/button_close_bracket"
@@ -424,7 +487,7 @@
                     android:layout_weight="1"
                     android:text="@string/close_bracket"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="24sp" />
+                    android:textSize="@dimen/main_buttons_font_size" />
             </LinearLayout>
 
             <Button
@@ -434,7 +497,7 @@
                 android:layout_weight="1"
                 android:text="@string/divide"
                 style="?android:attr/buttonBarButtonStyle"
-                android:textSize="28sp" />
+                android:textSize="@dimen/operator_buttons_font_size" />
 
             <Button
                 android:id="@+id/button_multiply"
@@ -443,7 +506,7 @@
                 android:layout_weight="1"
                 android:text="@string/multiply"
                 style="?android:attr/buttonBarButtonStyle"
-                android:textSize="28sp" />
+                android:textSize="@dimen/operator_buttons_font_size" />
 
             <Button
                 android:id="@+id/button_subtract"
@@ -452,7 +515,7 @@
                 android:layout_weight="1"
                 android:text="@string/subtract"
                 style="?android:attr/buttonBarButtonStyle"
-                android:textSize="28sp" />
+                android:textSize="@dimen/operator_buttons_font_size" />
 
             <Button
                 android:id="@+id/button_add"
@@ -461,7 +524,7 @@
                 android:layout_weight="1"
                 android:text="@string/add"
                 style="?android:attr/buttonBarButtonStyle"
-                android:textSize="28sp" />
+                android:textSize="@dimen/operator_buttons_font_size" />
 
             <Button
                 android:id="@+id/button_equal"
@@ -470,7 +533,7 @@
                 android:layout_weight="1"
                 android:text="@string/equal"
                 style="?android:attr/buttonBarButtonStyle"
-                android:textSize="28sp" />
+                android:textSize="@dimen/operator_buttons_font_size" />
 
         </LinearLayout>
 

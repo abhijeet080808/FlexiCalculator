@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#F4511E</color>
-    <color name="colorPrimaryDark">#D84315</color>
-    <color name="colorAccent">#B3E5FC</color>
+    <color name="colorPrimary">#FF5722</color>
+    <color name="colorPrimaryDark">#E64A19</color>
+    <color name="colorAccent">#81D4FA</color>
     <color name="windowBackground">#212121</color>
 
-    <color name="colorCalcBack">#B3E5FC</color>
-    <color name="colorCalcText">#424242</color>
+    <color name="colorCalcText">@color/windowBackground</color>
 </resources>
