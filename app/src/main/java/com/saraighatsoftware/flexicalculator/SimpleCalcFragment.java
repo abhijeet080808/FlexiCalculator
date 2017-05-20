@@ -1,11 +1,13 @@
 package com.saraighatsoftware.flexicalculator;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
@@ -48,224 +50,311 @@ public class SimpleCalcFragment extends Fragment {
         mTextDisplay.setText("0");
         //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
+        Typeface display_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Regular.ttf");
+        mTextDisplay.setTypeface(display_font);
+
         mScrollDisplay = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display);
 
-        root_view.findViewById(R.id.button_zero).setOnClickListener(new View.OnClickListener() {
+        Button button;
+        Typeface button_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Regular.ttf");
+        Typeface bold_button_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-SemiBold.ttf");
+
+        button = (Button) root_view.findViewById(R.id.button_zero);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("0");
             }
         });
+        button.setTypeface(bold_button_font);
 
-        root_view.findViewById(R.id.button_one).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_one);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("1");
             }
         });
+        button.setTypeface(bold_button_font);
 
-        root_view.findViewById(R.id.button_two).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_two);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("2");
             }
         });
+        button.setTypeface(bold_button_font);
 
-        root_view.findViewById(R.id.button_three).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_three);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("3");
             }
         });
+        button.setTypeface(bold_button_font);
 
-        root_view.findViewById(R.id.button_four).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_four);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("4");
             }
         });
+        button.setTypeface(bold_button_font);
 
-        root_view.findViewById(R.id.button_five).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_five);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("5");
             }
         });
+        button.setTypeface(bold_button_font);
 
-        root_view.findViewById(R.id.button_six).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_six);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("6");
             }
         });
+        button.setTypeface(bold_button_font);
 
-        root_view.findViewById(R.id.button_seven).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_seven);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("7");
             }
         });
+        button.setTypeface(bold_button_font);
 
-        root_view.findViewById(R.id.button_eight).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_eight);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("8");
             }
         });
+        button.setTypeface(bold_button_font);
 
-        root_view.findViewById(R.id.button_nine).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_nine);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("9");
             }
         });
+        button.setTypeface(bold_button_font);
 
-        root_view.findViewById(R.id.button_decimal).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_decimal);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.DECIMAL);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_open_bracket).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_open_bracket);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.OPEN_BRACKET);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_close_bracket).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_close_bracket);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.CLOSE_BRACKET);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_divide).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_divide);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.DIVIDE);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_multiply).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_multiply);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.MULTIPLY);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_subtract).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_subtract);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.SUBTRACT);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_add).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_add);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.ADD);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_equal).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_equal);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 evaluate();
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_delete).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_delete);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clear();
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_modulus).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_modulus);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.MODULUS);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_power).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_power);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.POWER);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_sin).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_sin);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.SIN);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_cos).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_cos);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.COS);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_tan).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_tan);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.TAN);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_log).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_log);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.LOG);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_ln).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_ln);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.LN);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_percentage).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_percentage);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.PERCENTAGE);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_factorial).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_factorial);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.FACTORIAL);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_square_root).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_square_root);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.SQUARE_ROOT);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_square).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_square);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.SQUARE);
             }
         });
+        button.setTypeface(button_font);
 
-        root_view.findViewById(R.id.button_cube).setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_cube);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.CUBE);
             }
         });
+        button.setTypeface(button_font);
+
+        button = (Button) root_view.findViewById(R.id.button_lsh);
+        button.setTypeface(button_font);
+
+        button = (Button) root_view.findViewById(R.id.button_rsh);
+        button.setTypeface(button_font);
+
+        button = (Button) root_view.findViewById(R.id.button_and);
+        button.setTypeface(button_font);
+
+        button = (Button) root_view.findViewById(R.id.button_or);
+        button.setTypeface(button_font);
+
+        button = (Button) root_view.findViewById(R.id.button_xor);
+        button.setTypeface(button_font);
+
+        button = (Button) root_view.findViewById(R.id.button_not);
+        button.setTypeface(button_font);
 
         return root_view;
     }
