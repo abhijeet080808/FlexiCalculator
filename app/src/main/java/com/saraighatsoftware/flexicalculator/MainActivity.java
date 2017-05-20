@@ -1,11 +1,15 @@
 package com.saraighatsoftware.flexicalculator;
 
-import android.support.design.widget.TabLayout;
+import android.graphics.Typeface;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,8 +26,18 @@ public class MainActivity extends AppCompatActivity {
         FragmentPager fragment_pager = new FragmentPager(getSupportFragmentManager());
         ViewPager view_pager = (ViewPager) findViewById(R.id.page_container);
         view_pager.setAdapter(fragment_pager);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        CustomTabLayout tabLayout = (CustomTabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(view_pager);
+
+        ActionBar action_bar  = getSupportActionBar();
+        if (action_bar != null) {
+            String title = getString(R.string.app_name);
+            SpannableString ss = new SpannableString(title);
+            Typeface font = Typeface.createFromAsset(getAssets(),  "fonts/Teko-Light.ttf");
+            TypefaceSpan type_span = new CustomTypefaceSpan("", font);
+            ss.setSpan(type_span, 0, title.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+            action_bar.setTitle(ss);
+        }
 
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

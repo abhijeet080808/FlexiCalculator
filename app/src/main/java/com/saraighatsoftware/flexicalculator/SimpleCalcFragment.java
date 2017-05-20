@@ -50,7 +50,7 @@ public class SimpleCalcFragment extends Fragment {
         mTextDisplay.setText("0");
         //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
-        Typeface display_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Regular.ttf");
+        Typeface display_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Light.ttf");
         mTextDisplay.setTypeface(display_font);
 
         mScrollDisplay = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display);

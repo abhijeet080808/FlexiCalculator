@@ -343,7 +343,7 @@ class Calculator {
                 (minus_count == 0 || (minus_count == 1 && s.charAt(0) == SUBTRACT_CHAR));
     }
 
-    boolean IsOperator(final String s, boolean includingBrackets) {
+    private boolean IsOperator(final String s, boolean includingBrackets) {
         OperatorInfo info = mOperators.get(s);
         if (includingBrackets) {
             return (info != null);
