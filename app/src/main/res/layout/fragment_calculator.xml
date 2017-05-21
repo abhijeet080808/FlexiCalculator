@@ -39,7 +39,7 @@
         android:baselineAligned="false">
 
         <Button
-            android:id="@+id/button_angle_unit"
+            android:id="@+id/button_angular_unit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -227,7 +227,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/pow"
+            android:text="@string/power"
             style="?android:attr/buttonBarButtonStyle"
             android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />

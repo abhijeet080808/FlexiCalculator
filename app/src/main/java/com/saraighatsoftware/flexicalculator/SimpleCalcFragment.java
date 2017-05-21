@@ -45,11 +45,14 @@ public class SimpleCalcFragment extends Fragment {
     private Button mButtonF;
     private Button mButtonPoint;
 
+    private Calculator.AngularUnit mAngularUnit;
+
     public SimpleCalcFragment() {
         mCalculator = new Calculator();
         mInfixExpression = new Vector<>();
         mIsResultSet = false;
         mBase = Calculator.Base.DEC;
+        mAngularUnit = Calculator.AngularUnit.DEGREE;
     }
 
     public void setArguments(int sectionNumber) {
@@ -67,6 +70,7 @@ public class SimpleCalcFragment extends Fragment {
         mInfixExpression.clear();
         mIsResultSet = false;
         mBase = Calculator.Base.DEC;
+        mAngularUnit = Calculator.AngularUnit.DEGREE;
 
         mTextDisplay = (TextView) root_view.findViewById(R.id.text_display);
         mTextDisplay.setText("0");
@@ -480,14 +484,13 @@ public class SimpleCalcFragment extends Fragment {
                         mCalculator.IsOperand(mInfixExpression.firstElement(), old_base)) {
                     String old_operand = mInfixExpression.firstElement();
                     String new_operand = mCalculator.Convert(old_operand, old_base, mBase);
-                    Log.v(TAG, "Converted " + old_operand + " (" + old_base + ") to " + new_operand + " (" + mBase + ")");
                     mInfixExpression.clear();
 
                     if (!new_operand.equals("0")) {
                         mInfixExpression.add(new_operand);
+                        mIsResultSet = true;
                     }
                 } else {
-                    Log.v(TAG, "Clearing " + mInfixExpression);
                     mInfixExpression.clear();
                 }
                 updateText();
@@ -495,7 +498,22 @@ public class SimpleCalcFragment extends Fragment {
         });
         button.setTypeface(button_font);
 
-        button = (Button) root_view.findViewById(R.id.button_angle_unit);
+        button = (Button) root_view.findViewById(R.id.button_angular_unit);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (mAngularUnit) {
+                    case DEGREE:
+                        ((Button) v).setText(getString(R.string.radian));
+                        mAngularUnit = Calculator.AngularUnit.RADIAN;
+                        break;
+                    case RADIAN:
+                        ((Button) v).setText(getString(R.string.degree));
+                        mAngularUnit = Calculator.AngularUnit.DEGREE;
+                        break;
+                }
+            }
+        });
         button.setTypeface(button_font);
 
         setDigitButtonStates();
@@ -649,8 +667,11 @@ public class SimpleCalcFragment extends Fragment {
         if (mInfixExpression.isEmpty()) return;
 
         try {
-            Log.v(TAG, "Evaluating in base " + mBase + " - " + mInfixExpression.toString());
-            String result = mCalculator.Evaluate(mInfixExpression, mBase);
+            Log.v(TAG, "Evaluating "
+                    + "(" + mBase
+                    + "," + mAngularUnit
+                    + ") - " + mInfixExpression.toString());
+            String result = mCalculator.Evaluate(mInfixExpression, mBase, mAngularUnit);
             Log.v(TAG, "Result - " + result);
             mInfixExpression.clear();
             mInfixExpression.add(result);

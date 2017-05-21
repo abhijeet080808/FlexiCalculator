@@ -36,14 +36,13 @@
     <string name="tan">tan</string>
     <string name="log">log\u2081\u2080</string>
     <string name="ln">log\u2091</string>
-    <string name="pow">x<sup><small>y</small></sup></string>
+    <string name="power">x<sup><small>y</small></sup></string>
 
     <string name="lsh">lsh</string>
     <string name="rsh">rsh</string>
+    <string name="and">and</string>
     <string name="or">or</string>
     <string name="xor">xor</string>
-    <string name="not">not</string>
-    <string name="and">and</string>
 
     <string name="modulus">mod</string>
     <string name="percentage">%</string>

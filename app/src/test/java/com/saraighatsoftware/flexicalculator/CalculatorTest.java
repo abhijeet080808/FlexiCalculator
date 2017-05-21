@@ -56,7 +56,6 @@ public class CalculatorTest {
         tests.add(new Pair<>("125", "5 ! + 5"));
         tests.add(new Pair<>("5", Calculator.SQUARE_ROOT + " 25"));
         tests.add(new Pair<>("25", "5 " + Calculator.SQUARE ));
-        tests.add(new Pair<>("125", "5 " + Calculator.CUBE ));
         tests.add(new Pair<>("200", "100 " + Calculator.LSH + " 1"));
         tests.add(new Pair<>("50", "100 " + Calculator.RSH + " 1"));
         tests.add(new Pair<>("32", "100 " + Calculator.AND + " 50"));
@@ -72,50 +71,92 @@ public class CalculatorTest {
                     test.first(),
                     mCalculator.Evaluate(
                             new Vector<>(Arrays.asList(input.split(" "))),
-                            Calculator.Base.DEC));
+                            Calculator.Base.DEC,
+                            Calculator.AngularUnit.DEGREE));
         }
 
         assertEquals("19",
                 mCalculator.Evaluate(
                         new Vector<>(Arrays.asList("A + F".split(" "))),
-                        Calculator.Base.HEX));
+                        Calculator.Base.HEX,
+                        Calculator.AngularUnit.DEGREE));
         assertEquals("110",
                 mCalculator.Evaluate(
                         new Vector<>(Arrays.asList("30 + 60".split(" "))),
-                        Calculator.Base.OCT));
+                        Calculator.Base.OCT,
+                        Calculator.AngularUnit.DEGREE));
         assertEquals("10101",
                 mCalculator.Evaluate(
                         new Vector<>(Arrays.asList("1010 + 1011".split(" "))),
-                        Calculator.Base.BIN));
+                        Calculator.Base.BIN,
+                        Calculator.AngularUnit.DEGREE));
 
         assertEquals("5",
                 mCalculator.Evaluate(
                         new Vector<>(Arrays.asList((Calculator.SUBTRACT + "A + F").split(" "))),
-                        Calculator.Base.HEX));
+                        Calculator.Base.HEX,
+                        Calculator.AngularUnit.DEGREE));
         assertEquals("30",
                 mCalculator.Evaluate(
                         new Vector<>(Arrays.asList((Calculator.SUBTRACT + "30 + 60").split(" "))),
-                        Calculator.Base.OCT));
+                        Calculator.Base.OCT,
+                        Calculator.AngularUnit.DEGREE));
         assertEquals("1",
                 mCalculator.Evaluate(
                         new Vector<>(Arrays.asList((Calculator.SUBTRACT + "1010 + 1011").split(" "))),
-                        Calculator.Base.BIN));
+                        Calculator.Base.BIN,
+                        Calculator.AngularUnit.DEGREE));
 
         assertEquals(Calculator.SUBTRACT  + "3F",
                 mCalculator.Evaluate(
                         new Vector<>(Arrays.asList(
                                 (Calculator.SUBTRACT + "FF " + Calculator.DIVIDE + " 4").split(" "))),
-                        Calculator.Base.HEX));
+                        Calculator.Base.HEX,
+                        Calculator.AngularUnit.DEGREE));
         assertEquals(Calculator.SUBTRACT  + "77",
                 mCalculator.Evaluate(
                         new Vector<>(Arrays.asList(
                                 (Calculator.SUBTRACT + "377 " + Calculator.DIVIDE + " 4").split(" "))),
-                        Calculator.Base.OCT));
+                        Calculator.Base.OCT,
+                        Calculator.AngularUnit.DEGREE));
         assertEquals(Calculator.SUBTRACT  + "111111",
                 mCalculator.Evaluate(
                         new Vector<>(Arrays.asList(
                                 (Calculator.SUBTRACT + "11111111 " + Calculator.DIVIDE + " 100").split(" "))),
-                        Calculator.Base.BIN));
+                        Calculator.Base.BIN,
+                        Calculator.AngularUnit.DEGREE));
+
+        assertEquals("0.707107",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList(("sin 45").split(" "))),
+                        Calculator.Base.DEC,
+                        Calculator.AngularUnit.DEGREE));
+        assertEquals("0.707107",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList(("cos 45").split(" "))),
+                        Calculator.Base.DEC,
+                        Calculator.AngularUnit.DEGREE));
+        assertEquals("1",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList(("tan 45").split(" "))),
+                        Calculator.Base.DEC,
+                        Calculator.AngularUnit.DEGREE));
+
+        assertEquals("0.850904",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList(("sin 45").split(" "))),
+                        Calculator.Base.DEC,
+                        Calculator.AngularUnit.RADIAN));
+        assertEquals("0.525322",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList(("cos 45").split(" "))),
+                        Calculator.Base.DEC,
+                        Calculator.AngularUnit.RADIAN));
+        assertEquals("1.619775",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList(("tan 45").split(" "))),
+                        Calculator.Base.DEC,
+                        Calculator.AngularUnit.RADIAN));
     }
 
     @Test

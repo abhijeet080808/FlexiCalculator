@@ -34,6 +34,10 @@ class Calculator {
         }
     }
 
+    enum AngularUnit {
+        DEGREE, RADIAN
+    }
+
     private class OperatorInfo {
         OperatorInfo(OperatorType type, int precedence, boolean isRightAssoc) {
             mType = type;
@@ -159,7 +163,9 @@ class Calculator {
     Right associativity - 1 ^ 2 ^ 3 = 1 ^ (2 ^ 3)
     */
 
-    String Evaluate(final Vector<String> infixExpression, final Base base) throws Exception {
+    String Evaluate(final Vector<String> infixExpression,
+                    final Base base,
+                    final AngularUnit angularUnit) throws Exception {
         // evaluate something like [30, +, 2]
         // each vector element either contains a digit in string form
         // or contains a operator in string form
@@ -188,7 +194,7 @@ class Calculator {
                         BigDecimal operand = operands.pop();
                         Log.v(TAG, "Got close bracket - "
                                 + operator + " " + operand);
-                        operands.push(operate(operator, operand));
+                        operands.push(operate(operator, operand, angularUnit));
                     } else {
                         BigDecimal operand2 = operands.pop();
                         BigDecimal operand1 = operands.pop();
@@ -218,7 +224,7 @@ class Calculator {
                         BigDecimal operand = operands.pop();
                         Log.v(TAG, "Got higher precedence than " + item + " - "
                                 + operator + " " + operand);
-                        operands.push(operate(operator, operand));
+                        operands.push(operate(operator, operand, angularUnit));
                     } else {
                         BigDecimal operand2 = operands.pop();
                         BigDecimal operand1 = operands.pop();
@@ -237,7 +243,7 @@ class Calculator {
                 BigDecimal operand = operands.pop();
                 Log.v(TAG, "Got operator in stack - "
                         + operator + " " + operand);
-                operands.push(operate(operator, operand));
+                operands.push(operate(operator, operand, angularUnit));
             } else {
                 BigDecimal operand2 = operands.pop();
                 BigDecimal operand1 = operands.pop();
@@ -323,17 +329,27 @@ class Calculator {
     }
 
     private BigDecimal operate(final String operator,
-                               final BigDecimal operand) throws Exception {
+                               final BigDecimal operand,
+                               final AngularUnit angularUnit) throws Exception {
         Log.v(TAG, "Processing " + operator + " " + operand);
 
         // sin/cos/tan expects value in degree
         switch (operator) {
             case SIN:
-                return new BigDecimal(Math.sin(Math.toRadians(operand.doubleValue())));
+                return new BigDecimal(
+                        Math.sin(angularUnit == AngularUnit.DEGREE ?
+                                Math.toRadians(operand.doubleValue()) :
+                                operand.doubleValue()));
             case COS:
-                return new BigDecimal(Math.cos(Math.toRadians(operand.doubleValue())));
+                return new BigDecimal(
+                        Math.cos(angularUnit == AngularUnit.DEGREE ?
+                                Math.toRadians(operand.doubleValue()) :
+                                operand.doubleValue()));
             case TAN:
-                return new BigDecimal(Math.tan(Math.toRadians(operand.doubleValue())));
+                return new BigDecimal(
+                        Math.tan(angularUnit == AngularUnit.DEGREE ?
+                                Math.toRadians(operand.doubleValue()) :
+                                operand.doubleValue()));
             case LOG:
                 return new BigDecimal(Math.log10(operand.doubleValue()));
             case LN:
