@@ -225,14 +225,13 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/button_cube"
+            android:id="@+id/button_base"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/cube"
+            android:text="@string/decimal"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="@dimen/advanced_buttons_font_size"
-            android:textAllCaps="false" />
+            android:textSize="@dimen/advanced_buttons_font_size" />
 
     </LinearLayout>
 
@@ -428,11 +427,11 @@
                 style="?android:attr/buttonBarStyle">
 
                 <Button
-                    android:id="@+id/button_decimal"
+                    android:id="@+id/button_point"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="@string/decimal"
+                    android:text="@string/point"
                     style="?android:attr/buttonBarButtonStyle"
                     android:textSize="@dimen/main_buttons_font_size" />
 

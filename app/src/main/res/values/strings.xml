@@ -20,7 +20,7 @@
     <string name="e">e</string>
     <string name="f">f</string>
 
-    <string name="decimal">.</string>
+    <string name="point">.</string>
     <string name="open_bracket">(</string>
     <string name="close_bracket">)</string>
     <string name="divide">\u00f7</string>
@@ -50,6 +50,10 @@
     <string name="factorial">n!</string>
     <string name="square_root">\u221a</string>
     <string name="square">x\u00b2</string>
-    <string name="cube">x\u00b3</string>
+
+    <string name="hexadecimal">hex</string>
+    <string name="decimal">dec</string>
+    <string name="octal">oct</string>
+    <string name="binary">bin</string>
 
 </resources>

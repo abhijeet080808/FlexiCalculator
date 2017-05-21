@@ -175,8 +175,8 @@ public class SimpleCalcFragmentTest {
         click(R.id.button_add, "10/(");
         click(R.id.button_subtract, "10/(-");
         click(R.id.button_divide, "10/(-");
-        click(R.id.button_decimal, "10/(-.");
-        click(R.id.button_decimal, "10/(-.");
+        click(R.id.button_point, "10/(-.");
+        click(R.id.button_point, "10/(-.");
         click(R.id.button_subtract, "10/(-.");
         click(R.id.button_add, "10/(-.");
         click(R.id.button_five, "10/(-.5");

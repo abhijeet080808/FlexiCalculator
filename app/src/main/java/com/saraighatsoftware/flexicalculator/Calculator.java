@@ -19,6 +19,21 @@ class Calculator {
         BINARY, PRE_UNARY, POST_UNARY, OTHER
     }
 
+
+    enum Base {
+        HEX(16), DEC(10), OCT(8), BIN(2);
+
+        private final int mBase;
+
+        Base(int base) {
+            this.mBase = base;
+        }
+
+        public int getValue() {
+            return mBase;
+        }
+    }
+
     private class OperatorInfo {
         OperatorInfo(OperatorType type, int precedence, boolean isRightAssoc) {
             mType = type;
@@ -49,12 +64,12 @@ class Calculator {
     static final String MODULUS = "mod";
     static final String SUBTRACT = "\u2212";
     static final String ADD = "+";
-    static final String DECIMAL = ".";
+    static final String POINT = ".";
 
     static final char DIVIDE_CHAR = '\u00f7';
     static final char MULTIPLY_CHAR = '\u00d7';
     static final char SUBTRACT_CHAR = '\u2212';
-    private static final char DECIMAL_CHAR = '.';
+    private static final char POINT_CHAR = '.';
 
     private static final int INTERNAL_SCALE = 12;
     private static final int RESULT_SCALE = 6;
@@ -136,12 +151,12 @@ class Calculator {
     Right associativity - 1 ^ 2 ^ 3 = 1 ^ (2 ^ 3)
     */
 
-    String Evaluate(final Vector<String> infixExpression) throws Exception {
+    String Evaluate(final Vector<String> infixExpression, final Base base) throws Exception {
         // evaluate something like [30, +, 2]
         // each vector element either contains a digit in string form
         // or contains a operator in string form
 
-        if (!IsSane(infixExpression, true)) {
+        if (!IsSane(infixExpression, base, true)) {
             // invalid input
             throw new IllegalArgumentException(
                     "Calculator::Evaluate: Invalid expression " + infixExpression.toString());
@@ -151,9 +166,9 @@ class Calculator {
         Stack<String> operators = new Stack<>(); // for operators and parenthesis
 
         for (String item : infixExpression) {
-            if (IsOperand(item)) {
+            if (IsOperand(item, base)) {
                 Log.v(TAG, "Processing " + item);
-                operands.push(new BigDecimal(item.replace(SUBTRACT_CHAR, '-')));
+                operands.push(getBigDecimal(item, base));
             } else if (item.equals(OPEN_BRACKET)) {
                 Log.v(TAG, "Processing " + item);
                 operators.push(item);
@@ -228,7 +243,41 @@ class Calculator {
             throw new IllegalStateException("Calculator::Evaluate: Invalid state");
         }
 
-        return mResultFormat.format(operands.firstElement()).replace('-', SUBTRACT_CHAR);
+        return getNumber(operands.firstElement(), base);
+    }
+
+    private BigDecimal getBigDecimal(final String operand, final Base base) throws Exception {
+        // convert integer operands to BigDecimal in base 10
+        // floating point operands have to be already in base 10 else they are truncated
+        switch (base) {
+            case HEX:
+            case OCT:
+            case BIN:
+                return new BigDecimal(
+                        Long.parseLong(operand.replace(SUBTRACT_CHAR, '-'), base.getValue()));
+            case DEC:
+                return new BigDecimal(operand.replace(SUBTRACT_CHAR, '-'));
+            default:
+                throw new IllegalArgumentException(
+                        "Calculator::operate: Invalid base " + base);
+        }
+    }
+
+    private String getNumber(final BigDecimal operand, final Base base) throws Exception {
+        // convert base 10 operand to other base as specified
+        // floating point operands have to be already in base 10 else they are truncated
+        switch (base) {
+            case HEX:
+            case OCT:
+            case BIN:
+                return Long.toString(operand.longValue(), base.getValue())
+                        .replace('-', SUBTRACT_CHAR).toUpperCase();
+            case DEC:
+                return mResultFormat.format(operand).replace('-', SUBTRACT_CHAR);
+            default:
+                throw new IllegalArgumentException(
+                        "Calculator::operate: Invalid base " + base);
+        }
     }
 
     private BigDecimal operate(final String operator,
@@ -259,6 +308,7 @@ class Calculator {
                                final BigDecimal operand) throws Exception {
         Log.v(TAG, "Processing " + operator + " " + operand);
 
+        // sin/cos/tan expects value in degree
         switch (operator) {
             case SIN:
                 return new BigDecimal(Math.sin(Math.toRadians(operand.doubleValue())));
@@ -287,13 +337,13 @@ class Calculator {
         }
     }
 
-    boolean IsSane(final Vector<String> infixExpression, boolean isComplete) {
+    boolean IsSane(final Vector<String> infixExpression, final Base base, final boolean isComplete) {
         // check that expression is not empty and open/close brackets are balanced
         if (infixExpression.isEmpty()) { return false; }
 
         int brackets = 0;
         for (String item : infixExpression) {
-            if (!IsOperand(item) && !IsOperator(item)) {
+            if (!IsOperand(item, base) && !IsOperator(item)) {
                 return false;
             }
             if (item.equals(OPEN_BRACKET)) {
@@ -316,19 +366,47 @@ class Calculator {
         }
     }
 
-    boolean IsOperand(final String s) {
+    private boolean IsValidDigit(final char c, final Base base) {
+        switch (c) {
+            case '0':
+            case '1':
+                return (base == Base.BIN || base == Base.OCT || base == Base.DEC || base == Base.HEX);
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+                return (base == Base.OCT || base == Base.DEC || base == Base.HEX);
+            case '8':
+            case '9':
+                return  (base == Base.DEC || base == Base.HEX);
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+                return (base == Base.HEX);
+            default:
+                return false;
+        }
+    }
+
+    boolean IsOperand(final String s, final Base base) {
         // operand can start with zero or one negative sign
         // operand can have zero or one decimal point
         // operand must have one or more digits
+
         int minus_count = 0;
         int point_count = 0;
         int digit_count = 0;
         for(char c : s.toCharArray()) {
             if (c == SUBTRACT_CHAR) {
                 minus_count++;
-            } else if (c == DECIMAL_CHAR) {
+            } else if (c == POINT_CHAR) {
                 point_count++;
-            } else if (Character.isDigit(c)) {
+            } else if (IsValidDigit(c, base)) {
                 digit_count++;
             } else {
                 return false;
@@ -361,51 +439,67 @@ class Calculator {
         return (info != null && info.mType == OperatorType.POST_UNARY);
     }
 
-    boolean IsOperandAllowed(final String existingOperand, final char newChar) {
+    boolean IsOperandAllowed(final String existingOperand, final Base base, final char newChar) {
         // returns true if the new character can be appended to the existing operand
 
         for (char c : existingOperand.toCharArray()) {
-            if (!(c == SUBTRACT_CHAR || c == DECIMAL_CHAR || Character.isDigit(c))) {
+            if (!(c == SUBTRACT_CHAR || c == POINT_CHAR || IsValidDigit(c, base))) {
                 return false;
             }
         }
+
         int subtract_pos = existingOperand.indexOf(SUBTRACT_CHAR);
         if (subtract_pos != -1 && subtract_pos != 0) {
             return false;
         }
 
         if (existingOperand.isEmpty()) {
-            return newChar == SUBTRACT_CHAR || newChar == DECIMAL_CHAR || Character.isDigit(newChar);
+            return newChar == SUBTRACT_CHAR || newChar == POINT_CHAR || IsValidDigit(newChar, base);
         } else if (existingOperand.length() == 1) {
             // allowed -> -. -1 .1 11 1.
             final char existingChar = existingOperand.charAt(0);
             if (existingChar == SUBTRACT_CHAR) {
-                return newChar == DECIMAL_CHAR || Character.isDigit(newChar);
-            } else if (existingChar == DECIMAL_CHAR) {
-                return Character.isDigit(newChar);
-            } else { // Character.isDigit(existingChar)
+                return newChar == POINT_CHAR || IsValidDigit(newChar, base);
+            } else if (existingChar == POINT_CHAR) {
+                return IsValidDigit(newChar, base);
+            } else { // IsValidDigit(existingChar, base)
                 // TODO consider leading zeroes
-                return Character.isDigit(newChar) || (newChar == DECIMAL_CHAR);
+                return IsValidDigit(newChar, base) || (newChar == POINT_CHAR);
             }
         } else { // length > 1
-            if (newChar == DECIMAL_CHAR) {
+            if (newChar == POINT_CHAR) {
                 // only one point allowed
-                return existingOperand.indexOf(DECIMAL_CHAR) < 0;
-            } else if (Character.isDigit(newChar)) {
+                return existingOperand.indexOf(POINT_CHAR) < 0;
+            } else if (IsValidDigit(newChar, base)) {
                 // TODO consider leading zeroes
                 // precision is number of digits
                 // scale is number of digits after decimal point
-                final int decimal = existingOperand.indexOf(DECIMAL_CHAR);
+                final int point_pos = existingOperand.indexOf(POINT_CHAR);
                 final boolean is_negative = (existingOperand.charAt(0) == SUBTRACT_CHAR);
                 int precision = existingOperand.length();
-                precision = (decimal >= 0) ? precision - 1 : precision;
+                precision = (point_pos >= 0) ? precision - 1 : precision;
                 precision = is_negative ? precision - 1 : precision;
-                final int scale = (decimal >= 0) ? existingOperand.length() - decimal - 1 : 0;
+                final int scale = (point_pos >= 0) ? existingOperand.length() - point_pos - 1 : 0;
                 Log.v(TAG, existingOperand + " scale " + scale + " precision " + precision);
                 return (precision < INPUT_PRECISION && scale < INPUT_SCALE);
             } else {
                 return false;
             }
         }
+    }
+
+    String Convert(final String operand, final Base oldBase, final Base newBase) {
+        // convert the operand's base
+
+        // in case of floating point, return 0
+        if (operand.indexOf(POINT_CHAR) >= 0) {
+            return "0";
+        }
+
+        return Long.toString(
+                Long.parseLong(
+                        operand.replace(SUBTRACT_CHAR, '-'), oldBase.getValue()), newBase.getValue())
+                .replace('-', SUBTRACT_CHAR)
+                .toUpperCase();
     }
 }

@@ -52,6 +52,7 @@ public class CalculatorTest {
         tests.add(new Pair<>("2", "log 100"));
         tests.add(new Pair<>("2.995732", "ln 20"));
         tests.add(new Pair<>("100", "500 * 20 %"));
+        tests.add(new Pair<>("100", "20 % * 500"));
         tests.add(new Pair<>("125", "5 ! + 5"));
         tests.add(new Pair<>("5", Calculator.SQUARE_ROOT + " 25"));
         tests.add(new Pair<>("25", "5 " + Calculator.SQUARE ));
@@ -64,7 +65,9 @@ public class CalculatorTest {
                     replace("-", Calculator.SUBTRACT);
             assertEquals(
                     test.first(),
-                    mCalculator.Evaluate(new Vector<>(Arrays.asList(input.split(" ")))));
+                    mCalculator.Evaluate(
+                            new Vector<>(Arrays.asList(input.split(" "))),
+                            Calculator.Base.DEC));
         }
     }
 
@@ -124,6 +127,7 @@ public class CalculatorTest {
             assertEquals(true,
                     mCalculator.IsOperandAllowed(
                             test.first().replace("-", Calculator.SUBTRACT),
+                            Calculator.Base.DEC,
                             test.second() == '-' ? Calculator.SUBTRACT_CHAR : test.second()));
         }
 
@@ -131,8 +135,36 @@ public class CalculatorTest {
             assertEquals(false,
                     mCalculator.IsOperandAllowed(
                             test.first().replace("-", Calculator.SUBTRACT),
+                            Calculator.Base.DEC,
                             test.second() == '-' ? Calculator.SUBTRACT_CHAR : test.second()));
         }
 
+    }
+
+    @Test
+    public void Convert() {
+        PowerMockito.mockStatic(Log.class); // returns 1 when Log.e() etc is called
+
+        Calculator mCalc = new Calculator();
+
+        assertEquals("4106", mCalc.Convert("100A", Calculator.Base.HEX, Calculator.Base.DEC));
+        assertEquals("10012", mCalc.Convert("100A", Calculator.Base.HEX, Calculator.Base.OCT));
+        assertEquals("1000000001010", mCalc.Convert("100A", Calculator.Base.HEX, Calculator.Base.BIN));
+        assertEquals("100A", mCalc.Convert("100A", Calculator.Base.HEX, Calculator.Base.HEX));
+
+        assertEquals("144", mCalc.Convert("100", Calculator.Base.DEC, Calculator.Base.OCT));
+        assertEquals("1100100", mCalc.Convert("100", Calculator.Base.DEC, Calculator.Base.BIN));
+        assertEquals("64", mCalc.Convert("100", Calculator.Base.DEC, Calculator.Base.HEX));
+        assertEquals("100", mCalc.Convert("100", Calculator.Base.DEC, Calculator.Base.DEC));
+
+        assertEquals("1000000", mCalc.Convert("100", Calculator.Base.OCT, Calculator.Base.BIN));
+        assertEquals("40", mCalc.Convert("100", Calculator.Base.OCT, Calculator.Base.HEX));
+        assertEquals("64", mCalc.Convert("100", Calculator.Base.OCT, Calculator.Base.DEC));
+        assertEquals("100", mCalc.Convert("100", Calculator.Base.OCT, Calculator.Base.OCT));
+
+        assertEquals("A", mCalc.Convert("1010", Calculator.Base.BIN, Calculator.Base.HEX));
+        assertEquals("10", mCalc.Convert("1010", Calculator.Base.BIN, Calculator.Base.DEC));
+        assertEquals("12", mCalc.Convert("1010", Calculator.Base.BIN, Calculator.Base.OCT));
+        assertEquals("1010", mCalc.Convert("1010", Calculator.Base.BIN, Calculator.Base.BIN));
     }
 }
