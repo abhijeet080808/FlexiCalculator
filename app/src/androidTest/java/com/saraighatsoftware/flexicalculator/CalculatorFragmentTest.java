@@ -21,22 +21,22 @@ import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
-public class SimpleCalcFragmentTest {
+public class CalculatorFragmentTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void useAppContext() throws Exception {
+    public void UseAppContext() throws Exception {
         // context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
         assertEquals("com.saraighatsoftware.flexicalculator", appContext.getPackageName());
     }
 
     @Test
-    public void simpleCalculator() {
-        // test that Simple tab is selected
-        onView(allOf(withText("Simple"), isDescendantOfA(withId(R.id.tabs)), isSelected()))
+    public void Calculator() {
+        // test that Calculate tab is selected
+        onView(allOf(withText("Calculate"), isDescendantOfA(withId(R.id.tabs)), isSelected()))
                 .check(matches(isDisplayed()));
 
         // check that calculator displays 0 by default on current tab

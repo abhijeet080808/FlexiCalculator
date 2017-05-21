@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import java.util.Vector;
 
-public class SimpleCalcFragment extends Fragment {
+public class CalculatorFragment extends Fragment {
 
-    private static final String TAG = "SimpleCalcFragment";
+    private static final String TAG = "CalculatorFragment";
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -47,7 +47,7 @@ public class SimpleCalcFragment extends Fragment {
 
     private Calculator.AngularUnit mAngularUnit;
 
-    public SimpleCalcFragment() {
+    public CalculatorFragment() {
         mCalculator = new Calculator();
         mInfixExpression = new Vector<>();
         mIsResultSet = false;
