@@ -34,8 +34,8 @@
     <string name="sin">sin</string>
     <string name="cos">cos</string>
     <string name="tan">tan</string>
-    <string name="log">log\u2081\u2080</string>
-    <string name="ln">log\u2091</string>
+    <string name="log">log</string>
+    <string name="ln">ln\</string>
     <string name="power">x<sup><small>y</small></sup></string>
 
     <string name="lsh">lsh</string>

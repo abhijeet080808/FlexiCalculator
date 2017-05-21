@@ -267,6 +267,7 @@ class Calculator {
             case HEX:
             case OCT:
             case BIN:
+                // floating point here will throw exception
                 return new BigDecimal(
                         new BigInteger(operand.replace(SUBTRACT_CHAR, '-'), base.getValue()));
             case DEC:
@@ -442,7 +443,11 @@ class Calculator {
             } else {
                 return false;
             }
-            if (minus_count > 1 || point_count > 1) {
+            if (minus_count > 1) {
+                return false;
+            } else if (point_count > 0 && base != Base.DEC) {
+                return false;
+            } else if (point_count > 1 && base == Base.DEC){
                 return false;
             }
         }
@@ -472,40 +477,48 @@ class Calculator {
 
     boolean IsOperandAllowed(final String existingOperand, final Base base, final char newChar) {
         // returns true if the new character can be appended to the existing operand
+        // decimal point is not allowed for HEX/OCT/BIN
 
         for (char c : existingOperand.toCharArray()) {
-            if (!(c == SUBTRACT_CHAR || c == POINT_CHAR || IsValidDigit(c, base))) {
+            if (c != SUBTRACT_CHAR && c != POINT_CHAR && !IsValidDigit(c, base)) {
                 return false;
             }
         }
 
-        int subtract_pos = existingOperand.indexOf(SUBTRACT_CHAR);
+        final int subtract_pos = existingOperand.indexOf(SUBTRACT_CHAR);
         if (subtract_pos != -1 && subtract_pos != 0) {
+            return false;
+        }
+        final int point_pos = existingOperand.indexOf(POINT_CHAR);
+        if (point_pos >= 0 && base != Base.DEC) {
             return false;
         }
 
         if (existingOperand.isEmpty()) {
-            return newChar == SUBTRACT_CHAR || newChar == POINT_CHAR || IsValidDigit(newChar, base);
+            return newChar == SUBTRACT_CHAR
+                    || (newChar == POINT_CHAR && base == Base.DEC)
+                    || IsValidDigit(newChar, base);
         } else if (existingOperand.length() == 1) {
             // allowed -> -. -1 .1 11 1.
             final char existingChar = existingOperand.charAt(0);
             if (existingChar == SUBTRACT_CHAR) {
-                return newChar == POINT_CHAR || IsValidDigit(newChar, base);
+                return (newChar == POINT_CHAR && base == Base.DEC)
+                        || IsValidDigit(newChar, base);
             } else if (existingChar == POINT_CHAR) {
                 return IsValidDigit(newChar, base);
             } else { // IsValidDigit(existingChar, base)
                 // TODO consider leading zeroes
-                return IsValidDigit(newChar, base) || (newChar == POINT_CHAR);
+                return IsValidDigit(newChar, base)
+                        || (newChar == POINT_CHAR && base == Base.DEC);
             }
         } else { // length > 1
             if (newChar == POINT_CHAR) {
                 // only one point allowed
-                return existingOperand.indexOf(POINT_CHAR) < 0;
+                return point_pos < 0 && base == Base.DEC;
             } else if (IsValidDigit(newChar, base)) {
                 // TODO consider leading zeroes
                 // precision is number of digits
                 // scale is number of digits after decimal point
-                final int point_pos = existingOperand.indexOf(POINT_CHAR);
                 final boolean is_negative = (existingOperand.charAt(0) == SUBTRACT_CHAR);
                 int precision = existingOperand.length();
                 precision = (point_pos >= 0) ? precision - 1 : precision;
@@ -519,15 +532,23 @@ class Calculator {
         }
     }
 
-    String Convert(final String operand, final Base oldBase, final Base newBase) {
+    String Convert(final String operand, final Base oldBase, final Base newBase) throws Exception {
         // convert the operand's base
-
-        // in case of floating point, return 0
-        if (operand.indexOf(POINT_CHAR) >= 0) {
-            return "0";
+        if (oldBase == newBase) {
+            return operand;
         }
 
-        final BigInteger base_10_value = new BigInteger(operand.replace(SUBTRACT_CHAR, '-'), oldBase.getValue());
+        String value = operand.replace(SUBTRACT_CHAR, '-');
+        int point_pos = operand.indexOf(POINT_CHAR);
+
+        if (point_pos >= 0) {
+            value = value.substring(0, point_pos);
+        }
+        if (value.isEmpty()) {
+            value = "0";
+        }
+
+        final BigInteger base_10_value = new BigInteger(value, oldBase.getValue());
         return base_10_value.toString(newBase.getValue())
                 .replace('-', SUBTRACT_CHAR)
                 .toUpperCase();

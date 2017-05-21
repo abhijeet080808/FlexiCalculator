@@ -483,12 +483,13 @@ public class SimpleCalcFragment extends Fragment {
                 if (mInfixExpression.size() == 1 &&
                         mCalculator.IsOperand(mInfixExpression.firstElement(), old_base)) {
                     String old_operand = mInfixExpression.firstElement();
-                    String new_operand = mCalculator.Convert(old_operand, old_base, mBase);
                     mInfixExpression.clear();
-
-                    if (!new_operand.equals("0")) {
+                    try {
+                        String new_operand = mCalculator.Convert(old_operand, old_base, mBase);
                         mInfixExpression.add(new_operand);
                         mIsResultSet = true;
+                    } catch (Exception e) {
+                        Log.v(TAG, "convert ", e);
                     }
                 } else {
                     mInfixExpression.clear();
