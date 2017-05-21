@@ -69,6 +69,48 @@ public class CalculatorTest {
                             new Vector<>(Arrays.asList(input.split(" "))),
                             Calculator.Base.DEC));
         }
+
+        assertEquals("19",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList("A + F".split(" "))),
+                        Calculator.Base.HEX));
+        assertEquals("110",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList("30 + 60".split(" "))),
+                        Calculator.Base.OCT));
+        assertEquals("10101",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList("1010 + 1011".split(" "))),
+                        Calculator.Base.BIN));
+
+        assertEquals("5",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList((Calculator.SUBTRACT + "A + F").split(" "))),
+                        Calculator.Base.HEX));
+        assertEquals("30",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList((Calculator.SUBTRACT + "30 + 60").split(" "))),
+                        Calculator.Base.OCT));
+        assertEquals("1",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList((Calculator.SUBTRACT + "1010 + 1011").split(" "))),
+                        Calculator.Base.BIN));
+
+        assertEquals(Calculator.SUBTRACT  + "3F",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList(
+                                (Calculator.SUBTRACT + "FF " + Calculator.DIVIDE + " 4").split(" "))),
+                        Calculator.Base.HEX));
+        assertEquals(Calculator.SUBTRACT  + "77",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList(
+                                (Calculator.SUBTRACT + "377 " + Calculator.DIVIDE + " 4").split(" "))),
+                        Calculator.Base.OCT));
+        assertEquals(Calculator.SUBTRACT  + "111111",
+                mCalculator.Evaluate(
+                        new Vector<>(Arrays.asList(
+                                (Calculator.SUBTRACT + "11111111 " + Calculator.DIVIDE + " 100").split(" "))),
+                        Calculator.Base.BIN));
     }
 
     @Test
@@ -138,6 +180,15 @@ public class CalculatorTest {
                             Calculator.Base.DEC,
                             test.second() == '-' ? Calculator.SUBTRACT_CHAR : test.second()));
         }
+
+        assertEquals(false, mCalculator.IsOperandAllowed("10", Calculator.Base.DEC, 'A'));
+        assertEquals(true, mCalculator.IsOperandAllowed("10", Calculator.Base.HEX, 'A'));
+        assertEquals(false, mCalculator.IsOperandAllowed("10", Calculator.Base.OCT, '8'));
+        assertEquals(true, mCalculator.IsOperandAllowed("10", Calculator.Base.OCT, '5'));
+        assertEquals(false, mCalculator.IsOperandAllowed("10", Calculator.Base.DEC, 'A'));
+        assertEquals(true, mCalculator.IsOperandAllowed("10", Calculator.Base.DEC, '1'));
+        assertEquals(false, mCalculator.IsOperandAllowed("10", Calculator.Base.BIN, '2'));
+        assertEquals(true, mCalculator.IsOperandAllowed("10", Calculator.Base.BIN, '1'));
 
     }
 
