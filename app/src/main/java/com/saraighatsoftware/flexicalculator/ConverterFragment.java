@@ -689,20 +689,12 @@ public class ConverterFragment extends Fragment {
         if (mInfixExpression.isEmpty()) return;
 
         String last_element = mInfixExpression.lastElement();
-        if (last_element.equals(Calculator.SIN)
-                || last_element.equals(Calculator.COS)
-                || last_element.equals(Calculator.TAN)
-                || last_element.equals(Calculator.LOG)
-                || last_element.equals(Calculator.LN)
-                || last_element.equals(Calculator.MODULUS)) {
-            mInfixExpression.remove(mInfixExpression.size() - 1);
-        } else if (last_element.length() == 1 || mIsResultSet) {
+        if (last_element.length() == 1) {
             mInfixExpression.remove(mInfixExpression.size() - 1);
         } else {
             mInfixExpression.remove(mInfixExpression.size() - 1);
             mInfixExpression.add(last_element.substring(0, last_element.length() - 1));
         }
-        mIsResultSet = false;
 
         updateText();
     }

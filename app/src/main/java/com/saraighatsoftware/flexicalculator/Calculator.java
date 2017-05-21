@@ -455,7 +455,7 @@ class Calculator {
                 (minus_count == 0 || (minus_count == 1 && s.charAt(0) == SUBTRACT_CHAR));
     }
 
-    private boolean IsOperator(final String s) {
+    boolean IsOperator(final String s) {
         OperatorInfo info = mOperators.get(s);
         return (info != null);
     }
