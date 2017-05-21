@@ -27,8 +27,7 @@ class FragmentPager extends FragmentPagerAdapter {
             return fragment;
         }
         if (position == 2) {
-            HelpFragment fragment = new HelpFragment();
-            return fragment;
+            return new HelpFragment();
         }
         return null;
     }
