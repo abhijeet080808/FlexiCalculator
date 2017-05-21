@@ -406,21 +406,48 @@ public class SimpleCalcFragment extends Fragment {
         button.setTypeface(button_font);
 
         button = (Button) root_view.findViewById(R.id.button_lsh);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.LSH);
+            }
+        });
         button.setTypeface(button_font);
 
         button = (Button) root_view.findViewById(R.id.button_rsh);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.RSH);
+            }
+        });
         button.setTypeface(button_font);
 
         button = (Button) root_view.findViewById(R.id.button_and);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.AND);
+            }
+        });
         button.setTypeface(button_font);
 
         button = (Button) root_view.findViewById(R.id.button_or);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.OR);
+            }
+        });
         button.setTypeface(button_font);
 
         button = (Button) root_view.findViewById(R.id.button_xor);
-        button.setTypeface(button_font);
-
-        button = (Button) root_view.findViewById(R.id.button_not);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expressionListener(Calculator.XOR);
+            }
+        });
         button.setTypeface(button_font);
 
         button = (Button) root_view.findViewById(R.id.button_base);
@@ -466,6 +493,9 @@ public class SimpleCalcFragment extends Fragment {
                 updateText();
             }
         });
+        button.setTypeface(button_font);
+
+        button = (Button) root_view.findViewById(R.id.button_angle_unit);
         button.setTypeface(button_font);
 
         setDigitButtonStates();

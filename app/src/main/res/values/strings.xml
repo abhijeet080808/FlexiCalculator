@@ -56,4 +56,7 @@
     <string name="octal">oct</string>
     <string name="binary">bin</string>
 
+    <string name="degree">deg</string>
+    <string name="radian">rad</string>
+
 </resources>

@@ -39,6 +39,15 @@
         android:baselineAligned="false">
 
         <Button
+            android:id="@+id/button_angle_unit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/degree"
+            style="?android:attr/buttonBarButtonStyle"
+            android:textSize="@dimen/advanced_buttons_font_size" />
+
+        <Button
             android:id="@+id/button_sin"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -88,16 +97,6 @@
             android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
 
-        <Button
-            android:id="@+id/button_power"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/pow"
-            style="?android:attr/buttonBarButtonStyle"
-            android:textSize="@dimen/advanced_buttons_font_size"
-            android:textAllCaps="false" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -106,6 +105,15 @@
         android:layout_weight="0.5"
         android:orientation="horizontal"
         android:baselineAligned="false">
+
+        <Button
+            android:id="@+id/button_base"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/decimal"
+            style="?android:attr/buttonBarButtonStyle"
+            android:textSize="@dimen/advanced_buttons_font_size" />
 
         <Button
             android:id="@+id/button_lsh"
@@ -153,16 +161,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/xor"
-            style="?android:attr/buttonBarButtonStyle"
-            android:textSize="@dimen/advanced_buttons_font_size"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/button_not"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/not"
             style="?android:attr/buttonBarButtonStyle"
             android:textSize="@dimen/advanced_buttons_font_size"
             android:textAllCaps="false" />
@@ -225,13 +223,14 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/button_base"
+            android:id="@+id/button_power"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/decimal"
+            android:text="@string/pow"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="@dimen/advanced_buttons_font_size" />
+            android:textSize="@dimen/advanced_buttons_font_size"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 

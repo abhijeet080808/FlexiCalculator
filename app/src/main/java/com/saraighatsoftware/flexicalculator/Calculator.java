@@ -5,6 +5,7 @@ import android.util.Log;
 import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -18,7 +19,6 @@ class Calculator {
     private enum OperatorType {
         BINARY, PRE_UNARY, POST_UNARY, OTHER
     }
-
 
     enum Base {
         HEX(16), DEC(10), OCT(8), BIN(2);
@@ -42,7 +42,7 @@ class Calculator {
         }
 
         final OperatorType mType;
-        final int mPrecedence;
+        final int mPrecedence; // lower the value, higher the precedence
         final boolean mIsRightAssoc;
     }
 
@@ -57,13 +57,17 @@ class Calculator {
     static final String FACTORIAL = "!";
     static final String SQUARE_ROOT = "\u221a";
     static final String SQUARE = "\u00b2";
-    static final String CUBE = "\u00b3";
     static final String POWER = "^";
     static final String DIVIDE = "\u00f7";
     static final String MULTIPLY = "\u00d7";
     static final String MODULUS = "mod";
     static final String SUBTRACT = "\u2212";
     static final String ADD = "+";
+    static final String LSH = "<<"; // left shift
+    static final String RSH = ">>"; // right shift
+    static final String AND = "and"; // right shift
+    static final String OR = "or"; // right shift
+    static final String XOR = "xor"; // right shift
     static final String POINT = ".";
 
     static final char DIVIDE_CHAR = '\u00f7';
@@ -94,7 +98,6 @@ class Calculator {
         mOperators.put(FACTORIAL, new OperatorInfo(OperatorType.POST_UNARY, 2, false));
         mOperators.put(SQUARE_ROOT, new OperatorInfo(OperatorType.PRE_UNARY, 2, false));
         mOperators.put(SQUARE, new OperatorInfo(OperatorType.POST_UNARY, 2, false));
-        mOperators.put(CUBE, new OperatorInfo(OperatorType.POST_UNARY, 2, false));
         // power is the only right associative operator
         mOperators.put(POWER, new OperatorInfo(OperatorType.BINARY, 3, true));
         mOperators.put(DIVIDE, new OperatorInfo(OperatorType.BINARY, 4, false));
@@ -102,6 +105,11 @@ class Calculator {
         mOperators.put(MODULUS, new OperatorInfo(OperatorType.BINARY, 4, false));
         mOperators.put(SUBTRACT, new OperatorInfo(OperatorType.BINARY, 5, false));
         mOperators.put(ADD, new OperatorInfo(OperatorType.BINARY, 5, false));
+        mOperators.put(LSH, new OperatorInfo(OperatorType.BINARY, 6, false));
+        mOperators.put(RSH, new OperatorInfo(OperatorType.BINARY, 6, false));
+        mOperators.put(AND, new OperatorInfo(OperatorType.BINARY, 7, false));
+        mOperators.put(OR, new OperatorInfo(OperatorType.BINARY, 7, false));
+        mOperators.put(XOR, new OperatorInfo(OperatorType.BINARY, 7, false));
 
         mResultFormat = new DecimalFormat();
         mResultFormat.setMaximumFractionDigits(RESULT_SCALE);
@@ -254,7 +262,7 @@ class Calculator {
             case OCT:
             case BIN:
                 return new BigDecimal(
-                        Long.parseLong(operand.replace(SUBTRACT_CHAR, '-'), base.getValue()));
+                        new BigInteger(operand.replace(SUBTRACT_CHAR, '-'), base.getValue()));
             case DEC:
                 return new BigDecimal(operand.replace(SUBTRACT_CHAR, '-'));
             default:
@@ -270,7 +278,7 @@ class Calculator {
             case HEX:
             case OCT:
             case BIN:
-                return Long.toString(operand.longValue(), base.getValue())
+                return operand.toBigInteger().toString(base.getValue())
                         .replace('-', SUBTRACT_CHAR).toUpperCase();
             case DEC:
                 return mResultFormat.format(operand).replace('-', SUBTRACT_CHAR);
@@ -298,6 +306,16 @@ class Calculator {
                 return operand1.remainder(operand2);
             case POWER:
                 return new BigDecimal(Math.pow(operand1.doubleValue(), operand2.doubleValue()));
+            case LSH:
+                return new BigDecimal(operand1.toBigInteger().shiftLeft(operand2.intValue()));
+            case RSH:
+                return new BigDecimal(operand1.toBigInteger().shiftRight(operand2.intValue()));
+            case AND:
+                return new BigDecimal(operand1.toBigInteger().and(operand2.toBigInteger()));
+            case OR:
+                return new BigDecimal(operand1.toBigInteger().or(operand2.toBigInteger()));
+            case XOR:
+                return new BigDecimal(operand1.toBigInteger().xor(operand2.toBigInteger()));
             default:
                 throw new IllegalArgumentException(
                         "Calculator::operate: Invalid operator " + operator);
@@ -323,14 +341,11 @@ class Calculator {
             case PERCENTAGE:
                 return operand.divide(new BigDecimal(100), INTERNAL_SCALE, BigDecimal.ROUND_HALF_EVEN);
             case FACTORIAL:
-                // TODO handle decimal
                 return new BigDecimal(CombinatoricsUtils.factorialDouble(operand.intValue()));
             case SQUARE_ROOT:
                 return new BigDecimal(Math.sqrt(operand.doubleValue()));
             case SQUARE:
                 return new BigDecimal(Math.pow(operand.doubleValue(), 2));
-            case CUBE:
-                return new BigDecimal(Math.pow(operand.doubleValue(), 3));
             default:
                 throw new IllegalArgumentException(
                         "Calculator::operate: Invalid operator " + operator);
@@ -496,9 +511,8 @@ class Calculator {
             return "0";
         }
 
-        return Long.toString(
-                Long.parseLong(
-                        operand.replace(SUBTRACT_CHAR, '-'), oldBase.getValue()), newBase.getValue())
+        final BigInteger base_10_value = new BigInteger(operand.replace(SUBTRACT_CHAR, '-'), oldBase.getValue());
+        return base_10_value.toString(newBase.getValue())
                 .replace('-', SUBTRACT_CHAR)
                 .toUpperCase();
     }

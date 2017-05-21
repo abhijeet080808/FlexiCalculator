@@ -57,6 +57,11 @@ public class CalculatorTest {
         tests.add(new Pair<>("5", Calculator.SQUARE_ROOT + " 25"));
         tests.add(new Pair<>("25", "5 " + Calculator.SQUARE ));
         tests.add(new Pair<>("125", "5 " + Calculator.CUBE ));
+        tests.add(new Pair<>("200", "100 " + Calculator.LSH + " 1"));
+        tests.add(new Pair<>("50", "100 " + Calculator.RSH + " 1"));
+        tests.add(new Pair<>("32", "100 " + Calculator.AND + " 50"));
+        tests.add(new Pair<>("118", "100 " + Calculator.OR + " 50"));
+        tests.add(new Pair<>("86", "100 " + Calculator.XOR + " 50"));
 
         for (Pair<String, String> test : tests) {
             String input = test.second().
