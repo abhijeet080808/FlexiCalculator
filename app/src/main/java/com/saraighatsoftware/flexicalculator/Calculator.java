@@ -539,8 +539,8 @@ class Calculator {
         }
 
         String value = operand.replace(SUBTRACT_CHAR, '-');
-        int point_pos = operand.indexOf(POINT_CHAR);
-
+        final int point_pos = operand.indexOf(POINT_CHAR);
+        // truncate the part after decimal point
         if (point_pos >= 0) {
             value = value.substring(0, point_pos);
         }
