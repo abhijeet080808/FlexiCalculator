@@ -12,4 +12,6 @@
 
     <dimen name="tab_font_size">22sp</dimen>
     <dimen name="toolbar_font_size">26sp</dimen>
+
+    <dimen name="spinner_font_size">22sp</dimen>
 </resources>
