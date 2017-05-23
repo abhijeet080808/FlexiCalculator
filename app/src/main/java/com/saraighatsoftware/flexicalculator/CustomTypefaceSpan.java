@@ -8,21 +8,22 @@ import android.text.style.TypefaceSpan;
 
 @SuppressLint("ParcelCreator")
 class CustomTypefaceSpan extends TypefaceSpan {
-    private final Typeface newType;
+
+    private final Typeface mTypeface;
 
     CustomTypefaceSpan(Typeface type) {
         super("");
-        newType = type;
+        mTypeface = type;
     }
 
     @Override
     public void updateDrawState(TextPaint paint) {
-        applyCustomTypeFace(paint, newType);
+        applyCustomTypeFace(paint, mTypeface);
     }
 
     @Override
     public void updateMeasureState(TextPaint paint) {
-        applyCustomTypeFace(paint, newType);
+        applyCustomTypeFace(paint, mTypeface);
     }
 
     private static void applyCustomTypeFace(Paint paint, Typeface tf) {

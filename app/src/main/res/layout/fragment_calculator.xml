@@ -13,18 +13,20 @@
     <HorizontalScrollView
         android:id="@+id/scroll_display"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
         android:background="@drawable/display">
 
         <TextView
             android:id="@+id/text_display"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:padding="4dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="0dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
             android:gravity="center_vertical"
             android:layout_gravity="end"
-            android:includeFontPadding="false"
+            android:includeFontPadding="true"
             android:text="@string/zero"
             android:textSize="@dimen/display_font_size"
             android:textColor="@color/colorCalcText"/>

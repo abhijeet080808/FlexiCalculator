@@ -61,4 +61,19 @@
     <string name="degree">deg</string>
     <string name="radian">rad</string>
 
+    <string-array name="categories">
+        <item>Volume</item>
+        <item>Length</item>
+        <item>Weight</item>
+        <item>Temperature</item>
+        <item>Energy</item>
+        <item>Area</item>
+        <item>Speed</item>
+        <item>Time</item>
+        <item>Power</item>
+        <item>Data</item>
+        <item>Pressure</item>
+        <item>Angle</item>
+    </string-array>
+
 </resources>
