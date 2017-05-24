@@ -2,12 +2,32 @@
   <dictionary name="Abhijeet">
     <words>
       <w>abhijeet</w>
+      <w>decigrams</w>
+      <w>dekagrams</w>
       <w>flexi</w>
       <w>flexicalculator</w>
+      <w>gibibits</w>
+      <w>gibibytes</w>
+      <w>gigabits</w>
+      <w>gigawatts</w>
+      <w>gradians</w>
+      <w>kibibits</w>
+      <w>kibibytes</w>
+      <w>kilopascals</w>
+      <w>mebibits</w>
+      <w>mebibytes</w>
       <w>noninfringement</w>
+      <w>pebibits</w>
+      <w>pebibytes</w>
+      <w>petabits</w>
+      <w>petabytes</w>
+      <w>pferdestarke</w>
       <w>saraighatsoftware</w>
       <w>snackbar</w>
+      <w>tebibits</w>
+      <w>tebibytes</w>
       <w>teko</w>
+      <w>terabits</w>
     </words>
   </dictionary>
 </component>

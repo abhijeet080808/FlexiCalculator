@@ -57,7 +57,7 @@ public class ConverterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        mConverterVolume =  new ConverterVolume();
+        mConverterVolume =  new ConverterVolume(getContext());
 
         View root_view = inflater.inflate(R.layout.fragment_converter, container, false);
 

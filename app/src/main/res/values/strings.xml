@@ -76,4 +76,159 @@
         <item>Angle</item>
     </string-array>
 
+    <string-array name="volume">
+        <item>Milliliters</item>
+        <item>Liters</item>
+        <item>Cubic Centimeters</item>
+        <item>Cubic Meters</item>
+        <item>Cubic Inches</item>
+        <item>Cubic Feet</item>
+        <item>Cubic Yards</item>
+        <item>Teaspoons (US)</item>
+        <item>Tablespoons (US)</item>
+        <item>Fluid Ounces (US)</item>
+        <item>Cups (US)</item>
+        <item>Pints (US)</item>
+        <item>Quarts (US)</item>
+        <item>Gallons (US)</item>
+        <item>Teaspoons (UK)</item>
+        <item>Tablespoons (UK)</item>
+        <item>Fluid Ounces (UK)</item>
+        <item>Pints (UK)</item>
+        <item>Quarts (UK)</item>
+        <item>Gallons (UK)</item>
+    </string-array>
+
+    <string-array name="length">
+        <item>Nanometers</item>
+        <item>Microns</item>
+        <item>Millimeters</item>
+        <item>Centimeters</item>
+        <item>Meters</item>
+        <item>Kilometers</item>
+        <item>Inches</item>
+        <item>Feet</item>
+        <item>Miles</item>
+        <item>Nautical Miles</item>
+    </string-array>
+
+    <string-array name="weight">
+        <item>Carats</item>
+        <item>Milligrams</item>
+        <item>Centigrams</item>
+        <item>Decigrams</item>
+        <item>Grams</item>
+        <item>Dekagrams</item>
+        <item>Hectograms</item>
+        <item>Kilograms</item>
+        <item>Metric Tonnes</item>
+        <item>Ounces</item>
+        <item>Pounds</item>
+        <item>Stone</item>
+        <item>Short Tons (US)</item>
+        <item>Long Tons (UK)</item>
+    </string-array>
+
+    <string-array name="temperature">
+        <item>Celsius</item>
+        <item>Fahrenheit</item>
+        <item>Kelvin</item>
+    </string-array>
+
+    <string-array name="energy">
+        <item>Electron Volts</item>
+        <item>Joules</item>
+        <item>Kilojoules</item>
+        <item>Thermal Calories</item>
+        <item>Food Calories</item>
+        <item>Foot-Pounds</item>
+        <item>British Thermal Units</item>
+    </string-array>
+    
+    <string-array name="area">
+        <item>Square Millimeters</item>
+        <item>Square Centimeters</item>
+        <item>Square Meters</item>
+        <item>Hectares</item>
+        <item>Square Kilometers</item>
+        <item>Square Inches</item>
+        <item>Square Feet</item>
+        <item>Square Yards</item>
+        <item>Square Acres</item>
+        <item>Square Miles</item>
+    </string-array>
+
+    <string-array name="speed">
+        <item>Centimeters per Second</item>
+        <item>Meters per Second</item>
+        <item>Kilometers per Second</item>
+        <item>Feet per Second</item>
+        <item>Miles per Second</item>
+        <item>Knots</item>
+        <item>Mach</item>
+    </string-array>
+
+    <string-array name="time">
+        <item>Microseconds</item>
+        <item>Milliseconds</item>
+        <item>Seconds</item>
+        <item>Minutes</item>
+        <item>Hours</item>
+        <item>Days</item>
+        <item>Weeks</item>
+        <item>Years</item>
+    </string-array>
+
+    <string-array name="power">
+        <item>Watts</item>
+        <item>Kilowatts</item>
+        <item>Megawatts</item>
+        <item>Gigawatts</item>
+        <item>Joules/Second</item>
+        <item>Horsepower</item>
+        <item>Pferdestarke</item>
+        <item>Foot-Pounds/Minute</item>
+        <item>BTUs/Minute</item>
+    </string-array>
+
+    <string-array name="data">
+        <item>Bits</item>
+        <item>Bytes</item>
+        <item>Kilobits</item>
+        <item>Kibibits</item>
+        <item>Kilobytes</item>
+        <item>Kibibytes</item>
+        <item>Megabits</item>
+        <item>Mebibits</item>
+        <item>Megabytes</item>
+        <item>Mebibytes</item>
+        <item>Gigabits</item>
+        <item>Gibibits</item>
+        <item>Gigabytes</item>
+        <item>Gibibytes</item>
+        <item>Terabits</item>
+        <item>Tebibits</item>
+        <item>Terabytes</item>
+        <item>Tebibytes</item>
+        <item>Petabits</item>
+        <item>Pebibits</item>
+        <item>Petabytes</item>
+        <item>Pebibytes</item>
+    </string-array>
+
+    <string-array name="pressure">
+        <item>Atmospheres</item>
+        <item>Bars</item>
+        <item>Pascals</item>
+        <item>Kilopascals</item>
+        <item>Millimeters of Mercury</item>
+        <item>Pounds per Square Inch</item>
+    </string-array>
+
+    <string-array name="angle">
+        <item>Degrees</item>
+        <item>Radians</item>
+        <item>Gradians</item>
+    </string-array>
+
 </resources>
