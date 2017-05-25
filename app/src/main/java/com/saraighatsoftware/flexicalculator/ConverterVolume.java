@@ -2,11 +2,13 @@ package com.saraighatsoftware.flexicalculator;
 
 import android.content.Context;
 
+import org.apache.commons.math3.fraction.BigFraction;
+
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 class ConverterVolume {
 
@@ -96,6 +98,16 @@ class ConverterVolume {
 
     List<String> GetUnits() {
         return Arrays.asList(mUnits);
+    }
+
+    static BigFraction ToBigFraction(BigDecimal val) {
+        int scale = val.scale();
+
+        // If scale >= 0 then the value is val.unscaledValue() / 10^scale
+        if(scale >= 0)
+            return new BigFraction(val.unscaledValue(), BigInteger.TEN.pow(scale));
+        // If scale < 0 then the value is val.unscaledValue() * 10^-scale
+        return new BigFraction(val.unscaledValue().multiply(BigInteger.TEN.pow(-scale)));
     }
 
     String Convert(String input, Type inputType, Type outputType) {
