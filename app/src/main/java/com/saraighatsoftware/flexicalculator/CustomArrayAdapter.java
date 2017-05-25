@@ -16,24 +16,28 @@ class CustomArrayAdapter extends ArrayAdapter<String> {
     private Context mContext;
     private final Typeface mTypeface;
 
+    @SuppressWarnings("unused")
     CustomArrayAdapter(Context context, int resource) {
         super(context, resource);
         mContext = context;
         mTypeface = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Regular.ttf");
     }
 
+    @SuppressWarnings("unused")
     CustomArrayAdapter(Context context, int resource, int textViewResourceId) {
         super(context, resource, textViewResourceId);
         mContext = context;
         mTypeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/Teko-Regular.ttf");
     }
 
+    @SuppressWarnings("unused")
     CustomArrayAdapter(Context context, int resource, String[] objects) {
         super(context, resource, objects);
         mContext = context;
         mTypeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/Teko-Regular.ttf");
     }
 
+    @SuppressWarnings("unused")
     CustomArrayAdapter(Context context, int resource, int textViewResourceId, String[] objects) {
         super(context, resource, textViewResourceId, objects);
         mContext = context;
@@ -46,6 +50,7 @@ class CustomArrayAdapter extends ArrayAdapter<String> {
         mTypeface = Typeface.createFromAsset(getContext().getAssets(), "fonts/Teko-Regular.ttf");
     }
 
+    @SuppressWarnings("unused")
     CustomArrayAdapter(Context context, int resource, int textViewResourceId, List<String> objects) {
         super(context, resource, textViewResourceId, objects);
         mContext = context;

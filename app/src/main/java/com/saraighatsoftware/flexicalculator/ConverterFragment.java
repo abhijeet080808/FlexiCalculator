@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class ConverterFragment extends Fragment {
 
@@ -24,19 +22,6 @@ public class ConverterFragment extends Fragment {
 
     private TextView mTextDisplayInput;
     private TextView mTextDisplayOutput;
-
-    private Button mButtonZero;
-    private Button mButtonOne;
-    private Button mButtonTwo;
-    private Button mButtonThree;
-    private Button mButtonFour;
-    private Button mButtonFive;
-    private Button mButtonSix;
-    private Button mButtonSeven;
-    private Button mButtonEight;
-    private Button mButtonNine;
-    private Button mButtonPoint;
-    private Button mButtonDelete;
 
     private Spinner mSpinnerCategory;
     private Spinner mSpinnerInputType;
@@ -119,113 +104,114 @@ public class ConverterFragment extends Fragment {
             }
         });
 
-        mButtonZero = (Button) root_view.findViewById(R.id.button_zero);
-        mButtonZero.setOnClickListener(new View.OnClickListener() {
+        Button button;
+        button = (Button) root_view.findViewById(R.id.button_zero);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("0");
             }
         });
-        mButtonZero.setTypeface(bold_button_font);
+        button.setTypeface(bold_button_font);
 
-        mButtonOne = (Button) root_view.findViewById(R.id.button_one);
-        mButtonOne.setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_one);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("1");
             }
         });
-        mButtonOne.setTypeface(bold_button_font);
+        button.setTypeface(bold_button_font);
 
-        mButtonTwo = (Button) root_view.findViewById(R.id.button_two);
-        mButtonTwo.setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_two);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("2");
             }
         });
-        mButtonTwo.setTypeface(bold_button_font);
+        button.setTypeface(bold_button_font);
 
-        mButtonThree = (Button) root_view.findViewById(R.id.button_three);
-        mButtonThree.setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_three);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("3");
             }
         });
-        mButtonThree.setTypeface(bold_button_font);
+        button.setTypeface(bold_button_font);
 
-        mButtonFour = (Button) root_view.findViewById(R.id.button_four);
-        mButtonFour.setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_four);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("4");
             }
         });
-        mButtonFour.setTypeface(bold_button_font);
+        button.setTypeface(bold_button_font);
 
-        mButtonFive = (Button) root_view.findViewById(R.id.button_five);
-        mButtonFive.setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_five);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("5");
             }
         });
-        mButtonFive.setTypeface(bold_button_font);
+        button.setTypeface(bold_button_font);
 
-        mButtonSix = (Button) root_view.findViewById(R.id.button_six);
-        mButtonSix.setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_six);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("6");
             }
         });
-        mButtonSix.setTypeface(bold_button_font);
+        button.setTypeface(bold_button_font);
 
-        mButtonSeven = (Button) root_view.findViewById(R.id.button_seven);
-        mButtonSeven.setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_seven);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("7");
             }
         });
-        mButtonSeven.setTypeface(bold_button_font);
+        button.setTypeface(bold_button_font);
 
-        mButtonEight = (Button) root_view.findViewById(R.id.button_eight);
-        mButtonEight.setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_eight);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("8");
             }
         });
-        mButtonEight.setTypeface(bold_button_font);
+        button.setTypeface(bold_button_font);
 
-        mButtonNine = (Button) root_view.findViewById(R.id.button_nine);
-        mButtonNine.setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_nine);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener("9");
             }
         });
-        mButtonNine.setTypeface(bold_button_font);
+        button.setTypeface(bold_button_font);
 
-        mButtonPoint = (Button) root_view.findViewById(R.id.button_point);
-        mButtonPoint.setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_point);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 expressionListener(Calculator.POINT);
             }
         });
-        mButtonPoint.setTypeface(button_font);
+        button.setTypeface(button_font);
 
-        mButtonDelete = (Button) root_view.findViewById(R.id.button_delete);
-        mButtonDelete.setOnClickListener(new View.OnClickListener() {
+        button = (Button) root_view.findViewById(R.id.button_delete);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clear();
             }
         });
-        mButtonDelete.setTypeface(button_font);
+        button.setTypeface(button_font);
 
         return root_view;
     }
