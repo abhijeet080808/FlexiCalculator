@@ -6,8 +6,6 @@ import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Stack;
 import java.util.Vector;
@@ -80,14 +78,12 @@ class Calculator {
     private static final char POINT_CHAR = '.';
 
     private static final int INTERNAL_SCALE = 12;
-    private static final int RESULT_SCALE = 6;
     // Precision is the total number of digits
     private static final int INPUT_PRECISION = 12;
     // Scale is the number of digits after the decimal point
     private static final int INPUT_SCALE = 6;
 
     private final HashMap<String, OperatorInfo> mOperators;
-    private final DecimalFormat mResultFormat;
 
     Calculator() {
         mOperators = new HashMap<>();
@@ -114,12 +110,6 @@ class Calculator {
         mOperators.put(AND, new OperatorInfo(OperatorType.BINARY, 7, false));
         mOperators.put(OR, new OperatorInfo(OperatorType.BINARY, 7, false));
         mOperators.put(XOR, new OperatorInfo(OperatorType.BINARY, 7, false));
-
-        mResultFormat = new DecimalFormat();
-        mResultFormat.setMaximumFractionDigits(RESULT_SCALE);
-        mResultFormat.setMinimumFractionDigits(0);
-        mResultFormat.setGroupingUsed(false);
-        mResultFormat.setRoundingMode(RoundingMode.HALF_EVEN);
     }
 
     /*
@@ -288,7 +278,7 @@ class Calculator {
                 return operand.toBigInteger().toString(base.getValue())
                         .replace('-', SUBTRACT_CHAR).toUpperCase();
             case DEC:
-                return mResultFormat.format(operand).replace('-', SUBTRACT_CHAR);
+                return ResultFormat.Format(operand).replace('-', SUBTRACT_CHAR);
             default:
                 throw new IllegalArgumentException(
                         "Calculator::operate: Invalid base " + base);
