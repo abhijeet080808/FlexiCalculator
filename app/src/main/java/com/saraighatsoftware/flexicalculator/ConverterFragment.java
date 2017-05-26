@@ -111,7 +111,6 @@ public class ConverterFragment extends Fragment {
                 output_type_adapter.notifyDataSetChanged();
 
                 evaluate();
-                updateText();
             }
 
             @Override
@@ -124,7 +123,6 @@ public class ConverterFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 evaluate();
-                updateText();
             }
 
             @Override
@@ -137,7 +135,6 @@ public class ConverterFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 evaluate();
-                updateText();
             }
 
             @Override
@@ -267,7 +264,6 @@ public class ConverterFragment extends Fragment {
         }
 
         evaluate();
-        updateText();
     }
 
     private void clear() {
@@ -277,15 +273,22 @@ public class ConverterFragment extends Fragment {
 
         mInput.deleteCharAt(mInput.length() - 1);
         evaluate();
-        updateText();
     }
 
     private void evaluate() {
         final int category = mSpinnerCategory.getSelectedItemPosition();
+        final int input = mSpinnerInput.getSelectedItemPosition();
+        final int output = mSpinnerOutput.getSelectedItemPosition();
+        if (category == AdapterView.INVALID_POSITION ||
+                input == AdapterView.INVALID_POSITION ||
+                output == AdapterView.INVALID_POSITION) {
+            return;
+        }
         mOutput = mConverters.get(category).Convert(
                 mInput.toString(),
-                mConverters.get(category).GetUnitFromInteger(mSpinnerInput.getSelectedItemPosition()),
-                mConverters.get(category).GetUnitFromInteger(mSpinnerOutput.getSelectedItemPosition()));
+                mConverters.get(category).GetUnitFromInteger(input),
+                mConverters.get(category).GetUnitFromInteger(output));
+        updateText();
     }
 
     private void updateText() {
@@ -296,7 +299,7 @@ public class ConverterFragment extends Fragment {
         } else {
             mTextDisplayInput.setText(mInput.toString());
         }
-        if (mOutput.length() == 0) {
+        if (mOutput == null || mOutput.length() == 0) {
             mTextDisplayOutput.setText("0");
         } else {
             mTextDisplayOutput.setText(mOutput);

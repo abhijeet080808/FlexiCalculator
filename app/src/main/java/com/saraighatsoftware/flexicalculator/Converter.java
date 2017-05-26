@@ -46,14 +46,14 @@ abstract class Converter {
         }
     }
 
-    abstract Unit GetUnitFromInteger(int x);
-
     abstract List<String> GetUnits();
+
+    abstract Unit GetUnitFromInteger(int position);
+
+    abstract Unit GetBaseUnit();
 
     // output = input * conversion_factor
     abstract BigFraction GetConversionFactor(ConversionPair pair);
-
-    abstract Unit GetBaseUnit();
 
     private static BigFraction ToBigFraction(BigDecimal val) {
         final int scale = val.scale();

@@ -10,6 +10,7 @@ import java.util.List;
 
 class ConverterVolume extends Converter {
 
+    // must be same order and value as R.array.volume
     private enum VolumeUnit implements Converter.Unit {
         MILLILITERS,
         LITERS,
@@ -35,10 +36,12 @@ class ConverterVolume extends Converter {
     }
 
     private List<String> mUnits;
+    private VolumeUnit[] mValues;
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterVolume(Context context) {
         mUnits = Arrays.asList(context.getResources().getStringArray(R.array.volume));
+        mValues = VolumeUnit.values();
         mConversionFactors = new HashMap<>();
 
         mConversionFactors.put(new ConversionPair(VolumeUnit.MILLILITERS, VolumeUnit.LITERS),
@@ -101,64 +104,19 @@ class ConverterVolume extends Converter {
                 new BigFraction(10000000L, 45460900000L));
     }
 
-    Unit GetUnitFromInteger(int x) {
-        // must be same order and value as R.array.volume
-        switch(x) {
-            case 0:
-                return VolumeUnit.MILLILITERS;
-            case 1:
-                return VolumeUnit.LITERS;
-            case 2:
-                return VolumeUnit.CUBIC_CENTIMETERS;
-            case 3:
-                return VolumeUnit.CUBIC_METERS;
-            case 4:
-                return VolumeUnit.CUBIC_INCHES;
-            case 5:
-                return VolumeUnit.CUBIC_FEET;
-            case 6:
-                return VolumeUnit.CUBIC_YARDS;
-            case 7:
-                return VolumeUnit.TEASPOONS_US;
-            case 8:
-                return VolumeUnit.TABLESPOONS_US;
-            case 9:
-                return VolumeUnit.FLUID_OUNCES_US;
-            case 10:
-                return VolumeUnit.CUPS_US;
-            case 11:
-                return VolumeUnit.PINTS_US;
-            case 12:
-                return VolumeUnit.QUARTS_US;
-            case 13:
-                return VolumeUnit.GALLONS_US;
-            case 14:
-                return VolumeUnit.TEASPOONS_UK;
-            case 15:
-                return VolumeUnit.TABLESPOONS_UK;
-            case 16:
-                return VolumeUnit.FLUID_OUNCES_UK;
-            case 17:
-                return VolumeUnit.CUPS_UK;
-            case 18:
-                return VolumeUnit.PINTS_UK;
-            case 19:
-                return VolumeUnit.QUARTS_UK;
-            case 20:
-                return VolumeUnit.GALLONS_UK;
-        }
-        return null;
-    }
-
     List<String> GetUnits() {
         return mUnits;
     }
 
-    BigFraction GetConversionFactor(ConversionPair pair) {
-        return mConversionFactors.get(pair);
+    Unit GetUnitFromInteger(int position) {
+        return mValues[position];
     }
 
     Unit GetBaseUnit() {
         return VolumeUnit.MILLILITERS;
+    }
+
+    BigFraction GetConversionFactor(ConversionPair pair) {
+        return mConversionFactors.get(pair);
     }
 }
