@@ -12,7 +12,7 @@ import java.util.List;
 
 class ConverterVolume {
 
-    private enum VolumeUnit {
+    enum VolumeUnit {
         MILLILITERS,
         LITERS,
         CUBIC_CENTIMETERS,
@@ -33,7 +33,55 @@ class ConverterVolume {
         CUPS_UK,
         PINTS_UK,
         QUARTS_UK,
-        GALLONS_UK
+        GALLONS_UK;
+
+        static VolumeUnit FromInteger(int x) {
+            switch(x) {
+                case 0:
+                    return MILLILITERS;
+                case 1:
+                    return LITERS;
+                case 2:
+                    return CUBIC_CENTIMETERS;
+                case 3:
+                    return CUBIC_METERS;
+                case 4:
+                    return CUBIC_INCHES;
+                case 5:
+                    return CUBIC_FEET;
+                case 6:
+                    return CUBIC_YARDS;
+                case 7:
+                    return TEASPOONS_US;
+                case 8:
+                    return TABLESPOONS_US;
+                case 9:
+                    return FLUID_OUNCES_US;
+                case 10:
+                    return CUPS_US;
+                case 11:
+                    return PINTS_US;
+                case 12:
+                    return QUARTS_US;
+                case 13:
+                    return GALLONS_US;
+                case 14:
+                    return TEASPOONS_UK;
+                case 15:
+                    return TABLESPOONS_UK;
+                case 16:
+                    return FLUID_OUNCES_UK;
+                case 17:
+                    return CUPS_UK;
+                case 18:
+                    return PINTS_UK;
+                case 19:
+                    return QUARTS_UK;
+                case 20:
+                    return GALLONS_UK;
+            }
+            return null;
+        }
     }
 
     private class ConversionPair {
