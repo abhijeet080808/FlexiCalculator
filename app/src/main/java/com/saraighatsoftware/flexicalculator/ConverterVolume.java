@@ -1,6 +1,7 @@
 package com.saraighatsoftware.flexicalculator;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.apache.commons.math3.fraction.BigFraction;
 
@@ -11,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 
 class ConverterVolume {
+
+    private static final String TAG = "ConverterVolume";
 
     enum VolumeUnit {
         MILLILITERS,
@@ -201,6 +204,7 @@ class ConverterVolume {
         try {
             // convert to milliliters first
             BigFraction in = ToBigFraction(new BigDecimal(value));
+            Log.v(TAG, "Converting " + in + " from " + input + " to " + output);
             if (input != VolumeUnit.MILLILITERS) {
                 in = in.divide(mConversionFactors.get(
                         new ConversionPair(VolumeUnit.MILLILITERS, input)));
@@ -211,8 +215,8 @@ class ConverterVolume {
                 out = out.multiply(mConversionFactors.get(
                         new ConversionPair(VolumeUnit.MILLILITERS, output)));
             }
-
-            return ResultFormat.Format(out.bigDecimalValue(BigDecimal.ROUND_HALF_EVEN));
+            Log.v(TAG, "Converted to " + out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
+            return ResultFormat.Format(out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
         }
         catch (Exception e) {
             return "0";
