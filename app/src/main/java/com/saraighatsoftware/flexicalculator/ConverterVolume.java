@@ -1,21 +1,16 @@
 package com.saraighatsoftware.flexicalculator;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.apache.commons.math3.fraction.BigFraction;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-class ConverterVolume {
+class ConverterVolume extends Converter {
 
-    private static final String TAG = "ConverterVolume";
-
-    enum VolumeUnit {
+    private enum VolumeUnit implements Converter.Unit {
         MILLILITERS,
         LITERS,
         CUBIC_CENTIMETERS,
@@ -36,95 +31,14 @@ class ConverterVolume {
         CUPS_UK,
         PINTS_UK,
         QUARTS_UK,
-        GALLONS_UK;
-
-        static VolumeUnit FromInteger(int x) {
-            switch(x) {
-                case 0:
-                    return MILLILITERS;
-                case 1:
-                    return LITERS;
-                case 2:
-                    return CUBIC_CENTIMETERS;
-                case 3:
-                    return CUBIC_METERS;
-                case 4:
-                    return CUBIC_INCHES;
-                case 5:
-                    return CUBIC_FEET;
-                case 6:
-                    return CUBIC_YARDS;
-                case 7:
-                    return TEASPOONS_US;
-                case 8:
-                    return TABLESPOONS_US;
-                case 9:
-                    return FLUID_OUNCES_US;
-                case 10:
-                    return CUPS_US;
-                case 11:
-                    return PINTS_US;
-                case 12:
-                    return QUARTS_US;
-                case 13:
-                    return GALLONS_US;
-                case 14:
-                    return TEASPOONS_UK;
-                case 15:
-                    return TABLESPOONS_UK;
-                case 16:
-                    return FLUID_OUNCES_UK;
-                case 17:
-                    return CUPS_UK;
-                case 18:
-                    return PINTS_UK;
-                case 19:
-                    return QUARTS_UK;
-                case 20:
-                    return GALLONS_UK;
-            }
-            return null;
-        }
+        GALLONS_UK
     }
 
-    private class ConversionPair {
-
-        final VolumeUnit input;
-        final VolumeUnit output;
-
-        ConversionPair(VolumeUnit input, VolumeUnit output) {
-            this.input = input;
-            this.output = output;
-        }
-
-        @Override
-        public int hashCode() {
-            // From Effective Java
-            int hash = 17;
-            hash = hash * 31 + input.hashCode();
-            hash = hash * 31 + output.hashCode();
-            return hash;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (!(obj instanceof ConversionPair))
-                return false;
-            if (obj == this)
-                return true;
-
-            ConversionPair rhs = (ConversionPair) obj;
-            return (this.input == rhs.input && this.output == rhs.output);
-        }
-    }
-
-    private String[] mUnits;
-    // output = input * conversion_factor
+    private List<String> mUnits;
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterVolume(Context context) {
-        mUnits = context.getResources().getStringArray(R.array.volume);
-
+        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.volume));
         mConversionFactors = new HashMap<>();
 
         mConversionFactors.put(new ConversionPair(VolumeUnit.MILLILITERS, VolumeUnit.LITERS),
@@ -187,39 +101,64 @@ class ConverterVolume {
                 new BigFraction(10000000L, 45460900000L));
     }
 
+    Unit GetUnitFromInteger(int x) {
+        // must be same order and value as R.array.volume
+        switch(x) {
+            case 0:
+                return VolumeUnit.MILLILITERS;
+            case 1:
+                return VolumeUnit.LITERS;
+            case 2:
+                return VolumeUnit.CUBIC_CENTIMETERS;
+            case 3:
+                return VolumeUnit.CUBIC_METERS;
+            case 4:
+                return VolumeUnit.CUBIC_INCHES;
+            case 5:
+                return VolumeUnit.CUBIC_FEET;
+            case 6:
+                return VolumeUnit.CUBIC_YARDS;
+            case 7:
+                return VolumeUnit.TEASPOONS_US;
+            case 8:
+                return VolumeUnit.TABLESPOONS_US;
+            case 9:
+                return VolumeUnit.FLUID_OUNCES_US;
+            case 10:
+                return VolumeUnit.CUPS_US;
+            case 11:
+                return VolumeUnit.PINTS_US;
+            case 12:
+                return VolumeUnit.QUARTS_US;
+            case 13:
+                return VolumeUnit.GALLONS_US;
+            case 14:
+                return VolumeUnit.TEASPOONS_UK;
+            case 15:
+                return VolumeUnit.TABLESPOONS_UK;
+            case 16:
+                return VolumeUnit.FLUID_OUNCES_UK;
+            case 17:
+                return VolumeUnit.CUPS_UK;
+            case 18:
+                return VolumeUnit.PINTS_UK;
+            case 19:
+                return VolumeUnit.QUARTS_UK;
+            case 20:
+                return VolumeUnit.GALLONS_UK;
+        }
+        return null;
+    }
+
     List<String> GetUnits() {
-        return Arrays.asList(mUnits);
+        return mUnits;
     }
 
-    private static BigFraction ToBigFraction(BigDecimal val) {
-        final int scale = val.scale();
-        // If scale >= 0 then the value is val.unscaledValue() / 10^scale
-        if(scale >= 0)
-            return new BigFraction(val.unscaledValue(), BigInteger.TEN.pow(scale));
-        // If scale < 0 then the value is val.unscaledValue() * 10^-scale
-        return new BigFraction(val.unscaledValue().multiply(BigInteger.TEN.pow(-scale)));
+    BigFraction GetConversionFactor(ConversionPair pair) {
+        return mConversionFactors.get(pair);
     }
 
-    String Convert(String value, VolumeUnit input, VolumeUnit output) {
-        try {
-            // convert to milliliters first
-            BigFraction in = ToBigFraction(new BigDecimal(value));
-            Log.v(TAG, "Converting " + in + " from " + input + " to " + output);
-            if (input != VolumeUnit.MILLILITERS) {
-                in = in.divide(mConversionFactors.get(
-                        new ConversionPair(VolumeUnit.MILLILITERS, input)));
-            }
-            // convert to output format
-            BigFraction out = in;
-            if (output != VolumeUnit.MILLILITERS) {
-                out = out.multiply(mConversionFactors.get(
-                        new ConversionPair(VolumeUnit.MILLILITERS, output)));
-            }
-            Log.v(TAG, "Converted to " + out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
-            return ResultFormat.Format(out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
-        }
-        catch (Exception e) {
-            return "0";
-        }
+    Unit GetBaseUnit() {
+        return VolumeUnit.MILLILITERS;
     }
 }

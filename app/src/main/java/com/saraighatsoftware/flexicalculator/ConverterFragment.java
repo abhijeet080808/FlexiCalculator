@@ -14,10 +14,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Vector;
 
 public class ConverterFragment extends Fragment {
-
-    private static final String TAG = "ConverterFragment";
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -27,10 +26,11 @@ public class ConverterFragment extends Fragment {
     private HorizontalScrollView mScrollDisplayInput;
     private HorizontalScrollView mScrollDisplayOutput;
 
+    private Spinner mSpinnerCategory;
     private Spinner mSpinnerInput;
     private Spinner mSpinnerOutput;
 
-    private ConverterVolume mConverterVolume;
+    private Vector<Converter> mConverters;
 
     private StringBuffer mInput;
     private String mOutput;
@@ -48,7 +48,8 @@ public class ConverterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        mConverterVolume =  new ConverterVolume(getContext());
+        mConverters = new Vector<>();
+        mConverters.add(new ConverterVolume(getContext()));
         mInput = new StringBuffer();
 
         View root_view = inflater.inflate(R.layout.fragment_converter, container, false);
@@ -68,13 +69,13 @@ public class ConverterFragment extends Fragment {
         Typeface button_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Regular.ttf");
         Typeface bold_button_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-SemiBold.ttf");
 
-        Spinner spinner_category = (Spinner) root_view.findViewById(R.id.spinner_category);
+        mSpinnerCategory = (Spinner) root_view.findViewById(R.id.spinner_category);
         final CustomArrayAdapter category_adapter = new CustomArrayAdapter(
                 getContext(),
                 android.R.layout.simple_list_item_1,
                 Arrays.asList(getResources().getStringArray(R.array.categories))
         );
-        spinner_category.setAdapter(category_adapter);
+        mSpinnerCategory.setAdapter(category_adapter);
 
         mSpinnerInput = (Spinner) root_view.findViewById(R.id.spinner_input_type);
         final CustomArrayAdapter input_type_adapter = new CustomArrayAdapter(
@@ -92,21 +93,51 @@ public class ConverterFragment extends Fragment {
         );
         mSpinnerOutput.setAdapter(output_type_adapter);
 
-        // TODO
-        spinner_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                final int category = mSpinnerCategory.getSelectedItemPosition();
+
                 input_type_adapter.clear();
-                for (String item : mConverterVolume.GetUnits()) {
+                for (String item : mConverters.get(category).GetUnits()) {
                     input_type_adapter.add(item);
                 }
                 input_type_adapter.notifyDataSetChanged();
 
                 output_type_adapter.clear();
-                for (String item : mConverterVolume.GetUnits()) {
+                for (String item : mConverters.get(category).GetUnits()) {
                     output_type_adapter.add(item);
                 }
                 output_type_adapter.notifyDataSetChanged();
+
+                evaluate();
+                updateText();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        mSpinnerInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                evaluate();
+                updateText();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        mSpinnerOutput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                evaluate();
+                updateText();
             }
 
             @Override
@@ -235,10 +266,7 @@ public class ConverterFragment extends Fragment {
             return;
         }
 
-        mOutput = mConverterVolume.Convert(
-                mInput.toString(),
-                ConverterVolume.VolumeUnit.FromInteger(mSpinnerInput.getSelectedItemPosition()),
-                ConverterVolume.VolumeUnit.FromInteger(mSpinnerOutput.getSelectedItemPosition()));
+        evaluate();
         updateText();
     }
 
@@ -248,11 +276,16 @@ public class ConverterFragment extends Fragment {
         }
 
         mInput.deleteCharAt(mInput.length() - 1);
-        mOutput = mConverterVolume.Convert(
-                mInput.toString(),
-                ConverterVolume.VolumeUnit.FromInteger(mSpinnerInput.getSelectedItemPosition()),
-                ConverterVolume.VolumeUnit.FromInteger(mSpinnerOutput.getSelectedItemPosition()));
+        evaluate();
         updateText();
+    }
+
+    private void evaluate() {
+        final int category = mSpinnerCategory.getSelectedItemPosition();
+        mOutput = mConverters.get(category).Convert(
+                mInput.toString(),
+                mConverters.get(category).GetUnitFromInteger(mSpinnerInput.getSelectedItemPosition()),
+                mConverters.get(category).GetUnitFromInteger(mSpinnerOutput.getSelectedItemPosition()));
     }
 
     private void updateText() {
