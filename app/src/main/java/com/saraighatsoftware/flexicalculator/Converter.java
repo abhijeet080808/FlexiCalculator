@@ -55,7 +55,7 @@ abstract class Converter {
     // output = input * conversion_factor
     abstract BigFraction GetConversionFactor(ConversionPair pair);
 
-    private static BigFraction ToBigFraction(BigDecimal val) {
+    static BigFraction ToBigFraction(BigDecimal val) {
         final int scale = val.scale();
         // If scale >= 0 then the value is val.unscaledValue() / 10^scale
         if(scale >= 0)

@@ -49,7 +49,11 @@ public class ConverterFragment extends Fragment {
                              ViewGroup container,
                              Bundle savedInstanceState) {
         mConverters = new Vector<>();
+        // order and length should be same as as R.array.categories
         mConverters.add(new ConverterVolume(getContext()));
+        mConverters.add(new ConverterLength(getContext()));
+        mConverters.add(new ConverterWeight(getContext()));
+        mConverters.add(new ConverterTemperature(getContext()));
         mInput = new StringBuffer();
 
         View root_view = inflater.inflate(R.layout.fragment_converter, container, false);

@@ -278,7 +278,7 @@ class Calculator {
                 return operand.toBigInteger().toString(base.getValue())
                         .replace('-', SUBTRACT_CHAR).toUpperCase();
             case DEC:
-                return ResultFormat.Format(operand).replace('-', SUBTRACT_CHAR);
+                return ResultFormat.Format(operand);
             default:
                 throw new IllegalArgumentException(
                         "Calculator::operate: Invalid base " + base);

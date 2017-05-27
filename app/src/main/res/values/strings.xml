@@ -109,6 +109,7 @@
         <item>Kilometers</item>
         <item>Inches</item>
         <item>Feet</item>
+        <item>Yards</item>
         <item>Miles</item>
         <item>Nautical Miles</item>
     </string-array>
@@ -125,7 +126,7 @@
         <item>Metric Tonnes</item>
         <item>Ounces</item>
         <item>Pounds</item>
-        <item>Stone</item>
+        <item>Stones</item>
         <item>Short Tons (US)</item>
         <item>Long Tons (UK)</item>
     </string-array>
@@ -145,7 +146,7 @@
         <item>Foot-Pounds</item>
         <item>British Thermal Units</item>
     </string-array>
-    
+
     <string-array name="area">
         <item>Square Millimeters</item>
         <item>Square Centimeters</item>

@@ -14,6 +14,6 @@ class ResultFormat {
         format.setMinimumFractionDigits(0);
         format.setGroupingUsed(false);
         format.setRoundingMode(RoundingMode.HALF_EVEN);
-        return format.format(value);
+        return format.format(value).replace('-', Calculator.SUBTRACT_CHAR);
     }
 }
