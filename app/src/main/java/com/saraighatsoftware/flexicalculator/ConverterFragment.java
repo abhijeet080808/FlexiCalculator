@@ -51,9 +51,11 @@ public class ConverterFragment extends Fragment {
         mConverters = new Vector<>();
         // order and length should be same as as R.array.categories
         mConverters.add(new ConverterVolume(getContext()));
-        mConverters.add(new ConverterLength(getContext()));
         mConverters.add(new ConverterWeight(getContext()));
+        mConverters.add(new ConverterLength(getContext()));
+        mConverters.add(new ConverterArea(getContext()));
         mConverters.add(new ConverterTemperature(getContext()));
+        mConverters.add(new ConverterEnergy(getContext()));
         mInput = new StringBuffer();
 
         View root_view = inflater.inflate(R.layout.fragment_converter, container, false);
@@ -106,12 +108,14 @@ public class ConverterFragment extends Fragment {
                 for (String item : mConverters.get(category).GetUnits()) {
                     input_type_adapter.add(item);
                 }
+                mSpinnerInput.setSelection(0);
                 input_type_adapter.notifyDataSetChanged();
 
                 output_type_adapter.clear();
                 for (String item : mConverters.get(category).GetUnits()) {
                     output_type_adapter.add(item);
                 }
+                mSpinnerOutput.setSelection(1);
                 output_type_adapter.notifyDataSetChanged();
 
                 evaluate();

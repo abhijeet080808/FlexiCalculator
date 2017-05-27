@@ -63,16 +63,17 @@
 
     <string-array name="categories">
         <item>Volume</item>
-        <item>Length</item>
         <item>Weight</item>
-        <item>Temperature</item>
-        <item>Energy</item>
+        <item>Length</item>
         <item>Area</item>
+        <item>Temperature</item>
+        <item>Pressure</item>
+        <item>Energy</item>
+        <item>Power</item>
+        <item>Torque</item>
         <item>Speed</item>
         <item>Time</item>
-        <item>Power</item>
         <item>Data</item>
-        <item>Pressure</item>
         <item>Angle</item>
     </string-array>
 
@@ -100,20 +101,6 @@
         <item>Gallons (UK)</item>
     </string-array>
 
-    <string-array name="length">
-        <item>Nanometers</item>
-        <item>Microns</item>
-        <item>Millimeters</item>
-        <item>Centimeters</item>
-        <item>Meters</item>
-        <item>Kilometers</item>
-        <item>Inches</item>
-        <item>Feet</item>
-        <item>Yards</item>
-        <item>Miles</item>
-        <item>Nautical Miles</item>
-    </string-array>
-
     <string-array name="weight">
         <item>Carats</item>
         <item>Milligrams</item>
@@ -131,33 +118,81 @@
         <item>Long Tons (UK)</item>
     </string-array>
 
-    <string-array name="temperature">
-        <item>Celsius</item>
-        <item>Fahrenheit</item>
-        <item>Kelvin</item>
-    </string-array>
-
-    <string-array name="energy">
-        <item>Electron Volts</item>
-        <item>Joules</item>
-        <item>Kilojoules</item>
-        <item>Thermal Calories</item>
-        <item>Food Calories</item>
-        <item>Foot-Pounds</item>
-        <item>British Thermal Units</item>
+    <string-array name="length">
+        <item>Nanometers</item>
+        <item>Microns</item>
+        <item>Millimeters</item>
+        <item>Centimeters</item>
+        <item>Meters</item>
+        <item>Kilometers</item>
+        <item>Inches</item>
+        <item>Feet</item>
+        <item>Yards</item>
+        <item>Miles</item>
+        <item>Nautical Miles</item>
     </string-array>
 
     <string-array name="area">
         <item>Square Millimeters</item>
         <item>Square Centimeters</item>
         <item>Square Meters</item>
-        <item>Hectares</item>
         <item>Square Kilometers</item>
+        <item>Acres</item>
+        <item>Hectares</item>
         <item>Square Inches</item>
         <item>Square Feet</item>
         <item>Square Yards</item>
-        <item>Square Acres</item>
         <item>Square Miles</item>
+    </string-array>
+
+    <string-array name="temperature">
+        <item>Celsius</item>
+        <item>Fahrenheit</item>
+        <item>Kelvin</item>
+    </string-array>
+
+    <string-array name="pressure">
+        <item>Atmospheres</item>
+        <item>Bars</item>
+        <item>Pascals</item>
+        <item>Kilopascals</item>
+        <item>Millimeters of Mercury</item>
+        <item>Pounds per Square Inch</item>
+    </string-array>
+
+    <string-array name="energy">
+        <item>Electron Volts</item>
+        <item>Joules</item>
+        <item>Kilojoules</item>
+        <item>Watt Hour</item>
+        <item>Kilowatt Hour</item>
+        <item>Calories (Thermochemical)</item>
+        <item>Calories (IT)</item>
+        <item>Calories (Food)</item>
+        <item>Foot-Pounds</item>
+        <item>British Thermal Units (Thermochemical)</item>
+        <item>British Thermal Units (IT)</item>
+        <item>British Thermal Units (ISO)</item>
+    </string-array>
+
+    <string-array name="power">
+        <item>Watts</item>
+        <item>Kilowatts</item>
+        <item>Megawatts</item>
+        <item>Gigawatts</item>
+        <item>Joules/Second</item>
+        <item>Horsepower</item>
+        <item>Pferdestarke</item>
+        <item>Foot-Pounds per Minute</item>
+        <item>BTUs per Minute</item>
+    </string-array>
+
+    <string-array name="torque">
+        <item>Newton Meters</item>
+        <item>Kilogram Meters</item>
+        <item>Joules per Radian</item>
+        <item>Pound-Inches</item>
+        <item>Pound-Feet</item>
     </string-array>
 
     <string-array name="speed">
@@ -179,18 +214,6 @@
         <item>Days</item>
         <item>Weeks</item>
         <item>Years</item>
-    </string-array>
-
-    <string-array name="power">
-        <item>Watts</item>
-        <item>Kilowatts</item>
-        <item>Megawatts</item>
-        <item>Gigawatts</item>
-        <item>Joules/Second</item>
-        <item>Horsepower</item>
-        <item>Pferdestarke</item>
-        <item>Foot-Pounds/Minute</item>
-        <item>BTUs/Minute</item>
     </string-array>
 
     <string-array name="data">
@@ -216,15 +239,6 @@
         <item>Pebibits</item>
         <item>Petabytes</item>
         <item>Pebibytes</item>
-    </string-array>
-
-    <string-array name="pressure">
-        <item>Atmospheres</item>
-        <item>Bars</item>
-        <item>Pascals</item>
-        <item>Kilopascals</item>
-        <item>Millimeters of Mercury</item>
-        <item>Pounds per Square Inch</item>
     </string-array>
 
     <string-array name="angle">
