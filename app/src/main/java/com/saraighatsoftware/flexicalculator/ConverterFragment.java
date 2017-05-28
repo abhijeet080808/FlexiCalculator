@@ -64,14 +64,13 @@ public class ConverterFragment extends Fragment {
         mConverters.add(new ConverterTime(getContext()));
         mConverters.add(new ConverterData(getContext()));
         mConverters.add(new ConverterAngle(getContext()));
-        mInput = new StringBuffer();
+        mInput = new StringBuffer("0");
+        mOutput = "";
 
         View root_view = inflater.inflate(R.layout.fragment_converter, container, false);
 
         mTextDisplayInput = (TextView) root_view.findViewById(R.id.text_display_input);
-        mTextDisplayInput.setText("0");
         mTextDisplayOutput = (TextView) root_view.findViewById(R.id.text_display_output);
-        mTextDisplayOutput.setText("0");
 
         Typeface display_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Light.ttf");
         mTextDisplayInput.setTypeface(display_font);
@@ -79,6 +78,8 @@ public class ConverterFragment extends Fragment {
 
         mScrollDisplayInput = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display_input);
         mScrollDisplayOutput = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display_output);
+
+        updateText();
 
         Typeface button_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Regular.ttf");
         Typeface bold_button_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-SemiBold.ttf");
@@ -112,10 +113,6 @@ public class ConverterFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 final int category = mSpinnerCategory.getSelectedItemPosition();
 
-                mInput.delete(0, mInput.length());
-                mOutput = "";
-                updateText();
-
                 input_type_adapter.clear();
                 for (String item : mConverters.get(category).GetUnits()) {
                     input_type_adapter.add(item);
@@ -129,6 +126,8 @@ public class ConverterFragment extends Fragment {
                 }
                 mSpinnerOutput.setSelection(1);
                 output_type_adapter.notifyDataSetChanged();
+
+                clear();
             }
 
             @Override
@@ -265,7 +264,7 @@ public class ConverterFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clear();
+                delete();
             }
         });
         button.setTypeface(button_font);
@@ -274,22 +273,28 @@ public class ConverterFragment extends Fragment {
     }
 
     private void expressionListener(String token) {
+        if (mInput.length() == 1 && mInput.charAt(0) == '0') {
+            mInput.deleteCharAt(0);
+        }
+
         if (!token.equals(Calculator.POINT) ||
                 (token.equals(".") && mInput.indexOf(Calculator.POINT) == -1)) {
             mInput.append(token);
-        } else {
-            return;
+            evaluate();
         }
+    }
 
+    private void delete() {
+        mInput.deleteCharAt(mInput.length() - 1);
+        if (mInput.length() == 0) {
+            mInput.append("0");
+        }
         evaluate();
     }
 
     private void clear() {
-        if (mInput.length() == 0) {
-            return;
-        }
-
-        mInput.deleteCharAt(mInput.length() - 1);
+        mInput.delete(0, mInput.length());
+        mInput.append("0");
         evaluate();
     }
 
@@ -312,16 +317,8 @@ public class ConverterFragment extends Fragment {
     private void updateText() {
         View root_view = getView();
         if (root_view == null) return;
-        if (mInput.length() == 0) {
-            mTextDisplayInput.setText("0");
-        } else {
-            mTextDisplayInput.setText(mInput.toString());
-        }
-        if (mOutput == null || mOutput.length() == 0) {
-            mTextDisplayOutput.setText("0");
-        } else {
-            mTextDisplayOutput.setText(mOutput);
-        }
+        mTextDisplayInput.setText(mInput.toString());
+        mTextDisplayOutput.setText(mOutput);
 
         // scroll after text is displayed
         mScrollDisplayInput.post(new Runnable() {
