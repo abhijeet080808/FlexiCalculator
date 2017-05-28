@@ -94,19 +94,19 @@ class ConverterData extends Converter {
                 new BigFraction(1L, 9007199254740992L));
     }
 
-    List<String> GetUnits() {
+    protected List<String> getUnits() {
         return mUnits;
     }
 
-    Unit GetUnitFromInteger(int position) {
+    protected Unit getUnitFromInteger(int position) {
         return mValues[position];
     }
 
-    Unit GetBaseUnit() {
+    protected Unit getBaseUnit() {
         return DataUnit.BITS;
     }
 
-    BigFraction GetConversionFactor(ConversionPair pair) {
+    protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
     }
 }

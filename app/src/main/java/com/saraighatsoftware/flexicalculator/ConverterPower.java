@@ -75,19 +75,19 @@ class ConverterPower extends Converter {
                 new BigFraction(3000000000L, 52752792631L));
     }
 
-    List<String> GetUnits() {
+    protected List<String> getUnits() {
         return mUnits;
     }
 
-    Unit GetUnitFromInteger(int position) {
+    protected Unit getUnitFromInteger(int position) {
         return mValues[position];
     }
 
-    Unit GetBaseUnit() {
+    protected Unit getBaseUnit() {
         return PowerUnit.WATTS;
     }
 
-    BigFraction GetConversionFactor(ConversionPair pair) {
+    protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
     }
 }

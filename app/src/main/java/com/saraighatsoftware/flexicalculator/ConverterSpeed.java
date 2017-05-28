@@ -55,19 +55,19 @@ class ConverterSpeed extends Converter {
                 new BigFraction(1L, 343L));
     }
 
-    List<String> GetUnits() {
+    protected List<String> getUnits() {
         return mUnits;
     }
 
-    Unit GetUnitFromInteger(int position) {
+    protected Unit getUnitFromInteger(int position) {
         return mValues[position];
     }
 
-    Unit GetBaseUnit() {
+    protected Unit getBaseUnit() {
         return SpeedUnit.METERS_PER_SECOND;
     }
 
-    BigFraction GetConversionFactor(ConversionPair pair) {
+    protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
     }
 }

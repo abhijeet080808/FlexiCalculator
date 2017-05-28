@@ -78,19 +78,19 @@ class ConverterWeight extends Converter {
                 new BigFraction(320000L, 1625675054080L));
     }
 
-    List<String> GetUnits() {
+    protected List<String> getUnits() {
         return mUnits;
     }
 
-    Unit GetUnitFromInteger(int position) {
+    protected Unit getUnitFromInteger(int position) {
         return mValues[position];
     }
 
-    Unit GetBaseUnit() {
+    protected Unit getBaseUnit() {
         return WeightUnit.CARATS;
     }
 
-    BigFraction GetConversionFactor(ConversionPair pair) {
+    protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
     }
 }

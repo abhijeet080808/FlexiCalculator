@@ -388,7 +388,7 @@ class Calculator {
         }
     }
 
-    private boolean IsValidDigit(final char c, final Base base) {
+    private boolean isValidDigit(final char c, final Base base) {
         switch (c) {
             case '0':
             case '1':
@@ -428,7 +428,7 @@ class Calculator {
                 minus_count++;
             } else if (c == POINT_CHAR) {
                 point_count++;
-            } else if (IsValidDigit(c, base)) {
+            } else if (isValidDigit(c, base)) {
                 digit_count++;
             } else {
                 return false;
@@ -470,7 +470,7 @@ class Calculator {
         // decimal point is not allowed for HEX/OCT/BIN
 
         for (char c : existingOperand.toCharArray()) {
-            if (c != SUBTRACT_CHAR && c != POINT_CHAR && !IsValidDigit(c, base)) {
+            if (c != SUBTRACT_CHAR && c != POINT_CHAR && !isValidDigit(c, base)) {
                 return false;
             }
         }
@@ -487,25 +487,25 @@ class Calculator {
         if (existingOperand.isEmpty()) {
             return newChar == SUBTRACT_CHAR
                     || (newChar == POINT_CHAR && base == Base.DEC)
-                    || IsValidDigit(newChar, base);
+                    || isValidDigit(newChar, base);
         } else if (existingOperand.length() == 1) {
             // allowed -> -. -1 .1 11 1.
             final char existingChar = existingOperand.charAt(0);
             if (existingChar == SUBTRACT_CHAR) {
                 return (newChar == POINT_CHAR && base == Base.DEC)
-                        || IsValidDigit(newChar, base);
+                        || isValidDigit(newChar, base);
             } else if (existingChar == POINT_CHAR) {
-                return IsValidDigit(newChar, base);
+                return isValidDigit(newChar, base);
             } else { // IsValidDigit(existingChar, base)
                 // TODO consider leading zeroes
-                return IsValidDigit(newChar, base)
+                return isValidDigit(newChar, base)
                         || (newChar == POINT_CHAR && base == Base.DEC);
             }
         } else { // length > 1
             if (newChar == POINT_CHAR) {
                 // only one point allowed
                 return point_pos < 0 && base == Base.DEC;
-            } else if (IsValidDigit(newChar, base)) {
+            } else if (isValidDigit(newChar, base)) {
                 // TODO consider leading zeroes
                 // precision is number of digits
                 // scale is number of digits after decimal point

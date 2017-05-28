@@ -305,7 +305,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clear();
+                delete();
             }
         });
         button.setTypeface(button_font);
@@ -685,7 +685,7 @@ public class CalculatorFragment extends Fragment {
         }
     }
 
-    private void clear() {
+    private void delete() {
         if (mInfixExpression.isEmpty()) return;
 
         String last_element = mInfixExpression.lastElement();
@@ -697,6 +697,11 @@ public class CalculatorFragment extends Fragment {
         }
         mIsResultSet = false;
 
+        updateText();
+    }
+
+    private void clear() {
+        mInfixExpression.clear();
         updateText();
     }
 

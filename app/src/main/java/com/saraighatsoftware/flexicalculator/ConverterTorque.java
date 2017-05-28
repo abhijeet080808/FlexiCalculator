@@ -54,19 +54,19 @@ class ConverterTorque extends Converter {
                 new BigFraction(2500000000000000L, 3389544870828501L));
     }
 
-    List<String> GetUnits() {
+    protected List<String> getUnits() {
         return mUnits;
     }
 
-    Unit GetUnitFromInteger(int position) {
+    protected Unit getUnitFromInteger(int position) {
         return mValues[position];
     }
 
-    Unit GetBaseUnit() {
+    protected Unit getBaseUnit() {
         return TorqueUnit.NEWTON_METERS;
     }
 
-    BigFraction GetConversionFactor(ConversionPair pair) {
+    protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
     }
 }

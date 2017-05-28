@@ -46,14 +46,14 @@ abstract class Converter {
         }
     }
 
-    abstract List<String> GetUnits();
+    protected abstract List<String> getUnits();
 
-    abstract Unit GetUnitFromInteger(int position);
+    protected abstract Unit getUnitFromInteger(int position);
 
-    abstract Unit GetBaseUnit();
+    protected abstract Unit getBaseUnit();
 
     // output = input * conversion_factor
-    abstract BigFraction GetConversionFactor(ConversionPair pair);
+    protected abstract BigFraction getConversionFactor(ConversionPair pair);
 
     static BigFraction ToBigFraction(BigDecimal val) {
         final int scale = val.scale();
@@ -72,13 +72,13 @@ abstract class Converter {
             // convert to base unit first
             BigFraction in = ToBigFraction(new BigDecimal(value));
             Log.v(TAG, "Converting " + in + " from " + input + " to " + output);
-            if (input != GetBaseUnit()) {
-                in = in.divide(GetConversionFactor(new ConversionPair(GetBaseUnit(), input)));
+            if (input != getBaseUnit()) {
+                in = in.divide(getConversionFactor(new ConversionPair(getBaseUnit(), input)));
             }
             // convert to output format
             BigFraction out = in;
-            if (output != GetBaseUnit()) {
-                out = out.multiply(GetConversionFactor(new ConversionPair(GetBaseUnit(), output)));
+            if (output != getBaseUnit()) {
+                out = out.multiply(getConversionFactor(new ConversionPair(getBaseUnit(), output)));
             }
             Log.v(TAG, "Converted to " + out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
             return ResultFormat.Format(out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));

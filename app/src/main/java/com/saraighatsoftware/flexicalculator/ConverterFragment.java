@@ -114,14 +114,14 @@ public class ConverterFragment extends Fragment {
                 final int category = mSpinnerCategory.getSelectedItemPosition();
 
                 input_type_adapter.clear();
-                for (String item : mConverters.get(category).GetUnits()) {
+                for (String item : mConverters.get(category).getUnits()) {
                     input_type_adapter.add(item);
                 }
                 mSpinnerInput.setSelection(0);
                 input_type_adapter.notifyDataSetChanged();
 
                 output_type_adapter.clear();
-                for (String item : mConverters.get(category).GetUnits()) {
+                for (String item : mConverters.get(category).getUnits()) {
                     output_type_adapter.add(item);
                 }
                 mSpinnerOutput.setSelection(1);
@@ -309,8 +309,8 @@ public class ConverterFragment extends Fragment {
         }
         mOutput = mConverters.get(category).Convert(
                 mInput.toString(),
-                mConverters.get(category).GetUnitFromInteger(input),
-                mConverters.get(category).GetUnitFromInteger(output));
+                mConverters.get(category).getUnitFromInteger(input),
+                mConverters.get(category).getUnitFromInteger(output));
         updateText();
     }
 
