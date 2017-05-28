@@ -205,11 +205,12 @@
     </string-array>
 
     <string-array name="speed">
-        <item>Centimeters per Second</item>
         <item>Meters per Second</item>
         <item>Kilometers per Second</item>
+        <item>Kilometers per Hour</item>
         <item>Feet per Second</item>
         <item>Miles per Second</item>
+        <item>Miles per Hour</item>
         <item>Knots</item>
         <item>Mach</item>
     </string-array>
