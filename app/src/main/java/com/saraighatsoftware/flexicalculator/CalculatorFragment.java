@@ -1,6 +1,5 @@
 package com.saraighatsoftware.flexicalculator;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -73,17 +72,13 @@ public class CalculatorFragment extends Fragment {
         mAngularUnit = Calculator.AngularUnit.DEGREE;
 
         mTextDisplay = (TextView) root_view.findViewById(R.id.text_display);
+        mTextDisplay.setTypeface(FontCache.GetLight(getContext()));
         mTextDisplay.setText("0");
         //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-
-        Typeface display_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Light.ttf");
-        mTextDisplay.setTypeface(display_font);
 
         mScrollDisplay = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display);
 
         Button button;
-        Typeface button_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Regular.ttf");
-        Typeface bold_button_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-SemiBold.ttf");
 
         mButtonZero = (Button) root_view.findViewById(R.id.button_zero);
         mButtonZero.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +87,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("0");
             }
         });
-        mButtonZero.setTypeface(bold_button_font);
+        mButtonZero.setTypeface(FontCache.GetSemiBold(getContext()));
 
         mButtonOne = (Button) root_view.findViewById(R.id.button_one);
         mButtonOne.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +96,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("1");
             }
         });
-        mButtonOne.setTypeface(bold_button_font);
+        mButtonOne.setTypeface(FontCache.GetSemiBold(getContext()));
 
         mButtonTwo = (Button) root_view.findViewById(R.id.button_two);
         mButtonTwo.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +105,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("2");
             }
         });
-        mButtonTwo.setTypeface(bold_button_font);
+        mButtonTwo.setTypeface(FontCache.GetSemiBold(getContext()));
 
         mButtonThree = (Button) root_view.findViewById(R.id.button_three);
         mButtonThree.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +114,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("3");
             }
         });
-        mButtonThree.setTypeface(bold_button_font);
+        mButtonThree.setTypeface(FontCache.GetSemiBold(getContext()));
 
         mButtonFour = (Button) root_view.findViewById(R.id.button_four);
         mButtonFour.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +123,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("4");
             }
         });
-        mButtonFour.setTypeface(bold_button_font);
+        mButtonFour.setTypeface(FontCache.GetSemiBold(getContext()));
 
         mButtonFive = (Button) root_view.findViewById(R.id.button_five);
         mButtonFive.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +132,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("5");
             }
         });
-        mButtonFive.setTypeface(bold_button_font);
+        mButtonFive.setTypeface(FontCache.GetSemiBold(getContext()));
 
         mButtonSix = (Button) root_view.findViewById(R.id.button_six);
         mButtonSix.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +141,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("6");
             }
         });
-        mButtonSix.setTypeface(bold_button_font);
+        mButtonSix.setTypeface(FontCache.GetSemiBold(getContext()));
 
         mButtonSeven = (Button) root_view.findViewById(R.id.button_seven);
         mButtonSeven.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +150,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("7");
             }
         });
-        mButtonSeven.setTypeface(bold_button_font);
+        mButtonSeven.setTypeface(FontCache.GetSemiBold(getContext()));
 
         mButtonEight = (Button) root_view.findViewById(R.id.button_eight);
         mButtonEight.setOnClickListener(new View.OnClickListener() {
@@ -164,7 +159,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("8");
             }
         });
-        mButtonEight.setTypeface(bold_button_font);
+        mButtonEight.setTypeface(FontCache.GetSemiBold(getContext()));
 
         mButtonNine = (Button) root_view.findViewById(R.id.button_nine);
         mButtonNine.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +168,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("9");
             }
         });
-        mButtonNine.setTypeface(bold_button_font);
+        mButtonNine.setTypeface(FontCache.GetSemiBold(getContext()));
 
         mButtonA = (Button) root_view.findViewById(R.id.button_a);
         mButtonA.setOnClickListener(new View.OnClickListener() {
@@ -182,7 +177,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("A");
             }
         });
-        mButtonA.setTypeface(button_font);
+        mButtonA.setTypeface(FontCache.GetRegular(getContext()));
 
         mButtonB = (Button) root_view.findViewById(R.id.button_b);
         mButtonB.setOnClickListener(new View.OnClickListener() {
@@ -191,7 +186,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("B");
             }
         });
-        mButtonB.setTypeface(button_font);
+        mButtonB.setTypeface(FontCache.GetRegular(getContext()));
 
         mButtonC = (Button) root_view.findViewById(R.id.button_c);
         mButtonC.setOnClickListener(new View.OnClickListener() {
@@ -200,7 +195,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("C");
             }
         });
-        mButtonC.setTypeface(button_font);
+        mButtonC.setTypeface(FontCache.GetRegular(getContext()));
 
         mButtonD = (Button) root_view.findViewById(R.id.button_d);
         mButtonD.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +204,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("D");
             }
         });
-        mButtonD.setTypeface(button_font);
+        mButtonD.setTypeface(FontCache.GetRegular(getContext()));
 
         mButtonE = (Button) root_view.findViewById(R.id.button_e);
         mButtonE.setOnClickListener(new View.OnClickListener() {
@@ -218,7 +213,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("E");
             }
         });
-        mButtonE.setTypeface(button_font);
+        mButtonE.setTypeface(FontCache.GetRegular(getContext()));
 
         mButtonF = (Button) root_view.findViewById(R.id.button_f);
         mButtonF.setOnClickListener(new View.OnClickListener() {
@@ -227,7 +222,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener("F");
             }
         });
-        mButtonF.setTypeface(button_font);
+        mButtonF.setTypeface(FontCache.GetRegular(getContext()));
 
         mButtonPoint = (Button) root_view.findViewById(R.id.button_point);
         mButtonPoint.setOnClickListener(new View.OnClickListener() {
@@ -236,7 +231,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.POINT);
             }
         });
-        mButtonPoint.setTypeface(button_font);
+        mButtonPoint.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_open_bracket);
         button.setOnClickListener(new View.OnClickListener() {
@@ -245,7 +240,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.OPEN_BRACKET);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_close_bracket);
         button.setOnClickListener(new View.OnClickListener() {
@@ -254,7 +249,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.CLOSE_BRACKET);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_divide);
         button.setOnClickListener(new View.OnClickListener() {
@@ -263,7 +258,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.DIVIDE);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_multiply);
         button.setOnClickListener(new View.OnClickListener() {
@@ -272,7 +267,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.MULTIPLY);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_subtract);
         button.setOnClickListener(new View.OnClickListener() {
@@ -281,7 +276,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.SUBTRACT);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_add);
         button.setOnClickListener(new View.OnClickListener() {
@@ -290,7 +285,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.ADD);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_equal);
         button.setOnClickListener(new View.OnClickListener() {
@@ -299,7 +294,7 @@ public class CalculatorFragment extends Fragment {
                 evaluate();
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_delete);
         button.setOnClickListener(new View.OnClickListener() {
@@ -308,7 +303,7 @@ public class CalculatorFragment extends Fragment {
                 delete();
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_modulus);
         button.setOnClickListener(new View.OnClickListener() {
@@ -317,7 +312,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.MODULUS);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_power);
         button.setOnClickListener(new View.OnClickListener() {
@@ -326,7 +321,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.POWER);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_sin);
         button.setOnClickListener(new View.OnClickListener() {
@@ -335,7 +330,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.SIN);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_cos);
         button.setOnClickListener(new View.OnClickListener() {
@@ -344,7 +339,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.COS);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_tan);
         button.setOnClickListener(new View.OnClickListener() {
@@ -353,7 +348,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.TAN);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_log);
         button.setOnClickListener(new View.OnClickListener() {
@@ -362,7 +357,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.LOG);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_ln);
         button.setOnClickListener(new View.OnClickListener() {
@@ -371,7 +366,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.LN);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_percentage);
         button.setOnClickListener(new View.OnClickListener() {
@@ -380,7 +375,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.PERCENTAGE);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_factorial);
         button.setOnClickListener(new View.OnClickListener() {
@@ -389,7 +384,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.FACTORIAL);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_square_root);
         button.setOnClickListener(new View.OnClickListener() {
@@ -398,7 +393,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.SQUARE_ROOT);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_square);
         button.setOnClickListener(new View.OnClickListener() {
@@ -407,7 +402,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.SQUARE);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_lsh);
         button.setOnClickListener(new View.OnClickListener() {
@@ -416,7 +411,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.LSH);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_rsh);
         button.setOnClickListener(new View.OnClickListener() {
@@ -425,7 +420,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.RSH);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_and);
         button.setOnClickListener(new View.OnClickListener() {
@@ -434,7 +429,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.AND);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_or);
         button.setOnClickListener(new View.OnClickListener() {
@@ -443,7 +438,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.OR);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_xor);
         button.setOnClickListener(new View.OnClickListener() {
@@ -452,7 +447,7 @@ public class CalculatorFragment extends Fragment {
                 expressionListener(Calculator.XOR);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_base);
         button.setOnClickListener(new View.OnClickListener() {
@@ -497,7 +492,7 @@ public class CalculatorFragment extends Fragment {
                 updateText();
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_angular_unit);
         button.setOnClickListener(new View.OnClickListener() {
@@ -515,7 +510,7 @@ public class CalculatorFragment extends Fragment {
                 }
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         setDigitButtonStates();
         return root_view;

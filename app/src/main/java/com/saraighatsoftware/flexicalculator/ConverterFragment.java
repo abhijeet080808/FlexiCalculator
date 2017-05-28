@@ -1,6 +1,5 @@
 package com.saraighatsoftware.flexicalculator;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -72,17 +71,13 @@ public class ConverterFragment extends Fragment {
         mTextDisplayInput = (TextView) root_view.findViewById(R.id.text_display_input);
         mTextDisplayOutput = (TextView) root_view.findViewById(R.id.text_display_output);
 
-        Typeface display_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Light.ttf");
-        mTextDisplayInput.setTypeface(display_font);
-        mTextDisplayOutput.setTypeface(display_font);
+        mTextDisplayInput.setTypeface(FontCache.GetLight(getContext()));
+        mTextDisplayOutput.setTypeface(FontCache.GetLight(getContext()));
 
         mScrollDisplayInput = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display_input);
         mScrollDisplayOutput = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display_output);
 
         updateText();
-
-        Typeface button_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Regular.ttf");
-        Typeface bold_button_font = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-SemiBold.ttf");
 
         mSpinnerCategory = (Spinner) root_view.findViewById(R.id.spinner_category);
         final CustomArrayAdapter category_adapter = new CustomArrayAdapter(
@@ -168,7 +163,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("0");
             }
         });
-        button.setTypeface(bold_button_font);
+        button.setTypeface(FontCache.GetSemiBold(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_one);
         button.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +172,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("1");
             }
         });
-        button.setTypeface(bold_button_font);
+        button.setTypeface(FontCache.GetSemiBold(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_two);
         button.setOnClickListener(new View.OnClickListener() {
@@ -186,7 +181,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("2");
             }
         });
-        button.setTypeface(bold_button_font);
+        button.setTypeface(FontCache.GetSemiBold(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_three);
         button.setOnClickListener(new View.OnClickListener() {
@@ -195,7 +190,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("3");
             }
         });
-        button.setTypeface(bold_button_font);
+        button.setTypeface(FontCache.GetSemiBold(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_four);
         button.setOnClickListener(new View.OnClickListener() {
@@ -204,7 +199,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("4");
             }
         });
-        button.setTypeface(bold_button_font);
+        button.setTypeface(FontCache.GetSemiBold(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_five);
         button.setOnClickListener(new View.OnClickListener() {
@@ -213,7 +208,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("5");
             }
         });
-        button.setTypeface(bold_button_font);
+        button.setTypeface(FontCache.GetSemiBold(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_six);
         button.setOnClickListener(new View.OnClickListener() {
@@ -222,7 +217,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("6");
             }
         });
-        button.setTypeface(bold_button_font);
+        button.setTypeface(FontCache.GetSemiBold(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_seven);
         button.setOnClickListener(new View.OnClickListener() {
@@ -231,7 +226,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("7");
             }
         });
-        button.setTypeface(bold_button_font);
+        button.setTypeface(FontCache.GetSemiBold(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_eight);
         button.setOnClickListener(new View.OnClickListener() {
@@ -240,7 +235,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("8");
             }
         });
-        button.setTypeface(bold_button_font);
+        button.setTypeface(FontCache.GetSemiBold(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_nine);
         button.setOnClickListener(new View.OnClickListener() {
@@ -249,7 +244,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("9");
             }
         });
-        button.setTypeface(bold_button_font);
+        button.setTypeface(FontCache.GetSemiBold(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_point);
         button.setOnClickListener(new View.OnClickListener() {
@@ -258,7 +253,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener(Calculator.POINT);
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_delete);
         button.setOnClickListener(new View.OnClickListener() {
@@ -267,7 +262,7 @@ public class ConverterFragment extends Fragment {
                 delete();
             }
         });
-        button.setTypeface(button_font);
+        button.setTypeface(FontCache.GetRegular(getContext()));
 
         return root_view;
     }

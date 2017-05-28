@@ -1,7 +1,6 @@
 package com.saraighatsoftware.flexicalculator;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -11,21 +10,21 @@ import android.widget.TextView;
 
 public class CustomTabLayout extends TabLayout {
 
-    private final Typeface mTypeface;
+    private Context mContext;
 
     public CustomTabLayout(Context context) {
         super(context);
-        mTypeface = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Regular.ttf");
+        mContext = context;
     }
 
     public CustomTabLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mTypeface = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Regular.ttf");
+        mContext = context;
     }
 
     public CustomTabLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mTypeface = Typeface.createFromAsset(getContext().getAssets(),  "fonts/Teko-Regular.ttf");
+        mContext = context;
     }
 
     @Override
@@ -33,7 +32,7 @@ public class CustomTabLayout extends TabLayout {
         super.setupWithViewPager(viewPager);
 
         PagerAdapter adapter = viewPager.getAdapter();
-        if (mTypeface != null && adapter != null) {
+        if (mContext != null && adapter != null) {
             this.removeAllTabs();
             ViewGroup sliding_tab_strip = (ViewGroup) getChildAt(0);
 
@@ -44,7 +43,7 @@ public class CustomTabLayout extends TabLayout {
                 ViewGroup tab_view = ((ViewGroup) sliding_tab_strip.getChildAt(i));
 
                 if (tab_view.getChildAt(1) instanceof TextView) {
-                    ((TextView) tab_view.getChildAt(1)).setTypeface(mTypeface);
+                    ((TextView) tab_view.getChildAt(1)).setTypeface(FontCache.GetRegular(mContext));
                     // does not work, so setting via styles.xml
                     // ((TextView) tab_view.getChildAt(1)).setTextSize(15);
                 }
