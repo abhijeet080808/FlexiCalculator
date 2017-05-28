@@ -66,6 +66,7 @@
         <item>Weight</item>
         <item>Length</item>
         <item>Area</item>
+        <item>Fuel Economy</item>
         <item>Temperature</item>
         <item>Pressure</item>
         <item>Energy</item>
@@ -145,6 +146,13 @@
         <item>Square Miles</item>
     </string-array>
 
+    <string-array name="fuel_economy">
+        <item>Miles per Gallon (US)</item>
+        <item>Miles per Gallon (UK)</item>
+        <item>Kilometers per Liter</item>
+        <item>Liters per 100 kilometers</item>
+    </string-array>
+
     <string-array name="temperature">
         <item>Celsius</item>
         <item>Fahrenheit</item>
@@ -156,8 +164,8 @@
         <item>Bars</item>
         <item>Pascals</item>
         <item>Kilopascals</item>
-        <item>Millimeters of Mercury</item>
         <item>Pounds per Square Inch</item>
+        <item>Torrs</item>
     </string-array>
 
     <string-array name="energy">
@@ -180,11 +188,12 @@
         <item>Kilowatts</item>
         <item>Megawatts</item>
         <item>Gigawatts</item>
-        <item>Joules/Second</item>
-        <item>Horsepower</item>
+        <item>Joules per Second</item>
+        <item>Horsepower (Electrical)</item>
+        <item>Horsepower (Mechanical)</item>
         <item>Pferdestarke</item>
         <item>Foot-Pounds per Minute</item>
-        <item>BTUs per Minute</item>
+        <item>BTUs (IT) per Minute</item>
     </string-array>
 
     <string-array name="torque">

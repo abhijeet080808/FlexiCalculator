@@ -57,6 +57,7 @@ class ConverterEnergy extends Converter {
         // 1000 thermal cal = 1 food cal
         mConversionFactors.put(new ConversionPair(EnergyUnit.ELECTRON_VOLTS, EnergyUnit.CALORIES_FOOD),
                 new BigFraction(new BigInteger("1"), new BigInteger("26114474183184000000000")));
+        // https://www.mathpapa.com/algebra-calculator.html
         // J = kg m^2 sec^-2 = kg m (m/s^2) = kg m (g)
         // 45359237 kg = 100000000 lb
         // 1524 m = 5000 ft

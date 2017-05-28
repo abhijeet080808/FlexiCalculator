@@ -65,6 +65,9 @@ abstract class Converter {
     }
 
     String Convert(String value, Unit input, Unit output) {
+        if (input == output) {
+            return value;
+        }
         try {
             // convert to base unit first
             BigFraction in = ToBigFraction(new BigDecimal(value));

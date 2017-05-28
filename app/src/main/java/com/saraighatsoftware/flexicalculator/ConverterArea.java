@@ -10,7 +10,7 @@ import java.util.List;
 
 class ConverterArea extends Converter {
 
-    // must be same order and value as R.array.length
+    // must be same order and value as R.array.area
     private enum AreaUnit implements Unit {
         SQUARE_MILLIMETERS,
         SQUARE_CENTIMETERS,

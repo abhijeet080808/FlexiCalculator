@@ -54,8 +54,11 @@ public class ConverterFragment extends Fragment {
         mConverters.add(new ConverterWeight(getContext()));
         mConverters.add(new ConverterLength(getContext()));
         mConverters.add(new ConverterArea(getContext()));
+        mConverters.add(new ConverterFuelEconomy(getContext()));
         mConverters.add(new ConverterTemperature(getContext()));
+        mConverters.add(new ConverterPressure(getContext()));
         mConverters.add(new ConverterEnergy(getContext()));
+        mConverters.add(new ConverterPower(getContext()));
         mInput = new StringBuffer();
 
         View root_view = inflater.inflate(R.layout.fragment_converter, container, false);
@@ -104,6 +107,10 @@ public class ConverterFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 final int category = mSpinnerCategory.getSelectedItemPosition();
 
+                mInput.delete(0, mInput.length());
+                mOutput = "";
+                updateText();
+
                 input_type_adapter.clear();
                 for (String item : mConverters.get(category).GetUnits()) {
                     input_type_adapter.add(item);
@@ -117,8 +124,6 @@ public class ConverterFragment extends Fragment {
                 }
                 mSpinnerOutput.setSelection(1);
                 output_type_adapter.notifyDataSetChanged();
-
-                evaluate();
             }
 
             @Override
