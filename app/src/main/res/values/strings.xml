@@ -150,7 +150,7 @@
         <item>Miles per Gallon (US)</item>
         <item>Miles per Gallon (UK)</item>
         <item>Kilometers per Liter</item>
-        <item>Liters per 100 kilometers</item>
+        <item>Liters per 100 Kilometers</item>
     </string-array>
 
     <string-array name="temperature">
@@ -172,8 +172,8 @@
         <item>Electron Volts</item>
         <item>Joules</item>
         <item>Kilojoules</item>
-        <item>Watt Hour</item>
-        <item>Kilowatt Hour</item>
+        <item>Watt Hours</item>
+        <item>Kilowatt Hours</item>
         <item>Calories (Thermochemical)</item>
         <item>Calories (IT)</item>
         <item>Calories (Food)</item>

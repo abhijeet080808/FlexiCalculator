@@ -50,7 +50,7 @@ class ConverterTime extends Converter {
         mConversionFactors.put(new ConversionPair(TimeUnit.MICROSECONDS, TimeUnit.WEEKS),
                 new BigFraction(1L, 604800000000L));
         // 365 day = 1 year
-        mConversionFactors.put(new ConversionPair(TimeUnit.MICROSECONDS, TimeUnit.DAYS),
+        mConversionFactors.put(new ConversionPair(TimeUnit.MICROSECONDS, TimeUnit.YEARS),
                 new BigFraction(1L, 31536000000000L));
     }
 

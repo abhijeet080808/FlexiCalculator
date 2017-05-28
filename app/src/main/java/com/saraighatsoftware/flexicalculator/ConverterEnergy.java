@@ -16,8 +16,8 @@ class ConverterEnergy extends Converter {
         ELECTRON_VOLTS,
         JOULES,
         KILOJOULES,
-        WATT_HOUR,
-        KILOWATT_HOUR,
+        WATT_HOURS,
+        KILOWATT_HOURS,
         CALORIES_THERMOCHEMICAL,
         CALORIES_IT,
         CALORIES_FOOD,
@@ -43,10 +43,10 @@ class ConverterEnergy extends Converter {
         mConversionFactors.put(new ConversionPair(EnergyUnit.ELECTRON_VOLTS, EnergyUnit.KILOJOULES),
                 new BigFraction(new BigInteger("1"), new BigInteger("6241509126000000000000")));
         // 3.6 kJ = 1 WH
-        mConversionFactors.put(new ConversionPair(EnergyUnit.ELECTRON_VOLTS, EnergyUnit.WATT_HOUR),
+        mConversionFactors.put(new ConversionPair(EnergyUnit.ELECTRON_VOLTS, EnergyUnit.WATT_HOURS),
                 new BigFraction(new BigInteger("1"), new BigInteger("22469432853600000000000")));
         // 1000 WH = 1 KWH
-        mConversionFactors.put(new ConversionPair(EnergyUnit.ELECTRON_VOLTS, EnergyUnit.KILOWATT_HOUR),
+        mConversionFactors.put(new ConversionPair(EnergyUnit.ELECTRON_VOLTS, EnergyUnit.KILOWATT_HOURS),
                 new BigFraction(new BigInteger("1"), new BigInteger("22469432853600000000000000")));
         // 4184 J = 1000 thermal cal
         mConversionFactors.put(new ConversionPair(EnergyUnit.ELECTRON_VOLTS, EnergyUnit.CALORIES_THERMOCHEMICAL),

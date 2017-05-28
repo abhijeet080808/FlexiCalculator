@@ -62,6 +62,8 @@ public class ConverterFragment extends Fragment {
         mConverters.add(new ConverterTorque(getContext()));
         mConverters.add(new ConverterSpeed(getContext()));
         mConverters.add(new ConverterTime(getContext()));
+        mConverters.add(new ConverterData(getContext()));
+        mConverters.add(new ConverterAngle(getContext()));
         mInput = new StringBuffer();
 
         View root_view = inflater.inflate(R.layout.fragment_converter, container, false);
