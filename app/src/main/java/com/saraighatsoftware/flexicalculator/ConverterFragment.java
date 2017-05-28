@@ -262,6 +262,13 @@ public class ConverterFragment extends Fragment {
                 delete();
             }
         });
+        button.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                clear();
+                return true;
+            }
+        });
         button.setTypeface(FontCache.GetRegular(getContext()));
 
         return root_view;

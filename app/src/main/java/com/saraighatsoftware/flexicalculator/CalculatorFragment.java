@@ -303,6 +303,13 @@ public class CalculatorFragment extends Fragment {
                 delete();
             }
         });
+        button.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                clear();
+                return true;
+            }
+        });
         button.setTypeface(FontCache.GetRegular(getContext()));
 
         button = (Button) root_view.findViewById(R.id.button_modulus);
