@@ -11,7 +11,7 @@ import java.util.List;
 class ConverterPower extends Converter {
 
     // must be same order and value as R.array.power
-    private enum PowerUnit implements Unit {
+    enum PowerUnit implements Unit {
         WATTS,
         KILOWATTS,
         MEGAWATTS,
@@ -29,7 +29,9 @@ class ConverterPower extends Converter {
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterPower(Context context) {
-        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.power));
+        if (context != null) {
+            mUnits = Arrays.asList(context.getResources().getStringArray(R.array.power));
+        }
         mValues = PowerUnit.values();
         mConversionFactors = new HashMap<>();
 

@@ -11,7 +11,7 @@ import java.util.List;
 class ConverterLength extends Converter {
 
     // must be same order and value as R.array.length
-    private enum LengthUnit implements Unit {
+    enum LengthUnit implements Unit {
         NANOMETERS,
         MICRONS,
         MILLIMETERS,
@@ -30,7 +30,9 @@ class ConverterLength extends Converter {
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterLength(Context context) {
-        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.length));
+        if (context != null) {
+            mUnits = Arrays.asList(context.getResources().getStringArray(R.array.length));
+        }
         mValues = LengthUnit.values();
         mConversionFactors = new HashMap<>();
 

@@ -11,7 +11,7 @@ import java.util.List;
 class ConverterPressure extends Converter {
 
     // must be same order and value as R.array.pressure
-    private enum PressureUnit implements Unit {
+    enum PressureUnit implements Unit {
         ATMOSPHERES,
         BARS,
         PASCALS,
@@ -25,7 +25,9 @@ class ConverterPressure extends Converter {
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterPressure(Context context) {
-        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.pressure));
+        if (context != null) {
+            mUnits = Arrays.asList(context.getResources().getStringArray(R.array.pressure));
+        }
         mValues = PressureUnit.values();
         mConversionFactors = new HashMap<>();
 

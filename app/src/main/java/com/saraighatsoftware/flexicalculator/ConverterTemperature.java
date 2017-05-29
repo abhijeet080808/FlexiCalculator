@@ -14,7 +14,7 @@ class ConverterTemperature extends Converter {
     private static final String TAG = "ConverterTemperature";
 
     // must be same order and value as R.array.temperature
-    private enum TemperatureUnit implements Unit {
+    enum TemperatureUnit implements Unit {
         CELSIUS,
         FAHRENHEIT,
         KELVIN
@@ -24,7 +24,9 @@ class ConverterTemperature extends Converter {
     private TemperatureUnit[] mValues;
 
     ConverterTemperature(Context context) {
-        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.temperature));
+        if (context != null) {
+            mUnits = Arrays.asList(context.getResources().getStringArray(R.array.temperature));
+        }
         mValues = TemperatureUnit.values();
     }
 

@@ -11,7 +11,7 @@ import java.util.List;
 class ConverterSpeed extends Converter {
 
     // must be same order and value as R.array.speed
-    private enum SpeedUnit implements Unit {
+    enum SpeedUnit implements Unit {
         METERS_PER_SECOND,
         KILOMETERS_PER_SECOND,
         KILOMETERS_PER_HOUR,
@@ -27,7 +27,9 @@ class ConverterSpeed extends Converter {
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterSpeed(Context context) {
-        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.speed));
+        if (context != null) {
+            mUnits = Arrays.asList(context.getResources().getStringArray(R.array.speed));
+        }
         mValues = SpeedUnit.values();
         mConversionFactors = new HashMap<>();
 
