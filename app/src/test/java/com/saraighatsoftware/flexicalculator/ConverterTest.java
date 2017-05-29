@@ -13,6 +13,11 @@ import static com.saraighatsoftware.flexicalculator.ConverterArea.AreaUnit.*;
 import static com.saraighatsoftware.flexicalculator.ConverterData.DataUnit.*;
 import static com.saraighatsoftware.flexicalculator.ConverterEnergy.EnergyUnit.*;
 import static com.saraighatsoftware.flexicalculator.ConverterFuelEconomy.FuelEconomyUnit.*;
+import static com.saraighatsoftware.flexicalculator.ConverterLength.LengthUnit.*;
+import static com.saraighatsoftware.flexicalculator.ConverterPower.PowerUnit.*;
+import static com.saraighatsoftware.flexicalculator.ConverterPressure.PressureUnit.*;
+import static com.saraighatsoftware.flexicalculator.ConverterSpeed.SpeedUnit.*;
+import static com.saraighatsoftware.flexicalculator.ConverterTemperature.TemperatureUnit.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(PowerMockRunner.class)
@@ -75,5 +80,45 @@ public class ConverterTest {
         assertEquals("0.832674", mConverterFuelEconomy.Convert("1", MILES_PER_GALLON_UK, MILES_PER_GALLON_US));
         assertEquals("0.354006", mConverterFuelEconomy.Convert("1", MILES_PER_GALLON_UK, KILOMETERS_PER_LITER));
         assertEquals("282.480936", mConverterFuelEconomy.Convert("1", MILES_PER_GALLON_UK, LITERS_PER_100_KILOMETERS));
+
+        ConverterLength mConverterLength = new ConverterLength(null);
+        assertEquals("1.852", mConverterLength.Convert("1", NAUTICAL_MILES, KILOMETERS));
+        assertEquals("1760", mConverterLength.Convert("1", MILES, YARDS));
+        assertEquals("3", mConverterLength.Convert("1", YARDS, FEET));
+        assertEquals("12", mConverterLength.Convert("1", FEET, INCHES));
+        assertEquals("1000", mConverterLength.Convert("1", KILOMETERS, METERS));
+        assertEquals("100", mConverterLength.Convert("1", METERS, CENTIMETERS));
+        assertEquals("10", mConverterLength.Convert("1", CENTIMETERS, MILLIMETERS));
+        assertEquals("1000", mConverterLength.Convert("1", MILLIMETERS, MICRONS));
+
+        ConverterPower mConverterPower = new ConverterPower(null);
+        assertEquals("52752792631", mConverterPower.Convert("3000000000", BTUS_IT_PER_MINUTE, JOULES_PER_SECOND));
+        assertEquals("1", mConverterPower.Convert("33000", FOOT_POUNDS_PER_MINUTE, HORSEPOWER_MECHANICAL));
+        assertEquals("1.01387", mConverterPower.Convert("1", HORSEPOWER_MECHANICAL, PFERDESTARKE));
+        assertEquals("746", mConverterPower.Convert("1", HORSEPOWER_ELECTRICAL, JOULES_PER_SECOND));
+        assertEquals("1000000000", mConverterPower.Convert("1", GIGAWATTS, JOULES_PER_SECOND));
+        assertEquals("1000000", mConverterPower.Convert("1", MEGAWATTS, WATTS));
+        assertEquals("1000", mConverterPower.Convert("1", KILOWATTS, WATTS));
+
+        ConverterPressure mConverterPressure = new ConverterPressure(null);
+        assertEquals("101325", mConverterPressure.Convert("760", TORRS, PASCALS));
+        assertEquals("1000", mConverterPressure.Convert("1", KILOPASCALS, PASCALS));
+        assertEquals("1.01325", mConverterPressure.Convert("1", ATMOSPHERES, BARS));
+        assertEquals("6.894757", mConverterPressure.Convert("1", POUNDS_PER_SQUARE_INCH, KILOPASCALS));
+
+        ConverterSpeed mConverterSpeed = new ConverterSpeed(null);
+        assertEquals("343", mConverterSpeed.Convert("1", MACH, METERS_PER_SECOND));
+        assertEquals("1852", mConverterSpeed.Convert("3600", KNOTS, METERS_PER_SECOND));
+        assertEquals("1", mConverterSpeed.Convert("3600", MILES_PER_HOUR, MILES_PER_SECOND));
+        assertEquals("5280", mConverterSpeed.Convert("1", MILES_PER_SECOND, FEET_PER_SECOND));
+        assertEquals("1", mConverterSpeed.Convert("3600", KILOMETERS_PER_HOUR, KILOMETERS_PER_SECOND));
+
+        ConverterTemperature mConverterTemperature = new ConverterTemperature(null);
+        assertEquals("0", mConverterTemperature.Convert("32", FAHRENHEIT, CELSIUS));
+        assertEquals("32", mConverterTemperature.Convert("0", CELSIUS, FAHRENHEIT));
+        assertEquals("273.15", mConverterTemperature.Convert("0", CELSIUS, KELVIN));
+        assertEquals("0", mConverterTemperature.Convert("273.15", KELVIN, CELSIUS));
+        assertEquals("273.15", mConverterTemperature.Convert("32", FAHRENHEIT, KELVIN));
+        assertEquals("32", mConverterTemperature.Convert("273.15", KELVIN, FAHRENHEIT));
     }
 }
