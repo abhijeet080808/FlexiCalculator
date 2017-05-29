@@ -11,7 +11,7 @@ import java.util.List;
 class ConverterAngle extends Converter {
 
     // must be same order and value as R.array.angle
-    private enum AngleUnit implements Unit {
+    enum AngleUnit implements Unit {
         DEGREES,
         RADIANS,
         GRADIANS
@@ -22,7 +22,9 @@ class ConverterAngle extends Converter {
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterAngle(Context context) {
-        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.angle));
+        if (context != null) {
+            mUnits = Arrays.asList(context.getResources().getStringArray(R.array.angle));
+        }
         mValues = AngleUnit.values();
         mConversionFactors = new HashMap<>();
 
