@@ -11,6 +11,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static com.saraighatsoftware.flexicalculator.ConverterAngle.AngleUnit.*;
 import static com.saraighatsoftware.flexicalculator.ConverterArea.AreaUnit.*;
 import static com.saraighatsoftware.flexicalculator.ConverterData.DataUnit.*;
+import static com.saraighatsoftware.flexicalculator.ConverterEnergy.EnergyUnit.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(PowerMockRunner.class)
@@ -57,5 +58,16 @@ public class ConverterTest {
         assertEquals("1000", mConverterData.Convert("1", KILOBITS, BITS));
         assertEquals("8", mConverterData.Convert("1", BYTES, BITS));
 
+        ConverterEnergy mConverterEnergy = new ConverterEnergy(null);
+        assertEquals("1055.06", mConverterEnergy.Convert("1", BRITISH_THERMAL_UNITS_ISO, JOULES));
+        assertEquals("1055.055853", mConverterEnergy.Convert("1", BRITISH_THERMAL_UNITS_IT, JOULES));
+        assertEquals("1054.350264", mConverterEnergy.Convert("1", BRITISH_THERMAL_UNITS_THERMOCHEMICAL, JOULES));
+        assertEquals("2118465544267813", mConverterEnergy.Convert("1562500000000000", FOOT_POUNDS, JOULES));
+        assertEquals("1000", mConverterEnergy.Convert("1", CALORIES_FOOD, CALORIES_THERMOCHEMICAL));
+        assertEquals("4186.8", mConverterEnergy.Convert("1000", CALORIES_IT, JOULES));
+        assertEquals("4184", mConverterEnergy.Convert("1000", CALORIES_THERMOCHEMICAL, JOULES));
+        assertEquals("1000", mConverterEnergy.Convert("1", KILOWATT_HOURS, WATT_HOURS));
+        assertEquals("1000", mConverterEnergy.Convert("1", KILOJOULES, JOULES));
+        assertEquals("6241509126000000000", mConverterEnergy.Convert("1", JOULES, ELECTRON_VOLTS));
     }
 }

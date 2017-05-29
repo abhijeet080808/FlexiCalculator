@@ -12,7 +12,7 @@ import java.util.List;
 class ConverterEnergy extends Converter {
 
     // must be same order and value as R.array.energy
-    private enum EnergyUnit implements Unit {
+    enum EnergyUnit implements Unit {
         ELECTRON_VOLTS,
         JOULES,
         KILOJOULES,
@@ -32,7 +32,9 @@ class ConverterEnergy extends Converter {
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterEnergy(Context context) {
-        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.energy));
+        if (context != null) {
+            mUnits = Arrays.asList(context.getResources().getStringArray(R.array.energy));
+        }
         mValues = EnergyUnit.values();
         mConversionFactors = new HashMap<>();
 
