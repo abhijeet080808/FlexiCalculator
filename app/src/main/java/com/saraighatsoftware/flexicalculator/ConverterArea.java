@@ -11,7 +11,7 @@ import java.util.List;
 class ConverterArea extends Converter {
 
     // must be same order and value as R.array.area
-    private enum AreaUnit implements Unit {
+    enum AreaUnit implements Unit {
         SQUARE_MILLIMETERS,
         SQUARE_CENTIMETERS,
         SQUARE_METERS,
@@ -29,7 +29,9 @@ class ConverterArea extends Converter {
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterArea(Context context) {
-        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.area));
+        if (context != null) {
+            mUnits = Arrays.asList(context.getResources().getStringArray(R.array.area));
+        }
         mValues = AreaUnit.values();
         mConversionFactors = new HashMap<>();
 
