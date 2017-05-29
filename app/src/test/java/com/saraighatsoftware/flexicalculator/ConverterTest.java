@@ -18,6 +18,10 @@ import static com.saraighatsoftware.flexicalculator.ConverterPower.PowerUnit.*;
 import static com.saraighatsoftware.flexicalculator.ConverterPressure.PressureUnit.*;
 import static com.saraighatsoftware.flexicalculator.ConverterSpeed.SpeedUnit.*;
 import static com.saraighatsoftware.flexicalculator.ConverterTemperature.TemperatureUnit.*;
+import static com.saraighatsoftware.flexicalculator.ConverterTime.TimeUnit.*;
+import static com.saraighatsoftware.flexicalculator.ConverterTorque.TorqueUnit.*;
+import static com.saraighatsoftware.flexicalculator.ConverterVolume.VolumeUnit.*;
+import static com.saraighatsoftware.flexicalculator.ConverterWeight.WeightUnit.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(PowerMockRunner.class)
@@ -120,5 +124,53 @@ public class ConverterTest {
         assertEquals("0", mConverterTemperature.Convert("273.15", KELVIN, CELSIUS));
         assertEquals("273.15", mConverterTemperature.Convert("32", FAHRENHEIT, KELVIN));
         assertEquals("32", mConverterTemperature.Convert("273.15", KELVIN, FAHRENHEIT));
+
+        ConverterTime mConverterTime = new ConverterTime(null);
+        assertEquals("365", mConverterTime.Convert("1", YEARS, DAYS));
+        assertEquals("7", mConverterTime.Convert("1", WEEKS, DAYS));
+        assertEquals("24", mConverterTime.Convert("1", DAYS, HOURS));
+        assertEquals("60", mConverterTime.Convert("1", HOURS, MINUTES));
+        assertEquals("60", mConverterTime.Convert("1", MINUTES, SECONDS));
+        assertEquals("1000", mConverterTime.Convert("1", SECONDS, MILLISECONDS));
+        assertEquals("1000", mConverterTime.Convert("1", MILLISECONDS, MICROSECONDS));
+
+        ConverterTorque mConverterTorque =  new ConverterTorque(null);
+        assertEquals("12", mConverterTorque.Convert("1", POUND_FEET, POUND_INCHES));
+        assertEquals("1", mConverterTorque.Convert("1", JOULES_PER_RADIAN, NEWTON_METERS));
+        assertEquals("9.80665", mConverterTorque.Convert("1", KILOGRAM_METERS, JOULES_PER_RADIAN));
+
+        ConverterVolume mConverterVolume = new ConverterVolume(null);
+        assertEquals("4", mConverterVolume.Convert("1", GALLONS_UK, QUARTS_UK));
+        assertEquals("2", mConverterVolume.Convert("1", QUARTS_UK, PINTS_UK));
+        assertEquals("2", mConverterVolume.Convert("1", PINTS_UK, CUPS_UK));
+        assertEquals("10", mConverterVolume.Convert("1", CUPS_UK, FLUID_OUNCES_UK));
+        assertEquals("8", mConverterVolume.Convert("5", FLUID_OUNCES_UK, TABLESPOONS_UK));
+        assertEquals("3", mConverterVolume.Convert("1", TABLESPOONS_UK, TEASPOONS_UK));
+        assertEquals("4", mConverterVolume.Convert("1", GALLONS_US, QUARTS_US));
+        assertEquals("2", mConverterVolume.Convert("1", QUARTS_US, PINTS_US));
+        assertEquals("2", mConverterVolume.Convert("1", PINTS_US, CUPS_US));
+        assertEquals("8", mConverterVolume.Convert("1", CUPS_US, FLUID_OUNCES_US));
+        assertEquals("2", mConverterVolume.Convert("1", FLUID_OUNCES_US, TABLESPOONS_US));
+        assertEquals("3", mConverterVolume.Convert("1", TABLESPOONS_US, TEASPOONS_US));
+        assertEquals("27", mConverterVolume.Convert("1", CUBIC_YARDS, CUBIC_FEET));
+        assertEquals("1728", mConverterVolume.Convert("1", CUBIC_FEET, CUBIC_INCHES));
+        assertEquals("1000000", mConverterVolume.Convert("1", CUBIC_METERS, CUBIC_CENTIMETERS));
+        assertEquals("0.001", mConverterVolume.Convert("1", CUBIC_CENTIMETERS, LITERS));
+        assertEquals("1", mConverterVolume.Convert("1", CUBIC_CENTIMETERS, MILLILITERS));
+
+        ConverterWeight mConverterWeight = new ConverterWeight(null);
+        assertEquals("1.12", mConverterWeight.Convert("1", LONG_TONS_UK, SHORT_TONS_US));
+        assertEquals("2240", mConverterWeight.Convert("1", LONG_TONS_UK, POUNDS));
+        assertEquals("2000", mConverterWeight.Convert("1", SHORT_TONS_US, POUNDS));
+        assertEquals("14", mConverterWeight.Convert("1", STONES, POUNDS));
+        assertEquals("16", mConverterWeight.Convert("1", POUNDS, OUNCES));
+        assertEquals("1000", mConverterWeight.Convert("1", METRIC_TONNES, KILOGRAMS));
+        assertEquals("1", mConverterWeight.Convert("10", HECTOGRAMS, KILOGRAMS));
+        assertEquals("10", mConverterWeight.Convert("1", DEKAGRAMS, GRAMS));
+        assertEquals("1", mConverterWeight.Convert("10", DECIGRAMS, GRAMS));
+        assertEquals("10", mConverterWeight.Convert("1", CENTIGRAMS, MILLIGRAMS));
+        assertEquals("1", mConverterWeight.Convert("10", DECIGRAMS, GRAMS));
+        assertEquals("1", mConverterWeight.Convert("200", MILLIGRAMS, CARATS));
+        assertEquals("1600000", mConverterWeight.Convert("45359237", GRAMS, OUNCES));
     }
 }

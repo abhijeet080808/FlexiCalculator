@@ -11,7 +11,7 @@ import java.util.List;
 class ConverterTime extends Converter {
 
     // must be same order and value as R.array.time
-    private enum TimeUnit implements Unit {
+    enum TimeUnit implements Unit {
         MICROSECONDS,
         MILLISECONDS,
         SECONDS,
@@ -27,7 +27,9 @@ class ConverterTime extends Converter {
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterTime(Context context) {
-        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.time));
+        if (context != null) {
+            mUnits = Arrays.asList(context.getResources().getStringArray(R.array.time));
+        }
         mValues = TimeUnit.values();
         mConversionFactors = new HashMap<>();
 

@@ -11,7 +11,7 @@ import java.util.List;
 class ConverterVolume extends Converter {
 
     // must be same order and value as R.array.volume
-    private enum VolumeUnit implements Converter.Unit {
+    enum VolumeUnit implements Converter.Unit {
         MILLILITERS,
         LITERS,
         CUBIC_CENTIMETERS,
@@ -40,7 +40,9 @@ class ConverterVolume extends Converter {
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterVolume(Context context) {
-        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.volume));
+        if (context != null) {
+            mUnits = Arrays.asList(context.getResources().getStringArray(R.array.volume));
+        }
         mValues = VolumeUnit.values();
         mConversionFactors = new HashMap<>();
 

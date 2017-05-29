@@ -11,7 +11,7 @@ import java.util.List;
 class ConverterTorque extends Converter {
 
     // must be same order and value as R.array.torque
-    private enum TorqueUnit implements Unit {
+    enum TorqueUnit implements Unit {
         NEWTON_METERS,
         KILOGRAM_METERS,
         JOULES_PER_RADIAN,
@@ -24,7 +24,9 @@ class ConverterTorque extends Converter {
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterTorque(Context context) {
-        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.torque));
+        if (context != null) {
+            mUnits = Arrays.asList(context.getResources().getStringArray(R.array.torque));
+        }
         mValues = TorqueUnit.values();
         mConversionFactors = new HashMap<>();
 

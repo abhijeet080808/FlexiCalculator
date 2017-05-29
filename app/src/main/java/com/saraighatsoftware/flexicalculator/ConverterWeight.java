@@ -11,7 +11,7 @@ import java.util.List;
 class ConverterWeight extends Converter {
 
     // must be same order and value as R.array.weight
-    private enum WeightUnit implements Unit {
+    enum WeightUnit implements Unit {
         CARATS,
         MILLIGRAMS,
         CENTIGRAMS,
@@ -33,7 +33,9 @@ class ConverterWeight extends Converter {
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterWeight(Context context) {
-        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.weight));
+        if (context != null) {
+            mUnits = Arrays.asList(context.getResources().getStringArray(R.array.weight));
+        }
         mValues = WeightUnit.values();
         mConversionFactors = new HashMap<>();
 
