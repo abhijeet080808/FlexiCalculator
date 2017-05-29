@@ -167,7 +167,7 @@ public class CalculatorTest {
         Vector<Pair<String, Character>> pass_tests = new Vector<>();
         pass_tests.add(new Pair<>("0.2", '1'));
         pass_tests.add(new Pair<>("22", '1'));
-        pass_tests.add(new Pair<>("00", '1'));
+        pass_tests.add(new Pair<>("0", '1'));
         pass_tests.add(new Pair<>(".2", '1'));
         pass_tests.add(new Pair<>(".21", '1'));
         pass_tests.add(new Pair<>("-0.", '1'));
@@ -191,6 +191,10 @@ public class CalculatorTest {
         pass_tests.add(new Pair<>("-12345678901", '0'));
         pass_tests.add(new Pair<>("-123456789.01", '0'));
         pass_tests.add(new Pair<>("-123456789012", '.'));
+        pass_tests.add(new Pair<>("0.", '0'));
+        pass_tests.add(new Pair<>(".", '0'));
+        pass_tests.add(new Pair<>("-0.", '0'));
+        pass_tests.add(new Pair<>("-.", '0'));
 
         // input pairs
         Vector<Pair<String, Character>> fail_test = new Vector<>();
@@ -208,6 +212,7 @@ public class CalculatorTest {
         fail_test.add(new Pair<>("12", '+'));
         fail_test.add(new Pair<>("+", '1'));
         fail_test.add(new Pair<>("1-", '1'));
+        fail_test.add(new Pair<>("0", '0'));
 
         Calculator mCalculator = new Calculator();
 

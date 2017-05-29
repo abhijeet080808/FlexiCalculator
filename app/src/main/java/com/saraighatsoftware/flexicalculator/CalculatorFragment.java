@@ -73,7 +73,7 @@ public class CalculatorFragment extends Fragment {
 
         mTextDisplay = (TextView) root_view.findViewById(R.id.text_display);
         mTextDisplay.setTypeface(FontCache.GetLight(getContext()));
-        mTextDisplay.setText("0");
+        mTextDisplay.setText("");
         //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
         mScrollDisplay = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display);
@@ -529,7 +529,12 @@ public class CalculatorFragment extends Fragment {
 
             // allow only operand to be stored or open bracket or pre operators
             if (mCalculator.IsOperandAllowed("", mBase, token.charAt(0))) {
-                mInfixExpression.add(token);
+                // point should be preceded by a leading 0
+                if (token.equals(Calculator.POINT)) {
+                    mInfixExpression.add("0" + token);
+                } else {
+                    mInfixExpression.add(token);
+                }
             } else if (token.equals(Calculator.OPEN_BRACKET)) {
                 mInfixExpression.add(token);
             } else if (mCalculator.IsPreUnaryOperator(token)) {
@@ -549,7 +554,12 @@ public class CalculatorFragment extends Fragment {
                 // result operand can not be followed by close bracket
             } else if (mCalculator.IsOperandAllowed("", mBase, token.charAt(0))) {
                 mInfixExpression.remove(mInfixExpression.size() - 1);
-                mInfixExpression.add(token);
+                // point should be preceded by a leading 0
+                if (token.equals(Calculator.POINT)) {
+                    mInfixExpression.add("0" + token);
+                } else {
+                    mInfixExpression.add(token);
+                }
                 mIsResultSet = false;
             }
 
@@ -568,7 +578,12 @@ public class CalculatorFragment extends Fragment {
 
                 if(mCalculator.IsOperandAllowed(last_token, mBase, token.charAt(0))) {
                     mInfixExpression.remove(mInfixExpression.size() - 1);
-                    mInfixExpression.add(last_token + token);
+                    // point should be preceded by a leading 0
+                    if (token.equals(Calculator.POINT)) {
+                        mInfixExpression.add(last_token + "0" + token);
+                    } else {
+                        mInfixExpression.add(last_token + token);
+                    }
                 }
 
             } else if (mCalculator.IsBinaryOperator(last_token)) {
@@ -583,7 +598,12 @@ public class CalculatorFragment extends Fragment {
                 //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     // operator can not be followed by close bracket
                 } else if (mCalculator.IsOperandAllowed("", mBase, token.charAt(0))) {
-                    mInfixExpression.add(token);
+                    // point should be preceded by a leading 0
+                    if (token.equals(Calculator.POINT)) {
+                        mInfixExpression.add("0" + token);
+                    } else {
+                        mInfixExpression.add(token);
+                    }
                 }
 
             } else if (mCalculator.IsPreUnaryOperator(last_token)) {
@@ -596,7 +616,12 @@ public class CalculatorFragment extends Fragment {
                 //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     // operator can not be followed by close bracket
                 } else if (mCalculator.IsOperandAllowed("", mBase, token.charAt(0))) {
-                    mInfixExpression.add(token);
+                    // point should be preceded by a leading 0
+                    if (token.equals(Calculator.POINT)) {
+                        mInfixExpression.add("0" + token);
+                    } else {
+                        mInfixExpression.add(token);
+                    }
                 }
 
             } else if (mCalculator.IsPostUnaryOperator(last_token)) {
@@ -622,7 +647,12 @@ public class CalculatorFragment extends Fragment {
                 //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     // open bracket can not be followed by close bracket
                 } else if (mCalculator.IsOperandAllowed("", mBase, token.charAt(0))) {
-                    mInfixExpression.add(token);
+                    // point should be preceded by a leading 0
+                    if (token.equals(Calculator.POINT)) {
+                        mInfixExpression.add("0" + token);
+                    } else {
+                        mInfixExpression.add(token);
+                    }
                 }
 
             } else if (last_token.equals(Calculator.CLOSE_BRACKET)) {
@@ -642,21 +672,44 @@ public class CalculatorFragment extends Fragment {
                 }
 
             } else if (mCalculator.IsOperandAllowed(last_token, mBase, token.charAt(0))) {
-
+                // add another digit
                 mInfixExpression.remove(mInfixExpression.size() - 1);
-                mInfixExpression.add(last_token + token);
+                // do not keep leading zero before decimal point like 01 -01
+                // allow 0.1 -0.1
+                if (last_token.equals("0") && !token.equals(Calculator.POINT)) {
+                    mInfixExpression.add(token);
+                } else if (last_token.equals(Calculator.SUBTRACT + "0") && !token.equals(Calculator.POINT)) {
+                    mInfixExpression.add(Calculator.SUBTRACT + token);
+                } else {
+                    mInfixExpression.add(last_token + token);
+                }
 
             } else if (mCalculator.IsOperand(last_token, mBase)) {
 
                 if (mCalculator.IsBinaryOperator(token) || mCalculator.IsPostUnaryOperator(token)) {
+                    // terminate last operand 0. with 0.0
+                    if (last_token.indexOf(Calculator.POINT_CHAR) == last_token.length() - 1) {
+                        mInfixExpression.remove(mInfixExpression.size() - 1);
+                        mInfixExpression.add(last_token + "0");
+                    }
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.OPEN_BRACKET)) {
                     // operand can not be followed by open bracket
                 } else if (token.equals(Calculator.CLOSE_BRACKET)) {
+                    // terminate last operand 0. with 0.0
+                    if (last_token.indexOf(Calculator.POINT_CHAR) == last_token.length() - 1) {
+                        mInfixExpression.remove(mInfixExpression.size() - 1);
+                        mInfixExpression.add(last_token + "0");
+                    }
                     mInfixExpression.add(token);
                     // check that number of close bracket is balanced
                     if (!mCalculator.IsSane(mInfixExpression, mBase, false)) {
                         mInfixExpression.remove(mInfixExpression.size() - 1);
+                        // roll back 0.0 fix
+                        if (last_token.indexOf(Calculator.POINT_CHAR) == last_token.length() - 1) {
+                            mInfixExpression.remove(mInfixExpression.size() - 1);
+                            mInfixExpression.add(last_token);
+                        }
                     }
                 }
 
@@ -711,7 +764,7 @@ public class CalculatorFragment extends Fragment {
         View root_view = getView();
         if (root_view == null) return;
         if (mInfixExpression.isEmpty()) {
-            mTextDisplay.setText("0");
+            mTextDisplay.setText("");
         } else {
             StringBuilder buffer = new StringBuilder();
             for (String item : mInfixExpression) {

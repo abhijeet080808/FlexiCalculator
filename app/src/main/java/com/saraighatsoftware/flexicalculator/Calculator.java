@@ -75,7 +75,7 @@ class Calculator {
     static final char DIVIDE_CHAR = '\u00f7';
     static final char MULTIPLY_CHAR = '\u00d7';
     static final char SUBTRACT_CHAR = '\u2212';
-    private static final char POINT_CHAR = '.';
+    static final char POINT_CHAR = '.';
 
     private static final int INTERNAL_SCALE = 12;
     // Precision is the total number of digits
@@ -496,26 +496,30 @@ class Calculator {
                         || isValidDigit(newChar, base);
             } else if (existingChar == POINT_CHAR) {
                 return isValidDigit(newChar, base);
-            } else { // IsValidDigit(existingChar, base)
-                // TODO consider leading zeroes
-                return isValidDigit(newChar, base)
-                        || (newChar == POINT_CHAR && base == Base.DEC);
+            } else { // isValidDigit(existingChar, base)
+                // only 1 zero allowed before decimal point
+                return !(existingChar == '0' && newChar == '0') &&
+                        (isValidDigit(newChar, base) || (newChar == POINT_CHAR && base == Base.DEC));
             }
         } else { // length > 1
             if (newChar == POINT_CHAR) {
                 // only one point allowed
                 return point_pos < 0 && base == Base.DEC;
             } else if (isValidDigit(newChar, base)) {
-                // TODO consider leading zeroes
-                // precision is number of digits
-                // scale is number of digits after decimal point
-                final boolean is_negative = (existingOperand.charAt(0) == SUBTRACT_CHAR);
-                int precision = existingOperand.length();
-                precision = (point_pos >= 0) ? precision - 1 : precision;
-                precision = is_negative ? precision - 1 : precision;
-                final int scale = (point_pos >= 0) ? existingOperand.length() - point_pos - 1 : 0;
-                Log.v(TAG, existingOperand + " scale " + scale + " precision " + precision);
-                return (precision < INPUT_PRECISION && scale < INPUT_SCALE);
+                // only 1 zero allowed before decimal point
+                if (newChar == '0' && !CanAppendZero(existingOperand, base)) {
+                    return false;
+                } else {
+                    // precision is number of digits
+                    // scale is number of digits after decimal point
+                    final boolean is_negative = (existingOperand.charAt(0) == SUBTRACT_CHAR);
+                    int precision = existingOperand.length();
+                    precision = (point_pos >= 0) ? precision - 1 : precision;
+                    precision = is_negative ? precision - 1 : precision;
+                    final int scale = (point_pos >= 0) ? existingOperand.length() - point_pos - 1 : 0;
+                    Log.v(TAG, existingOperand + " scale " + scale + " precision " + precision);
+                    return (precision < INPUT_PRECISION && scale < INPUT_SCALE);
+                }
             } else {
                 return false;
             }
@@ -543,4 +547,19 @@ class Calculator {
                 .replace('-', SUBTRACT_CHAR)
                 .toUpperCase();
     }
+
+    private boolean CanAppendZero(final String existingOperand, final Base base) {
+        // only 1 leading zero allowed
+        if (existingOperand.indexOf(POINT_CHAR) >= 0) {
+            return true;
+        }
+        for (char c: existingOperand.toCharArray()) {
+            if (isValidDigit(c, base)) {
+                return c != '0';
+            } // else is SUBTRACT_CHAR
+        }
+        // empty string or contains only SUBTRACT_CHAR
+        return true;
+    }
+
 }

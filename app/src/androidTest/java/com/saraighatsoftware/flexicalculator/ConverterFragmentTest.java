@@ -39,10 +39,10 @@ public class ConverterFragmentTest {
         onView(allOf(withText("Convert"), isDescendantOfA(withId(R.id.tabs)), isSelected()))
                 .check(matches(isDisplayed()));
 
-        // check that converter displays 0 by default on both displays
+        // check that converter displays nothing by default on both displays
         // isDisplayed will select the text view of the tab currently displayed on screen
-        onView(allOf(withId(R.id.text_display_input), isDisplayed())).check(matches(withText("0")));
-        onView(allOf(withId(R.id.text_display_output), isDisplayed())).check(matches(withText("0")));
+        onView(allOf(withId(R.id.text_display_input), isDisplayed())).check(matches(withText("")));
+        onView(allOf(withId(R.id.text_display_output), isDisplayed())).check(matches(withText("")));
 
         // check default category and input/output units
         onView(allOf(withId(R.id.spinner_category), isDisplayed())).check(matches(withSpinnerText("Volume")));

@@ -63,7 +63,7 @@ public class ConverterFragment extends Fragment {
         mConverters.add(new ConverterTime(getContext()));
         mConverters.add(new ConverterData(getContext()));
         mConverters.add(new ConverterAngle(getContext()));
-        mInput = new StringBuffer("0");
+        mInput = new StringBuffer();
         mOutput = "";
 
         View root_view = inflater.inflate(R.layout.fragment_converter, container, false);
@@ -277,6 +277,9 @@ public class ConverterFragment extends Fragment {
     private void expressionListener(String token) {
         // this is the one and only POINT
         if (token.equals(Calculator.POINT) && mInput.indexOf(Calculator.POINT) == -1) {
+            if (mInput.length() == 0) {
+                mInput.append("0");
+            }
             mInput.append(token);
             evaluate();
         } else if (!token.equals(Calculator.POINT)) {
@@ -290,32 +293,34 @@ public class ConverterFragment extends Fragment {
     }
 
     private void delete() {
-        mInput.deleteCharAt(mInput.length() - 1);
-        if (mInput.length() == 0) {
-            mInput.append("0");
+        if (mInput.length() != 0) {
+            mInput.deleteCharAt(mInput.length() - 1);
         }
         evaluate();
     }
 
     private void clear() {
         mInput.delete(0, mInput.length());
-        mInput.append("0");
         evaluate();
     }
 
     private void evaluate() {
-        final int category = mSpinnerCategory.getSelectedItemPosition();
-        final int input = mSpinnerInput.getSelectedItemPosition();
-        final int output = mSpinnerOutput.getSelectedItemPosition();
-        if (category == AdapterView.INVALID_POSITION ||
-                input == AdapterView.INVALID_POSITION ||
-                output == AdapterView.INVALID_POSITION) {
-            return;
+        if (mInput.length() == 0) {
+            mOutput = "";
+        } else {
+            final int category = mSpinnerCategory.getSelectedItemPosition();
+            final int input = mSpinnerInput.getSelectedItemPosition();
+            final int output = mSpinnerOutput.getSelectedItemPosition();
+            if (category == AdapterView.INVALID_POSITION ||
+                    input == AdapterView.INVALID_POSITION ||
+                    output == AdapterView.INVALID_POSITION) {
+                return;
+            }
+            mOutput = mConverters.get(category).Convert(
+                    mInput.toString(),
+                    mConverters.get(category).getUnitFromInteger(input),
+                    mConverters.get(category).getUnitFromInteger(output));
         }
-        mOutput = mConverters.get(category).Convert(
-                mInput.toString(),
-                mConverters.get(category).getUnitFromInteger(input),
-                mConverters.get(category).getUnitFromInteger(output));
         updateText();
     }
 

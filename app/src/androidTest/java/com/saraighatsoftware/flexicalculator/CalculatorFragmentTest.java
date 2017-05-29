@@ -41,11 +41,11 @@ public class CalculatorFragmentTest {
 
         // check that calculator displays 0 by default on current tab
         // isDisplayed will select the text view of the tab currently displayed on screen
-        onView(allOf(withId(R.id.text_display), isDisplayed())).check(matches(withText("0")));
+        onView(allOf(withId(R.id.text_display), isDisplayed())).check(matches(withText("")));
 
         // test 1 DEL
         click(R.id.button_one, "1");
-        click(R.id.button_delete, "0");
+        click(R.id.button_delete, "");
 
         // test 1 + 1 =
         click(R.id.button_one, "1");
@@ -94,7 +94,7 @@ public class CalculatorFragmentTest {
         click(R.id.button_equal, "3");
 
         //test -1 + 2 =
-        click(R.id.button_delete, "0");
+        click(R.id.button_delete, "");
         click(R.id.button_subtract, "-");
         click(R.id.button_one, "-1");
         click(R.id.button_add, "-1+");
@@ -143,7 +143,7 @@ public class CalculatorFragmentTest {
         click(R.id.button_equal, "10");
 
         // - + 1 + 3 =
-        click(R.id.button_delete, "0");
+        click(R.id.button_delete, "");
         click(R.id.button_subtract, "-");
         click(R.id.button_add, "-");
         click(R.id.button_one, "-1");
@@ -175,13 +175,13 @@ public class CalculatorFragmentTest {
         click(R.id.button_add, "10/(");
         click(R.id.button_subtract, "10/(-");
         click(R.id.button_divide, "10/(-");
-        click(R.id.button_point, "10/(-.");
-        click(R.id.button_point, "10/(-.");
-        click(R.id.button_subtract, "10/(-.");
-        click(R.id.button_add, "10/(-.");
-        click(R.id.button_five, "10/(-.5");
-        click(R.id.button_close_bracket, "10/(-.5)");
-        click(R.id.button_equal, "-20");
+        click(R.id.button_point, "10/(-0.");
+        click(R.id.button_point, "10/(-0.");
+        click(R.id.button_subtract, "10/(-0.0-");
+        click(R.id.button_add, "10/(-0.0+");
+        click(R.id.button_five, "10/(-0.0+5");
+        click(R.id.button_close_bracket, "10/(-0.0+5)");
+        click(R.id.button_equal, "2");
 
         // 10 + ( ( ( + / 1 ) 1 ) ) =
         click(R.id.button_one, "1");

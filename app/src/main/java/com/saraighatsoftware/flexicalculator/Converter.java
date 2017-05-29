@@ -84,7 +84,7 @@ abstract class Converter {
             return ResultFormat.Format(out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
         }
         catch (Exception e) {
-            return "0";
+            return "";
         }
     }
 }
