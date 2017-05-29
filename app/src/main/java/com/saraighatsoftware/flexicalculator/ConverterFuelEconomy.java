@@ -15,7 +15,7 @@ class ConverterFuelEconomy extends Converter {
     private static final String TAG = "ConverterFuelEconomy";
 
     // must be same order and value as R.array.fuel_economy
-    private enum FuelEconomyUnit implements Unit {
+    enum FuelEconomyUnit implements Unit {
         MILES_PER_GALLON_US,
         MILES_PER_GALLON_UK,
         KILOMETERS_PER_LITER,
@@ -27,7 +27,9 @@ class ConverterFuelEconomy extends Converter {
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterFuelEconomy(Context context) {
-        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.fuel_economy));
+        if (context != null) {
+            mUnits = Arrays.asList(context.getResources().getStringArray(R.array.fuel_economy));
+        }
         mValues = FuelEconomyUnit.values();
         mConversionFactors = new HashMap<>();
 

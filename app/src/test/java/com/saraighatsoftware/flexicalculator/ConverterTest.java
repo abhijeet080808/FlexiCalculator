@@ -12,6 +12,7 @@ import static com.saraighatsoftware.flexicalculator.ConverterAngle.AngleUnit.*;
 import static com.saraighatsoftware.flexicalculator.ConverterArea.AreaUnit.*;
 import static com.saraighatsoftware.flexicalculator.ConverterData.DataUnit.*;
 import static com.saraighatsoftware.flexicalculator.ConverterEnergy.EnergyUnit.*;
+import static com.saraighatsoftware.flexicalculator.ConverterFuelEconomy.FuelEconomyUnit.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(PowerMockRunner.class)
@@ -69,5 +70,10 @@ public class ConverterTest {
         assertEquals("1000", mConverterEnergy.Convert("1", KILOWATT_HOURS, WATT_HOURS));
         assertEquals("1000", mConverterEnergy.Convert("1", KILOJOULES, JOULES));
         assertEquals("6241509126000000000", mConverterEnergy.Convert("1", JOULES, ELECTRON_VOLTS));
+
+        ConverterFuelEconomy mConverterFuelEconomy = new ConverterFuelEconomy(null);
+        assertEquals("0.832674", mConverterFuelEconomy.Convert("1", MILES_PER_GALLON_UK, MILES_PER_GALLON_US));
+        assertEquals("0.354006", mConverterFuelEconomy.Convert("1", MILES_PER_GALLON_UK, KILOMETERS_PER_LITER));
+        assertEquals("282.480936", mConverterFuelEconomy.Convert("1", MILES_PER_GALLON_UK, LITERS_PER_100_KILOMETERS));
     }
 }
