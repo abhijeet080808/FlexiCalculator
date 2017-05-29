@@ -11,7 +11,7 @@ import java.util.List;
 class ConverterData extends Converter {
 
     // must be same order and value as R.array.data
-    private enum DataUnit implements Unit {
+    enum DataUnit implements Unit {
         BITS,
         BYTES,
         KILOBITS,
@@ -41,7 +41,9 @@ class ConverterData extends Converter {
     private HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterData(Context context) {
-        mUnits = Arrays.asList(context.getResources().getStringArray(R.array.data));
+        if (context != null) {
+            mUnits = Arrays.asList(context.getResources().getStringArray(R.array.data));
+        }
         mValues = DataUnit.values();
         mConversionFactors = new HashMap<>();
 
