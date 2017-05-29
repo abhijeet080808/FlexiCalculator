@@ -275,12 +275,15 @@ public class ConverterFragment extends Fragment {
     }
 
     private void expressionListener(String token) {
-        if (mInput.length() == 1 && mInput.charAt(0) == '0') {
-            mInput.deleteCharAt(0);
-        }
-
-        if (!token.equals(Calculator.POINT) ||
-                (token.equals(".") && mInput.indexOf(Calculator.POINT) == -1)) {
+        // this is the one and only POINT
+        if (token.equals(Calculator.POINT) && mInput.indexOf(Calculator.POINT) == -1) {
+            mInput.append(token);
+            evaluate();
+        } else if (!token.equals(Calculator.POINT)) {
+            // replace 0 with this new digit
+            if (mInput.length() == 1 && mInput.charAt(0) == '0') {
+                mInput.deleteCharAt(0);
+            }
             mInput.append(token);
             evaluate();
         }
