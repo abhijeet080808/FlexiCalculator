@@ -17,7 +17,10 @@ public class CalculatorFragment extends Fragment {
 
     private static final String TAG = "CalculatorFragment";
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String ARG_INFIX_EXPRESSION = "infix_expression";
+    private static final String ARG_IS_RESULT_SET = "is_result_set";
+    private static final String ARG_BASE = "base";
+    private static final String ARG_ANGULAR_UNIT = "angular_unit";
 
     private TextView mTextDisplay;
     private HorizontalScrollView mScrollDisplay;
@@ -39,9 +42,11 @@ public class CalculatorFragment extends Fragment {
     private Button mButtonE;
     private Button mButtonF;
     private Button mButtonPoint;
+    private Button mButtonBase;
+    private Button mButtonAngularUnit;
 
     private final Calculator mCalculator;
-    private final Vector<String> mInfixExpression;
+    private Vector<String> mInfixExpression;
     private boolean mIsResultSet;
 
     private Calculator.Base mBase;
@@ -55,30 +60,49 @@ public class CalculatorFragment extends Fragment {
         mAngularUnit = Calculator.AngularUnit.DEGREE;
     }
 
-    public void setArguments(int sectionNumber) {
-        Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        setArguments(args);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(ARG_INFIX_EXPRESSION, mInfixExpression);
+        outState.putBoolean(ARG_IS_RESULT_SET, mIsResultSet);
+        outState.putSerializable(ARG_BASE, mBase);
+        outState.putSerializable(ARG_ANGULAR_UNIT, mAngularUnit);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            // fragment was destroyed by the system, so restore fragment state, set view state
+            mInfixExpression = (Vector<String>) savedInstanceState.getSerializable(ARG_INFIX_EXPRESSION);
+            mIsResultSet = savedInstanceState.getBoolean(ARG_IS_RESULT_SET);
+            mBase = (Calculator.Base) savedInstanceState.getSerializable(ARG_BASE);
+            mAngularUnit = (Calculator.AngularUnit) savedInstanceState.getSerializable(ARG_ANGULAR_UNIT);
+
+            updateText();
+            setBaseButtonState();
+            setDigitButtonStates();
+            setAngularUnitButtonState();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
+        // restore view state automatically
+        super.onCreateView(inflater, container, savedInstanceState);
+
         Context context = getContext();
-        mInfixExpression.clear();
-        mIsResultSet = false;
-        mBase = Calculator.Base.DEC;
-        mAngularUnit = Calculator.AngularUnit.DEGREE;
 
         View root_view = inflater.inflate(R.layout.fragment_calculator, container, false);
 
         mTextDisplay = (TextView) root_view.findViewById(R.id.text_display);
         mTextDisplay.setTypeface(FontCache.GetLight(context));
-        mTextDisplay.setText("");
-        //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
         mScrollDisplay = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display);
+
+        updateText();
 
         Button button;
 
@@ -458,30 +482,27 @@ public class CalculatorFragment extends Fragment {
         });
         button.setTypeface(FontCache.GetRegular(context));
 
-        button = (Button) root_view.findViewById(R.id.button_base);
-        button.setOnClickListener(new View.OnClickListener() {
+        mButtonBase = (Button) root_view.findViewById(R.id.button_base);
+        mButtonBase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // hex -> dec -> oct -> bin->hex
                 Calculator.Base old_base = mBase;
                 switch (mBase) {
                     case HEX:
-                        ((Button) v).setText(getString(R.string.decimal));
                         mBase = Calculator.Base.DEC;
                         break;
                     case DEC:
-                        ((Button) v).setText(getString(R.string.octal));
                         mBase = Calculator.Base.OCT;
                         break;
                     case OCT:
-                        ((Button) v).setText(getString(R.string.binary));
                         mBase = Calculator.Base.BIN;
                         break;
                     case BIN:
-                        ((Button) v).setText(getString(R.string.hexadecimal));
                         mBase = Calculator.Base.HEX;
                         break;
                 }
+                setBaseButtonState();
                 setDigitButtonStates();
 
                 if (mInfixExpression.size() == 1 &&
@@ -501,27 +522,28 @@ public class CalculatorFragment extends Fragment {
                 updateText();
             }
         });
-        button.setTypeface(FontCache.GetRegular(context));
+        mButtonBase.setTypeface(FontCache.GetRegular(context));
 
-        button = (Button) root_view.findViewById(R.id.button_angular_unit);
-        button.setOnClickListener(new View.OnClickListener() {
+        mButtonAngularUnit = (Button) root_view.findViewById(R.id.button_angular_unit);
+        mButtonAngularUnit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (mAngularUnit) {
                     case DEGREE:
-                        ((Button) v).setText(getString(R.string.radian));
                         mAngularUnit = Calculator.AngularUnit.RADIAN;
                         break;
                     case RADIAN:
-                        ((Button) v).setText(getString(R.string.degree));
                         mAngularUnit = Calculator.AngularUnit.DEGREE;
                         break;
                 }
+                setAngularUnitButtonState();
             }
         });
-        button.setTypeface(FontCache.GetRegular(context));
+        mButtonAngularUnit.setTypeface(FontCache.GetRegular(context));
 
+        setBaseButtonState();
         setDigitButtonStates();
+        setAngularUnitButtonState();
         return root_view;
     }
 
@@ -763,8 +785,6 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void updateText() {
-        View root_view = getView();
-        if (root_view == null) return;
         if (mInfixExpression.isEmpty()) {
             mTextDisplay.setText("");
         } else {
@@ -862,6 +882,34 @@ public class CalculatorFragment extends Fragment {
                 mButtonE.setEnabled(false);
                 mButtonF.setEnabled(false);
                 mButtonPoint.setEnabled(false);
+                break;
+        }
+    }
+
+    private void setBaseButtonState() {
+        switch (mBase) {
+            case HEX:
+                mButtonBase.setText(getString(R.string.hexadecimal));
+                break;
+            case DEC:
+                mButtonBase.setText(getString(R.string.decimal));
+                break;
+            case OCT:
+                mButtonBase.setText(getString(R.string.octal));
+                break;
+            case BIN:
+                mButtonBase.setText(getString(R.string.binary));
+                break;
+        }
+    }
+
+    private void setAngularUnitButtonState() {
+        switch (mAngularUnit) {
+            case DEGREE:
+                mButtonAngularUnit.setText(getString(R.string.degree));
+                break;
+            case RADIAN:
+                mButtonAngularUnit.setText(getString(R.string.radian));
                 break;
         }
     }

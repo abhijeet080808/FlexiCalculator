@@ -17,7 +17,8 @@ import java.util.Arrays;
 
 public class ConverterFragment extends Fragment {
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String ARG_INPUT = "input";
+    private static final String ARG_OUTPUT = "output";
 
     private TextView mTextDisplayInput;
     private TextView mTextDisplayOutput;
@@ -39,16 +40,32 @@ public class ConverterFragment extends Fragment {
         mOutput = "";
     }
 
-    public void setArguments(int sectionNumber) {
-        Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        setArguments(args);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(ARG_INPUT, mInput.toString());
+        outState.putString(ARG_OUTPUT, mOutput);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            // fragment was destroyed by the system, so restore fragment state, set view state
+            mInput = new StringBuffer(savedInstanceState.getString(ARG_INPUT));
+            mOutput = savedInstanceState.getString(ARG_OUTPUT);
+
+            updateText();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
+        // restore view state automatically
+        super.onCreateView(inflater, container, savedInstanceState);
+
         Context context = getContext();
         // order and length should be same as as R.array.categories
         mConverters = new Converter[] {
@@ -67,8 +84,6 @@ public class ConverterFragment extends Fragment {
                 new ConverterData(context),
                 new ConverterAngle(context)
         };
-        mInput.delete(0, mInput.length());
-        mOutput = "";
 
         View root_view = inflater.inflate(R.layout.fragment_converter, container, false);
 
@@ -78,11 +93,10 @@ public class ConverterFragment extends Fragment {
         mTextDisplayInput.setTypeface(FontCache.GetLight(context));
         mTextDisplayOutput.setTypeface(FontCache.GetLight(context));
 
-        mTextDisplayInput.setText("");
-        mTextDisplayOutput.setText("");
-
         mScrollDisplayInput = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display_input);
         mScrollDisplayOutput = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display_output);
+
+        updateText();
 
         mSpinnerCategory = (Spinner) root_view.findViewById(R.id.spinner_category);
         final CustomArrayAdapter category_adapter = new CustomArrayAdapter(
@@ -330,8 +344,6 @@ public class ConverterFragment extends Fragment {
     }
 
     private void updateText() {
-        View root_view = getView();
-        if (root_view == null) return;
         mTextDisplayInput.setText(mInput.toString());
         mTextDisplayOutput.setText(mOutput);
 
