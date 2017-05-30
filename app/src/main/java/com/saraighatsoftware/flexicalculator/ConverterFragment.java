@@ -1,5 +1,6 @@
 package com.saraighatsoftware.flexicalculator;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Vector;
 
 public class ConverterFragment extends Fragment {
 
@@ -29,12 +29,14 @@ public class ConverterFragment extends Fragment {
     private Spinner mSpinnerInput;
     private Spinner mSpinnerOutput;
 
-    private Vector<Converter> mConverters;
+    private Converter[] mConverters;
 
     private StringBuffer mInput;
     private String mOutput;
 
     public ConverterFragment() {
+        mInput = new StringBuffer();
+        mOutput = "";
     }
 
     public void setArguments(int sectionNumber) {
@@ -47,23 +49,25 @@ public class ConverterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        mConverters = new Vector<>();
+        Context context = getContext();
         // order and length should be same as as R.array.categories
-        mConverters.add(new ConverterVolume(getContext()));
-        mConverters.add(new ConverterWeight(getContext()));
-        mConverters.add(new ConverterLength(getContext()));
-        mConverters.add(new ConverterArea(getContext()));
-        mConverters.add(new ConverterFuelEconomy(getContext()));
-        mConverters.add(new ConverterTemperature(getContext()));
-        mConverters.add(new ConverterPressure(getContext()));
-        mConverters.add(new ConverterEnergy(getContext()));
-        mConverters.add(new ConverterPower(getContext()));
-        mConverters.add(new ConverterTorque(getContext()));
-        mConverters.add(new ConverterSpeed(getContext()));
-        mConverters.add(new ConverterTime(getContext()));
-        mConverters.add(new ConverterData(getContext()));
-        mConverters.add(new ConverterAngle(getContext()));
-        mInput = new StringBuffer();
+        mConverters = new Converter[] {
+                new ConverterVolume(context),
+                new ConverterWeight(context),
+                new ConverterLength(context),
+                new ConverterArea(context),
+                new ConverterFuelEconomy(context),
+                new ConverterTemperature(context),
+                new ConverterPressure(context),
+                new ConverterEnergy(context),
+                new ConverterPower(context),
+                new ConverterTorque(context),
+                new ConverterSpeed(context),
+                new ConverterTime(context),
+                new ConverterData(context),
+                new ConverterAngle(context)
+        };
+        mInput.delete(0, mInput.length());
         mOutput = "";
 
         View root_view = inflater.inflate(R.layout.fragment_converter, container, false);
@@ -71,17 +75,18 @@ public class ConverterFragment extends Fragment {
         mTextDisplayInput = (TextView) root_view.findViewById(R.id.text_display_input);
         mTextDisplayOutput = (TextView) root_view.findViewById(R.id.text_display_output);
 
-        mTextDisplayInput.setTypeface(FontCache.GetLight(getContext()));
-        mTextDisplayOutput.setTypeface(FontCache.GetLight(getContext()));
+        mTextDisplayInput.setTypeface(FontCache.GetLight(context));
+        mTextDisplayOutput.setTypeface(FontCache.GetLight(context));
+
+        mTextDisplayInput.setText("");
+        mTextDisplayOutput.setText("");
 
         mScrollDisplayInput = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display_input);
         mScrollDisplayOutput = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display_output);
 
-        updateText();
-
         mSpinnerCategory = (Spinner) root_view.findViewById(R.id.spinner_category);
         final CustomArrayAdapter category_adapter = new CustomArrayAdapter(
-                getContext(),
+                context,
                 android.R.layout.simple_list_item_1,
                 Arrays.asList(getResources().getStringArray(R.array.categories))
         );
@@ -89,7 +94,7 @@ public class ConverterFragment extends Fragment {
 
         mSpinnerInput = (Spinner) root_view.findViewById(R.id.spinner_input_type);
         final CustomArrayAdapter input_type_adapter = new CustomArrayAdapter(
-                getContext(),
+                context,
                 android.R.layout.simple_list_item_1,
                 new ArrayList<String>()
         );
@@ -97,7 +102,7 @@ public class ConverterFragment extends Fragment {
 
         mSpinnerOutput = (Spinner) root_view.findViewById(R.id.spinner_output_type);
         final CustomArrayAdapter output_type_adapter = new CustomArrayAdapter(
-                getContext(),
+                context,
                 android.R.layout.simple_list_item_1,
                 new ArrayList<String>()
         );
@@ -109,14 +114,14 @@ public class ConverterFragment extends Fragment {
                 final int category = mSpinnerCategory.getSelectedItemPosition();
 
                 input_type_adapter.clear();
-                for (String item : mConverters.get(category).getUnits()) {
+                for (String item : mConverters[category].getUnits()) {
                     input_type_adapter.add(item);
                 }
                 mSpinnerInput.setSelection(0);
                 input_type_adapter.notifyDataSetChanged();
 
                 output_type_adapter.clear();
-                for (String item : mConverters.get(category).getUnits()) {
+                for (String item : mConverters[category].getUnits()) {
                     output_type_adapter.add(item);
                 }
                 mSpinnerOutput.setSelection(1);
@@ -163,7 +168,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("0");
             }
         });
-        button.setTypeface(FontCache.GetSemiBold(getContext()));
+        button.setTypeface(FontCache.GetSemiBold(context));
 
         button = (Button) root_view.findViewById(R.id.button_one);
         button.setOnClickListener(new View.OnClickListener() {
@@ -172,7 +177,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("1");
             }
         });
-        button.setTypeface(FontCache.GetSemiBold(getContext()));
+        button.setTypeface(FontCache.GetSemiBold(context));
 
         button = (Button) root_view.findViewById(R.id.button_two);
         button.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +186,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("2");
             }
         });
-        button.setTypeface(FontCache.GetSemiBold(getContext()));
+        button.setTypeface(FontCache.GetSemiBold(context));
 
         button = (Button) root_view.findViewById(R.id.button_three);
         button.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +195,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("3");
             }
         });
-        button.setTypeface(FontCache.GetSemiBold(getContext()));
+        button.setTypeface(FontCache.GetSemiBold(context));
 
         button = (Button) root_view.findViewById(R.id.button_four);
         button.setOnClickListener(new View.OnClickListener() {
@@ -199,7 +204,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("4");
             }
         });
-        button.setTypeface(FontCache.GetSemiBold(getContext()));
+        button.setTypeface(FontCache.GetSemiBold(context));
 
         button = (Button) root_view.findViewById(R.id.button_five);
         button.setOnClickListener(new View.OnClickListener() {
@@ -208,7 +213,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("5");
             }
         });
-        button.setTypeface(FontCache.GetSemiBold(getContext()));
+        button.setTypeface(FontCache.GetSemiBold(context));
 
         button = (Button) root_view.findViewById(R.id.button_six);
         button.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +222,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("6");
             }
         });
-        button.setTypeface(FontCache.GetSemiBold(getContext()));
+        button.setTypeface(FontCache.GetSemiBold(context));
 
         button = (Button) root_view.findViewById(R.id.button_seven);
         button.setOnClickListener(new View.OnClickListener() {
@@ -226,7 +231,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("7");
             }
         });
-        button.setTypeface(FontCache.GetSemiBold(getContext()));
+        button.setTypeface(FontCache.GetSemiBold(context));
 
         button = (Button) root_view.findViewById(R.id.button_eight);
         button.setOnClickListener(new View.OnClickListener() {
@@ -235,7 +240,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("8");
             }
         });
-        button.setTypeface(FontCache.GetSemiBold(getContext()));
+        button.setTypeface(FontCache.GetSemiBold(context));
 
         button = (Button) root_view.findViewById(R.id.button_nine);
         button.setOnClickListener(new View.OnClickListener() {
@@ -244,7 +249,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener("9");
             }
         });
-        button.setTypeface(FontCache.GetSemiBold(getContext()));
+        button.setTypeface(FontCache.GetSemiBold(context));
 
         button = (Button) root_view.findViewById(R.id.button_point);
         button.setOnClickListener(new View.OnClickListener() {
@@ -253,7 +258,7 @@ public class ConverterFragment extends Fragment {
                 expressionListener(Calculator.POINT);
             }
         });
-        button.setTypeface(FontCache.GetRegular(getContext()));
+        button.setTypeface(FontCache.GetRegular(context));
 
         button = (Button) root_view.findViewById(R.id.button_delete);
         button.setOnClickListener(new View.OnClickListener() {
@@ -269,7 +274,7 @@ public class ConverterFragment extends Fragment {
                 return true;
             }
         });
-        button.setTypeface(FontCache.GetRegular(getContext()));
+        button.setTypeface(FontCache.GetRegular(context));
 
         return root_view;
     }
@@ -316,10 +321,10 @@ public class ConverterFragment extends Fragment {
                     output == AdapterView.INVALID_POSITION) {
                 return;
             }
-            mOutput = mConverters.get(category).Convert(
+            mOutput = mConverters[category].Convert(
                     mInput.toString(),
-                    mConverters.get(category).getUnitFromInteger(input),
-                    mConverters.get(category).getUnitFromInteger(output));
+                    mConverters[category].getUnitFromInteger(input),
+                    mConverters[category].getUnitFromInteger(output));
         }
         updateText();
     }
