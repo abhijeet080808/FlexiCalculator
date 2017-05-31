@@ -155,7 +155,8 @@ class Calculator {
 
     String Evaluate(final ArrayList<String> infixExpression,
                     final Base base,
-                    final AngularUnit angularUnit) throws Exception {
+                    final AngularUnit angularUnit)
+            throws IllegalArgumentException, ArithmeticException {
         // evaluate something like [30, +, 2]
         // each vector element either contains a digit in string form
         // or contains a operator in string form
@@ -250,7 +251,8 @@ class Calculator {
         return getNumber(operands.firstElement(), base);
     }
 
-    private BigDecimal getBigDecimal(final String operand, final Base base) throws Exception {
+    private BigDecimal getBigDecimal(final String operand,
+                                     final Base base) throws IllegalArgumentException {
         // convert integer operands to BigDecimal in base 10
         // floating point operands have to be already in base 10 else they are truncated
         switch (base) {
@@ -268,7 +270,8 @@ class Calculator {
         }
     }
 
-    private String getNumber(final BigDecimal operand, final Base base) throws Exception {
+    private String getNumber(final BigDecimal operand,
+                             final Base base) throws IllegalArgumentException {
         // convert base 10 operand to other base as specified
         // floating point operands have to be already in base 10 else they are truncated
         switch (base) {
@@ -287,7 +290,8 @@ class Calculator {
 
     private BigDecimal operate(final String operator,
                                final BigDecimal operand1,
-                               final BigDecimal operand2) throws Exception {
+                               final BigDecimal operand2)
+            throws IllegalArgumentException, ArithmeticException {
         Log.v(TAG, "Processing " + operand1 + " " + operator + " " + operand2);
 
         switch (operator) {
@@ -321,7 +325,8 @@ class Calculator {
 
     private BigDecimal operate(final String operator,
                                final BigDecimal operand,
-                               final AngularUnit angularUnit) throws Exception {
+                               final AngularUnit angularUnit)
+            throws IllegalArgumentException, ArithmeticException {
         Log.v(TAG, "Processing " + operator + " " + operand);
 
         // sin/cos/tan expects value in degree
@@ -526,7 +531,8 @@ class Calculator {
         }
     }
 
-    String Convert(final String operand, final Base oldBase, final Base newBase) throws Exception {
+    String Convert(final String operand, final Base oldBase, final Base newBase)
+            throws IllegalArgumentException {
         // convert the operand's base
         if (oldBase == newBase) {
             return operand;
