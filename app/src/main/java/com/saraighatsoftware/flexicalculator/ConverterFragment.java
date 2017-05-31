@@ -19,6 +19,7 @@ public class ConverterFragment extends Fragment {
 
     private static final String ARG_INPUT = "input";
     private static final String ARG_OUTPUT = "output";
+    private static final String ARG_LAST_SELECTED_CATEGORY = "last_selected_category";
 
     private TextView mTextDisplayInput;
     private TextView mTextDisplayOutput;
@@ -35,9 +36,12 @@ public class ConverterFragment extends Fragment {
     private StringBuffer mInput;
     private String mOutput;
 
+    private int mLastSelectedCategory;
+
     public ConverterFragment() {
         mInput = new StringBuffer();
         mOutput = "";
+        mLastSelectedCategory = -1;
     }
 
     @Override
@@ -45,6 +49,7 @@ public class ConverterFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putString(ARG_INPUT, mInput.toString());
         outState.putString(ARG_OUTPUT, mOutput);
+        outState.putInt(ARG_LAST_SELECTED_CATEGORY, mLastSelectedCategory);
     }
 
     @Override
@@ -54,6 +59,7 @@ public class ConverterFragment extends Fragment {
             // fragment was destroyed by the system, so restore fragment state, set view state
             mInput = new StringBuffer(savedInstanceState.getString(ARG_INPUT));
             mOutput = savedInstanceState.getString(ARG_OUTPUT);
+            mLastSelectedCategory = savedInstanceState.getInt(ARG_LAST_SELECTED_CATEGORY);
 
             updateText();
         }
@@ -96,8 +102,6 @@ public class ConverterFragment extends Fragment {
         mScrollDisplayInput = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display_input);
         mScrollDisplayOutput = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display_output);
 
-        updateText();
-
         mSpinnerCategory = (Spinner) root_view.findViewById(R.id.spinner_category);
         final CustomArrayAdapter category_adapter = new CustomArrayAdapter(
                 context,
@@ -125,6 +129,7 @@ public class ConverterFragment extends Fragment {
         mSpinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // this is erroneously called when activity is created or fragment is (re)created
                 final int category = mSpinnerCategory.getSelectedItemPosition();
 
                 input_type_adapter.clear();
@@ -141,7 +146,10 @@ public class ConverterFragment extends Fragment {
                 mSpinnerOutput.setSelection(1);
                 output_type_adapter.notifyDataSetChanged();
 
-                clear();
+                if (category != mLastSelectedCategory) {
+                    clear();
+                }
+                mLastSelectedCategory = category;
             }
 
             @Override
@@ -289,6 +297,8 @@ public class ConverterFragment extends Fragment {
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
+
+        updateText();
 
         return root_view;
     }

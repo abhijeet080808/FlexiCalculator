@@ -17,14 +17,10 @@ class FragmentPager extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            CalculatorFragment fragment = new CalculatorFragment();
-            fragment.setArguments(position);
-            return fragment;
+            return new CalculatorFragment();
         }
         if (position == 1) {
-            ConverterFragment fragment = new ConverterFragment();
-            fragment.setArguments(position);
-            return fragment;
+            return new ConverterFragment();
         }
         if (position == 2) {
             return new HelpFragment();

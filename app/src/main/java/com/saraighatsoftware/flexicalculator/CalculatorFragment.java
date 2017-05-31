@@ -102,8 +102,6 @@ public class CalculatorFragment extends Fragment {
 
         mScrollDisplay = (HorizontalScrollView) root_view.findViewById(R.id.scroll_display);
 
-        updateText();
-
         Button button;
 
         mButtonZero = (Button) root_view.findViewById(R.id.button_zero);
@@ -541,9 +539,11 @@ public class CalculatorFragment extends Fragment {
         });
         mButtonAngularUnit.setTypeface(FontCache.GetRegular(context));
 
+        updateText();
         setBaseButtonState();
         setDigitButtonStates();
         setAngularUnitButtonState();
+
         return root_view;
     }
 
