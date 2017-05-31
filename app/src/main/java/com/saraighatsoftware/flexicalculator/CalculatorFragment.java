@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class CalculatorFragment extends Fragment {
 
@@ -46,7 +46,7 @@ public class CalculatorFragment extends Fragment {
     private Button mButtonAngularUnit;
 
     private final Calculator mCalculator;
-    private Vector<String> mInfixExpression;
+    private ArrayList<String> mInfixExpression;
     private boolean mIsResultSet;
 
     private Calculator.Base mBase;
@@ -54,7 +54,7 @@ public class CalculatorFragment extends Fragment {
 
     public CalculatorFragment() {
         mCalculator = new Calculator();
-        mInfixExpression = new Vector<>();
+        mInfixExpression = new ArrayList<>();
         mIsResultSet = false;
         mBase = Calculator.Base.DEC;
         mAngularUnit = Calculator.AngularUnit.DEGREE;
@@ -63,7 +63,7 @@ public class CalculatorFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(ARG_INFIX_EXPRESSION, mInfixExpression);
+        outState.putStringArrayList(ARG_INFIX_EXPRESSION, mInfixExpression);
         outState.putBoolean(ARG_IS_RESULT_SET, mIsResultSet);
         outState.putSerializable(ARG_BASE, mBase);
         outState.putSerializable(ARG_ANGULAR_UNIT, mAngularUnit);
@@ -74,7 +74,7 @@ public class CalculatorFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             // fragment was destroyed by the system, so restore fragment state, set view state
-            mInfixExpression = (Vector<String>) savedInstanceState.getSerializable(ARG_INFIX_EXPRESSION);
+            mInfixExpression = savedInstanceState.getStringArrayList(ARG_INFIX_EXPRESSION);
             mIsResultSet = savedInstanceState.getBoolean(ARG_IS_RESULT_SET);
             mBase = (Calculator.Base) savedInstanceState.getSerializable(ARG_BASE);
             mAngularUnit = (Calculator.AngularUnit) savedInstanceState.getSerializable(ARG_ANGULAR_UNIT);
@@ -504,8 +504,8 @@ public class CalculatorFragment extends Fragment {
                 setDigitButtonStates();
 
                 if (mInfixExpression.size() == 1 &&
-                        mCalculator.IsOperand(mInfixExpression.firstElement(), old_base)) {
-                    String old_operand = mInfixExpression.firstElement();
+                        mCalculator.IsOperand(mInfixExpression.get(0), old_base)) {
+                    String old_operand = mInfixExpression.get(0);
                     mInfixExpression.clear();
                     try {
                         String new_operand = mCalculator.Convert(old_operand, old_base, mBase);
@@ -589,7 +589,7 @@ public class CalculatorFragment extends Fragment {
 
         } else {
 
-            final String last_token = mInfixExpression.lastElement();
+            final String last_token = mInfixExpression.get(mInfixExpression.size() - 1);
             final String last_to_last_token =
                     mInfixExpression.size() > 1 ? mInfixExpression.get(mInfixExpression.size() - 2) : "";
 
@@ -767,7 +767,7 @@ public class CalculatorFragment extends Fragment {
     private void delete() {
         if (mInfixExpression.isEmpty()) return;
 
-        String last_element = mInfixExpression.lastElement();
+        String last_element = mInfixExpression.get(mInfixExpression.size() - 1);
         if (mCalculator.IsOperator(last_element) || last_element.length() == 1 || mIsResultSet) {
             mInfixExpression.remove(mInfixExpression.size() - 1);
         } else {

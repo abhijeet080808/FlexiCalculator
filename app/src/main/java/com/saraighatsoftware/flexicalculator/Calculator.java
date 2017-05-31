@@ -6,9 +6,9 @@ import org.apache.commons.math3.util.CombinatoricsUtils;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
-import java.util.Vector;
 
 class Calculator {
 
@@ -153,7 +153,7 @@ class Calculator {
     Right associativity - 1 ^ 2 ^ 3 = 1 ^ (2 ^ 3)
     */
 
-    String Evaluate(final Vector<String> infixExpression,
+    String Evaluate(final ArrayList<String> infixExpression,
                     final Base base,
                     final AngularUnit angularUnit) throws Exception {
         // evaluate something like [30, +, 2]
@@ -359,7 +359,7 @@ class Calculator {
         }
     }
 
-    boolean IsSane(final Vector<String> infixExpression, final Base base, final boolean isComplete) {
+    boolean IsSane(final ArrayList<String> infixExpression, final Base base, final boolean isComplete) {
         // check that expression is not empty and open/close brackets are balanced
         if (infixExpression.isEmpty()) { return false; }
 
@@ -380,8 +380,8 @@ class Calculator {
 
         //noinspection SimplifiableIfStatement
         if (isComplete) {
-            return (!IsBinaryOperator(infixExpression.lastElement())
-                    && !IsPreUnaryOperator(infixExpression.lastElement())
+            return (!IsBinaryOperator(infixExpression.get(infixExpression.size() - 1))
+                    && !IsPreUnaryOperator(infixExpression.get(infixExpression.size() - 1))
                     && brackets == 0);
         } else {
             return true;
