@@ -20,13 +20,15 @@ class ConverterPressure extends Converter {
         TORRS
     }
 
-    private List<String> mUnits;
-    private PressureUnit[] mValues;
-    private HashMap<ConversionPair, BigFraction> mConversionFactors;
+    private final List<String> mUnits;
+    private final PressureUnit[] mValues;
+    private final HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterPressure(Context context) {
         if (context != null) {
             mUnits = Arrays.asList(context.getResources().getStringArray(R.array.pressure));
+        } else {
+            mUnits = null;
         }
         mValues = PressureUnit.values();
         mConversionFactors = new HashMap<>();

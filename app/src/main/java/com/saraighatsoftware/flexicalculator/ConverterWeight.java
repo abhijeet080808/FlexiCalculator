@@ -28,13 +28,15 @@ class ConverterWeight extends Converter {
         LONG_TONS_UK
     }
 
-    private List<String> mUnits;
-    private WeightUnit[] mValues;
-    private HashMap<ConversionPair, BigFraction> mConversionFactors;
+    private final List<String> mUnits;
+    private final WeightUnit[] mValues;
+    private final HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterWeight(Context context) {
         if (context != null) {
             mUnits = Arrays.asList(context.getResources().getStringArray(R.array.weight));
+        } else {
+            mUnits = null;
         }
         mValues = WeightUnit.values();
         mConversionFactors = new HashMap<>();

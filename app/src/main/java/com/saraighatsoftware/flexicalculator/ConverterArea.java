@@ -24,13 +24,15 @@ class ConverterArea extends Converter {
         SQUARE_MILES
     }
 
-    private List<String> mUnits;
-    private AreaUnit[] mValues;
-    private HashMap<ConversionPair, BigFraction> mConversionFactors;
+    private final List<String> mUnits;
+    private final AreaUnit[] mValues;
+    private final HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterArea(Context context) {
         if (context != null) {
             mUnits = Arrays.asList(context.getResources().getStringArray(R.array.area));
+        } else {
+            mUnits = null;
         }
         mValues = AreaUnit.values();
         mConversionFactors = new HashMap<>();

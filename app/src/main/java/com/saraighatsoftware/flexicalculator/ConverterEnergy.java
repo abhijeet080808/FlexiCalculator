@@ -27,13 +27,15 @@ class ConverterEnergy extends Converter {
         BRITISH_THERMAL_UNITS_ISO
     }
 
-    private List<String> mUnits;
-    private EnergyUnit[] mValues;
-    private HashMap<ConversionPair, BigFraction> mConversionFactors;
+    private final List<String> mUnits;
+    private final EnergyUnit[] mValues;
+    private final HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterEnergy(Context context) {
         if (context != null) {
             mUnits = Arrays.asList(context.getResources().getStringArray(R.array.energy));
+        } else {
+            mUnits = null;
         }
         mValues = EnergyUnit.values();
         mConversionFactors = new HashMap<>();

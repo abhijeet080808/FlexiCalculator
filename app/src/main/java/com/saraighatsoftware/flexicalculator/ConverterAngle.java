@@ -17,13 +17,15 @@ class ConverterAngle extends Converter {
         GRADIANS
     }
 
-    private List<String> mUnits;
-    private AngleUnit[] mValues;
-    private HashMap<ConversionPair, BigFraction> mConversionFactors;
+    private final List<String> mUnits;
+    private final AngleUnit[] mValues;
+    private final HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterAngle(Context context) {
         if (context != null) {
             mUnits = Arrays.asList(context.getResources().getStringArray(R.array.angle));
+        } else {
+            mUnits = null;
         }
         mValues = AngleUnit.values();
         mConversionFactors = new HashMap<>();

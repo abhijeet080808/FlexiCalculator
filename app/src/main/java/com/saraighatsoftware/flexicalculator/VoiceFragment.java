@@ -17,7 +17,7 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
 
     private TextView mTextResult;
 
-    private VoiceCalculator mVoiceCalculator;
+    private final VoiceCalculator mVoiceCalculator;
 
     public VoiceFragment(){
         mVoiceCalculator = new VoiceCalculator(getContext(), this);

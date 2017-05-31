@@ -22,13 +22,15 @@ class ConverterSpeed extends Converter {
         MACH
     }
 
-    private List<String> mUnits;
-    private SpeedUnit[] mValues;
-    private HashMap<ConversionPair, BigFraction> mConversionFactors;
+    private final List<String> mUnits;
+    private final SpeedUnit[] mValues;
+    private final HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterSpeed(Context context) {
         if (context != null) {
             mUnits = Arrays.asList(context.getResources().getStringArray(R.array.speed));
+        } else {
+            mUnits = null;
         }
         mValues = SpeedUnit.values();
         mConversionFactors = new HashMap<>();

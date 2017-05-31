@@ -24,13 +24,15 @@ class ConverterPower extends Converter {
         BTUS_IT_PER_MINUTE
     }
 
-    private List<String> mUnits;
-    private PowerUnit[] mValues;
-    private HashMap<ConversionPair, BigFraction> mConversionFactors;
+    private final List<String> mUnits;
+    private final PowerUnit[] mValues;
+    private final HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterPower(Context context) {
         if (context != null) {
             mUnits = Arrays.asList(context.getResources().getStringArray(R.array.power));
+        } else {
+            mUnits = null;
         }
         mValues = PowerUnit.values();
         mConversionFactors = new HashMap<>();

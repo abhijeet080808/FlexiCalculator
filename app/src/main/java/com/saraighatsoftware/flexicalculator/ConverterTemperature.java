@@ -20,12 +20,14 @@ class ConverterTemperature extends Converter {
         KELVIN
     }
 
-    private List<String> mUnits;
-    private TemperatureUnit[] mValues;
+    private final List<String> mUnits;
+    private final TemperatureUnit[] mValues;
 
     ConverterTemperature(Context context) {
         if (context != null) {
             mUnits = Arrays.asList(context.getResources().getStringArray(R.array.temperature));
+        } else {
+            mUnits = null;
         }
         mValues = TemperatureUnit.values();
     }

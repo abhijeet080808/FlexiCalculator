@@ -12,7 +12,7 @@ import java.util.List;
 
 class CustomArrayAdapter extends ArrayAdapter<String> {
 
-    private Context mContext;
+    private final Context mContext;
 
     @SuppressWarnings("unused")
     CustomArrayAdapter(Context context, int resource) {
@@ -38,6 +38,7 @@ class CustomArrayAdapter extends ArrayAdapter<String> {
         mContext = context;
     }
 
+    @SuppressWarnings("SameParameterValue")
     CustomArrayAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
         mContext = context;

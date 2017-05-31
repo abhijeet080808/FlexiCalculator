@@ -25,13 +25,15 @@ class ConverterLength extends Converter {
         NAUTICAL_MILES,
     }
 
-    private List<String> mUnits;
-    private LengthUnit[] mValues;
-    private HashMap<ConversionPair, BigFraction> mConversionFactors;
+    private final List<String> mUnits;
+    private final LengthUnit[] mValues;
+    private final HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterLength(Context context) {
         if (context != null) {
             mUnits = Arrays.asList(context.getResources().getStringArray(R.array.length));
+        } else {
+            mUnits = null;
         }
         mValues = LengthUnit.values();
         mConversionFactors = new HashMap<>();

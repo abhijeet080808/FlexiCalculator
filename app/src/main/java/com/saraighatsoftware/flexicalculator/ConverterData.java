@@ -36,13 +36,15 @@ class ConverterData extends Converter {
         PEBIBYTES
     }
 
-    private List<String> mUnits;
-    private DataUnit[] mValues;
-    private HashMap<ConversionPair, BigFraction> mConversionFactors;
+    private final List<String> mUnits;
+    private final DataUnit[] mValues;
+    private final HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterData(Context context) {
         if (context != null) {
             mUnits = Arrays.asList(context.getResources().getStringArray(R.array.data));
+        } else {
+            mUnits = null;
         }
         mValues = DataUnit.values();
         mConversionFactors = new HashMap<>();

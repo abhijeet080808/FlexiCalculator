@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 public class CustomTabLayout extends TabLayout {
 
-    private Context mContext;
+    private final Context mContext;
 
     public CustomTabLayout(Context context) {
         super(context);

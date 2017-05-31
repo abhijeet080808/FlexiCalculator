@@ -22,13 +22,15 @@ class ConverterTime extends Converter {
         YEARS
     }
 
-    private List<String> mUnits;
-    private TimeUnit[] mValues;
-    private HashMap<ConversionPair, BigFraction> mConversionFactors;
+    private final List<String> mUnits;
+    private final TimeUnit[] mValues;
+    private final HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterTime(Context context) {
         if (context != null) {
             mUnits = Arrays.asList(context.getResources().getStringArray(R.array.time));
+        } else {
+            mUnits = null;
         }
         mValues = TimeUnit.values();
         mConversionFactors = new HashMap<>();

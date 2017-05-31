@@ -20,28 +20,29 @@ class VoiceCalculator implements RecognitionListener {
 
     private static final String TAG = "VoiceCalculator";
 
-    private SpeechRecognizer mRecognizer;
-    private VoiceResultListener mResultListener;
+    private final SpeechRecognizer mRecognizer;
+    private final VoiceResultListener mResultListener;
 
     VoiceCalculator(Context context, VoiceResultListener resultListener) {
         mResultListener = resultListener;
         if (SpeechRecognizer.isRecognitionAvailable(context)) {
             mRecognizer = SpeechRecognizer.createSpeechRecognizer(context);
             mRecognizer.setRecognitionListener(this);
+        } else {
+            mRecognizer = null;
         }
     }
 
-    boolean Start() {
+    void Start() {
         if (mRecognizer == null) {
-            return false;
+            mResultListener.Result("Speech Recognition Is Not Available on This Phone");
+            return;
         }
 
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(EXTRA_LANGUAGE_MODEL, LANGUAGE_MODEL_FREE_FORM);
 
         mRecognizer.startListening(intent);
-
-        return true;
     }
 
     void Stop() {
@@ -122,7 +123,7 @@ class VoiceCalculator implements RecognitionListener {
         mResultListener.Result(result.toString());
     }
 
-    public void onRmsChanged(float rmsdB) {
+    public void onRmsChanged(float rmsDb) {
 
     }
 

@@ -35,13 +35,15 @@ class ConverterVolume extends Converter {
         GALLONS_UK
     }
 
-    private List<String> mUnits;
-    private VolumeUnit[] mValues;
-    private HashMap<ConversionPair, BigFraction> mConversionFactors;
+    private final List<String> mUnits;
+    private final VolumeUnit[] mValues;
+    private final HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterVolume(Context context) {
         if (context != null) {
             mUnits = Arrays.asList(context.getResources().getStringArray(R.array.volume));
+        } else {
+            mUnits = null;
         }
         mValues = VolumeUnit.values();
         mConversionFactors = new HashMap<>();

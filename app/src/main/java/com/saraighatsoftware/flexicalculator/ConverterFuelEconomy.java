@@ -22,13 +22,15 @@ class ConverterFuelEconomy extends Converter {
         LITERS_PER_100_KILOMETERS
     }
 
-    private List<String> mUnits;
-    private FuelEconomyUnit[] mValues;
-    private HashMap<ConversionPair, BigFraction> mConversionFactors;
+    private final List<String> mUnits;
+    private final FuelEconomyUnit[] mValues;
+    private final HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterFuelEconomy(Context context) {
         if (context != null) {
             mUnits = Arrays.asList(context.getResources().getStringArray(R.array.fuel_economy));
+        } else {
+            mUnits = null;
         }
         mValues = FuelEconomyUnit.values();
         mConversionFactors = new HashMap<>();

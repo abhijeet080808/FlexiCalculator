@@ -19,13 +19,15 @@ class ConverterTorque extends Converter {
         POUND_FEET
     }
 
-    private List<String> mUnits;
-    private TorqueUnit[] mValues;
-    private HashMap<ConversionPair, BigFraction> mConversionFactors;
+    private final List<String> mUnits;
+    private final TorqueUnit[] mValues;
+    private final HashMap<ConversionPair, BigFraction> mConversionFactors;
 
     ConverterTorque(Context context) {
         if (context != null) {
             mUnits = Arrays.asList(context.getResources().getStringArray(R.array.torque));
+        } else {
+            mUnits = null;
         }
         mValues = TorqueUnit.values();
         mConversionFactors = new HashMap<>();
