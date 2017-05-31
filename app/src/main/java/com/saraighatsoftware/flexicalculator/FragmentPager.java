@@ -23,7 +23,7 @@ class FragmentPager extends FragmentPagerAdapter {
             return new ConverterFragment();
         }
         if (position == 2) {
-            return new HelpFragment();
+            return new VoiceFragment();
         }
         return null;
     }
@@ -41,7 +41,7 @@ class FragmentPager extends FragmentPagerAdapter {
             case 1:
                 return mContext.getString(R.string.fragment_converter);
             case 2:
-                return mContext.getString(R.string.fragment_help);
+                return mContext.getString(R.string.fragment_voice);
         }
         return null;
     }
