@@ -140,26 +140,39 @@ class VoiceCalculator implements RecognitionListener {
     // ---------------------------------------------
 
     private void process(ArrayList<String> inputList) {
-        // TODO use last result in parsing, add more phrases
+        // TODO use last result in parsing, add more phrases, negative numbers
         for (String input: inputList) {
             // strings can be in form oneplus 2, one plus 2, 1 + 2, one plus two etc
-            String values[] = new String[]{
+            // locale affects recognition of words like 1 million vs 10 lakhs
+            String values[] = new String[] {
                     "plus",
                     "minus",
                     "multiply", "multiplied by", "into", "times",
-                    "/", "by", "divided by",
+                    "/", "by", "divided by", "over",
+                    "open bracket",
+                    "close bracket",
                     "% of",
-                    "to the power"
+                    "factorial",
+                    "square",
+                    "to the power", "to the power of",
+                    "modulus", "modulo", "mod"
             };
             String replacements[] = new String[] {
                     Calculator.ADD,
                     Calculator.SUBTRACT,
                     Calculator.MULTIPLY, Calculator.MULTIPLY, Calculator.MULTIPLY, Calculator.MULTIPLY,
-                    Calculator.DIVIDE, Calculator.DIVIDE, Calculator.DIVIDE,
+                    Calculator.DIVIDE, Calculator.DIVIDE, Calculator.DIVIDE, Calculator.DIVIDE,
+                    Calculator.OPEN_BRACKET,
+                    Calculator.CLOSE_BRACKET,
                     " " + Calculator.PERCENTAGE + " " + Calculator.MULTIPLY,
-                    Calculator.POWER};
+                    Calculator.FACTORIAL,
+                    Calculator.SQUARE,
+                    Calculator.POWER, Calculator.POWER,
+                    Calculator.MODULUS, Calculator.MODULUS, Calculator.MODULUS
+            };
             String processed_input = StringUtils.replaceEach(input, values, replacements);
             // try to break down to infix expression tokens
+            // TODO drop all non numbers and non operators
             ArrayList<String> infix_expression = new ArrayList<>(Arrays.asList(StringUtils.split(processed_input)));
             try {
                 String result = mCalculator.Evaluate(infix_expression, Calculator.Base.DEC, Calculator.AngularUnit.DEGREE);
