@@ -1,9 +1,13 @@
 package com.saraighatsoftware.flexicalculator;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.speech.SpeechRecognizer;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +23,12 @@ interface VoiceResultListener {
     }
     void IsListening(ListenState state);
     void Result(String value);
-    void Error(String message);
+    void Error(int code, String message);
 }
 
 public class VoiceFragment extends Fragment implements VoiceResultListener {
+
+    private static final int PERMISSION_RECORD_AUDIO = 1;
 
     private Button mButtonDisplayVoice;
     private TextView mTextDisplayVoice;
@@ -97,12 +103,25 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
         });
     }
 
-    public void Error(String message) {
+    public void Error(int code, String message) {
         View view = getView();
         if (view != null) {
             Snackbar.make(getView(), message, Snackbar.LENGTH_LONG)
                     .setAction("Action", null)
                     .show();
+        }
+        if (code == SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS) {
+            requestPermissions();
+        }
+    }
+
+    private void requestPermissions() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO) !=
+                PackageManager.PERMISSION_GRANTED)
+        {
+            requestPermissions(
+                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    PERMISSION_RECORD_AUDIO);
         }
     }
 }

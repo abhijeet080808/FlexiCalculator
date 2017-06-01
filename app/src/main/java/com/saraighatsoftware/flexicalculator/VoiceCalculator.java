@@ -31,9 +31,8 @@ class VoiceCalculator implements RecognitionListener {
     VoiceCalculator(Context context, VoiceResultListener resultListener) {
         mResultListener = resultListener;
         mCalculator = new Calculator();
+
         if (SpeechRecognizer.isRecognitionAvailable(context)) {
-            // TODO prompt microphone permission if needed
-            // https://developer.android.com/training/permissions/requesting.html
             mRecognizer = SpeechRecognizer.createSpeechRecognizer(context);
             mRecognizer.setRecognitionListener(this);
         } else {
@@ -43,7 +42,7 @@ class VoiceCalculator implements RecognitionListener {
 
     void Start() {
         if (mRecognizer == null) {
-            mResultListener.Error("Speech Recognition Is Not Available on This Phone");
+            mResultListener.Error(-1, "Speech Recognition Service Is Not Available on This Phone");
             return;
         }
 
@@ -78,31 +77,31 @@ class VoiceCalculator implements RecognitionListener {
         // network or recognition error occurred
         switch (error) {
             case SpeechRecognizer.ERROR_AUDIO:
-                mResultListener.Error("Error Recording Audio");
+                mResultListener.Error(error, "Failed to Record Audio while Performing Speech Recognition");
                 break;
             case SpeechRecognizer.ERROR_CLIENT:
-                mResultListener.Error("Client Error");
+                mResultListener.Error(error, "Speech Recognition Client Error");
                 break;
             case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
-                mResultListener.Error("Insufficient Permissions");
+                mResultListener.Error(error, "Insufficient Permission to Record Audio for Speech Recognition");
                 break;
             case SpeechRecognizer.ERROR_NETWORK:
-                mResultListener.Error("Network Error");
+                mResultListener.Error(error, "Network Failed while Performing Speech Recognition");
                 break;
             case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
-                mResultListener.Error("Network Timeout");
+                mResultListener.Error(error, "Network Timed Out while Performing Speech Recognition");
                 break;
             case SpeechRecognizer.ERROR_NO_MATCH:
-                mResultListener.Error("Failed to Recognise Voice");
+                mResultListener.Error(error, "Failed to Recognise Voice while Performing Speech Recognition");
                 break;
             case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
-                mResultListener.Error("Recognition Service Busy");
+                mResultListener.Error(error, "Speech Recognition Service Busy");
                 break;
             case SpeechRecognizer.ERROR_SERVER:
-                mResultListener.Error("Server Error");
+                mResultListener.Error(error, "Speech Recognition Server Error");
                 break;
             case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
-                mResultListener.Error("Failed to Hear Voice");
+                mResultListener.Error(error, "Failed to Hear Voice while Performing Speech Recognition");
                 break;
             default:
                 break;
@@ -128,6 +127,7 @@ class VoiceCalculator implements RecognitionListener {
         mResultListener.IsListening(VoiceResultListener.ListenState.NOT_LISTENING);
         ArrayList<String> result = results.getStringArrayList(RESULTS_RECOGNITION);
         if (result == null) {
+            mResultListener.Error(-1, "Failed to Parse Voice Input");
             return;
         }
         process(result);
@@ -140,7 +140,7 @@ class VoiceCalculator implements RecognitionListener {
     // ---------------------------------------------
 
     private void process(ArrayList<String> inputList) {
-        // TODO use last result in parsing
+        // TODO use last result in parsing, add more phrases
         for (String input: inputList) {
             // strings can be in form oneplus 2, one plus 2, 1 + 2, one plus two etc
             String values[] = new String[]{
@@ -171,6 +171,6 @@ class VoiceCalculator implements RecognitionListener {
                 // do nothing
             }
         }
-        mResultListener.Error("Failed to Parse " + inputList.toString());
+        mResultListener.Error(-1, "Failed to Process Voice Input - " + inputList.get(0));
     }
 }
