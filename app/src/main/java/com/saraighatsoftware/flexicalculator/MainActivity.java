@@ -14,6 +14,8 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    // TODO small screen, auto rotate
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

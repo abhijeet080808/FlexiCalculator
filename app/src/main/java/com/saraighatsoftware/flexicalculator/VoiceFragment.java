@@ -8,6 +8,7 @@ import android.speech.SpeechRecognizer;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
 
     private static final int PERMISSION_RECORD_AUDIO = 1;
 
+    private static final String ARG_DISPLAY_VOICE = "display_voice";
+
     private Button mButtonDisplayVoice;
     private TextView mTextDisplayVoice;
     private ScrollView mScrollDisplayVoice;
@@ -38,8 +41,37 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
 
     private ListenState mListenState;
 
-    public VoiceFragment(){
+    private StringBuffer mDisplayVoice;
 
+    public VoiceFragment() {
+        mDisplayVoice = new StringBuffer();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // stop ongoing listening if applicable
+        mVoiceCalculator.Cancel();
+        mButtonDisplayVoice.setText(getResources().getString(R.string.listen));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(ARG_DISPLAY_VOICE, mDisplayVoice.toString());
+        Log.v("VoiceFragment", "onSaveInstanceState " + outState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.v("VoiceFragment", "onActivityCreated " + savedInstanceState);
+        if (savedInstanceState != null) {
+            // fragment was destroyed by the system, so restore fragment state, set view state
+            mDisplayVoice = new StringBuffer(savedInstanceState.getString(ARG_DISPLAY_VOICE));
+
+            updateText();
+        }
     }
 
     @Override
@@ -48,6 +80,8 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
                              Bundle savedInstanceState) {
         // restore view state automatically
         super.onCreateView(inflater, container, savedInstanceState);
+        // TODO does not save view state when navigating away from this tab and coming back again
+        Log.v("VoiceFragment", "onCreateView " + savedInstanceState);
 
         Context context = getContext();
 
@@ -77,6 +111,12 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
         return root_view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mVoiceCalculator.Destroy();
+    }
+
     public void IsListening(ListenState state) {
         mListenState = state;
         if (state == ListenState.NOT_LISTENING) {
@@ -89,18 +129,12 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
     }
 
     public void Result(String value) {
-        if (mTextDisplayVoice.getText().toString().isEmpty()) {
-            mTextDisplayVoice.append(value);
-        } else {
-            mTextDisplayVoice.append("\n" + value);
+        if (mDisplayVoice.length() > 0) {
+            mDisplayVoice.append("\n");
         }
+        mDisplayVoice.append(value);
 
-        // scroll after text is displayed
-        mScrollDisplayVoice.post(new Runnable() {
-            public void run() {
-                mScrollDisplayVoice.fullScroll(View.FOCUS_DOWN);
-            }
-        });
+        updateText();
     }
 
     public void Error(int code, String message) {
@@ -113,6 +147,17 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
         if (code == SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS) {
             requestPermissions();
         }
+    }
+
+    private void updateText() {
+        mTextDisplayVoice.setText(mDisplayVoice.toString());
+
+        // scroll after text is displayed
+        mScrollDisplayVoice.post(new Runnable() {
+            public void run() {
+                mScrollDisplayVoice.fullScroll(View.FOCUS_DOWN);
+            }
+        });
     }
 
     private void requestPermissions() {

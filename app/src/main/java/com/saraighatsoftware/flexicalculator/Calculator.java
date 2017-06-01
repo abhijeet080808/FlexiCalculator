@@ -306,6 +306,7 @@ class Calculator {
             case MODULUS:
                 return operand1.remainder(operand2);
             case POWER:
+                // TODO 10 ^ 500
                 return new BigDecimal(Math.pow(operand1.doubleValue(), operand2.doubleValue()));
             case LSH:
                 return new BigDecimal(operand1.toBigInteger().shiftLeft(operand2.intValue()));
@@ -353,6 +354,7 @@ class Calculator {
             case PERCENTAGE:
                 return operand.divide(new BigDecimal(100), INTERNAL_SCALE, BigDecimal.ROUND_HALF_EVEN);
             case FACTORIAL:
+                // TODO 200!
                 return new BigDecimal(CombinatoricsUtils.factorialDouble(operand.intValue()));
             case SQUARE_ROOT:
                 return new BigDecimal(Math.sqrt(operand.doubleValue()));

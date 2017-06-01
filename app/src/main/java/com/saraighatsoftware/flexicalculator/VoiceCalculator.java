@@ -58,6 +58,18 @@ class VoiceCalculator implements RecognitionListener {
         }
     }
 
+    void Cancel() {
+        if (mRecognizer != null) {
+            mRecognizer.cancel();
+        }
+    }
+
+    void Destroy() {
+        if (mRecognizer != null) {
+            mRecognizer.destroy();
+        }
+    }
+
     // -------- RecognitionListener methods --------
 
     public void onBeginningOfSpeech() {
@@ -142,6 +154,7 @@ class VoiceCalculator implements RecognitionListener {
     private void process(ArrayList<String> inputList) {
         // TODO use last result in parsing, add more phrases, negative numbers
         for (String input: inputList) {
+            // http://par.cse.nsysu.edu.tw/link/math-pronunciation.pdf
             // strings can be in form oneplus 2, one plus 2, 1 + 2, one plus two etc
             // locale affects recognition of words like 1 million vs 10 lakhs
             String values[] = new String[] {
