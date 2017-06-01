@@ -8,7 +8,6 @@ import android.speech.SpeechRecognizer;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,13 +58,11 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(ARG_DISPLAY_VOICE, mDisplayVoice.toString());
-        Log.v("VoiceFragment", "onSaveInstanceState " + outState);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.v("VoiceFragment", "onActivityCreated " + savedInstanceState);
         if (savedInstanceState != null) {
             // fragment was destroyed by the system, so restore fragment state, set view state
             mDisplayVoice = new StringBuffer(savedInstanceState.getString(ARG_DISPLAY_VOICE));
@@ -80,8 +77,6 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
                              Bundle savedInstanceState) {
         // restore view state automatically
         super.onCreateView(inflater, container, savedInstanceState);
-        // TODO does not save view state when navigating away from this tab and coming back again
-        Log.v("VoiceFragment", "onCreateView " + savedInstanceState);
 
         Context context = getContext();
 
