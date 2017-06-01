@@ -257,4 +257,8 @@
         <item>Gradians</item>
     </string-array>
 
+    <string name="listen">Listen</string>
+    <string name="listening">Listening</string>
+    <string name="processing">Processing</string>
+
 </resources>

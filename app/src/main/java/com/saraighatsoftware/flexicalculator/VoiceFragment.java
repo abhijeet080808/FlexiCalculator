@@ -2,25 +2,38 @@ package com.saraighatsoftware.flexicalculator;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 interface VoiceResultListener {
-    void Result(String s);
+    enum ListenState {
+        NOT_LISTENING,
+        LISTENING,
+        PROCESSING
+    }
+    void IsListening(ListenState state);
+    void Result(String value);
+    void Error(String message);
 }
 
 public class VoiceFragment extends Fragment implements VoiceResultListener {
 
-    private TextView mTextResult;
+    private Button mButtonDisplayVoice;
+    private TextView mTextDisplayVoice;
+    private ScrollView mScrollDisplayVoice;
 
-    private final VoiceCalculator mVoiceCalculator;
+    private VoiceCalculator mVoiceCalculator;
+
+    private ListenState mListenState;
 
     public VoiceFragment(){
-        mVoiceCalculator = new VoiceCalculator(getContext(), this);
+
     }
 
     @Override
@@ -32,26 +45,64 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
 
         Context context = getContext();
 
+        mVoiceCalculator = new VoiceCalculator(context, this);
+        mListenState = ListenState.NOT_LISTENING;
+
         View root_view = inflater.inflate(R.layout.fragment_voice, container, false);
 
-        mTextResult = (TextView) root_view.findViewById(R.id.text_voice_result);
-        mTextResult.setTypeface(FontCache.GetLight(context));
-
-        Button button;
-
-        button = (Button) root_view.findViewById(R.id.button_start_voice);
-        button.setOnClickListener(new View.OnClickListener() {
+        mButtonDisplayVoice = (Button) root_view.findViewById(R.id.button_display_voice);
+        mButtonDisplayVoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mVoiceCalculator.Start();
+                if (mListenState == ListenState.LISTENING) {
+                    mVoiceCalculator.Stop();
+                } else if (mListenState == ListenState.NOT_LISTENING){
+                    mVoiceCalculator.Start();
+                }
             }
         });
-        button.setTypeface(FontCache.GetSemiBold(context));
+        mButtonDisplayVoice.setTypeface(FontCache.GetLight(context));
+
+        mTextDisplayVoice = (TextView) root_view.findViewById(R.id.text_display_voice);
+        mTextDisplayVoice.setTypeface(FontCache.GetLight(context));
+
+        mScrollDisplayVoice = (ScrollView) root_view.findViewById(R.id.scroll_display_voice);
 
         return root_view;
     }
 
-    public void Result(String s) {
-        mTextResult.append("\n" + s);
+    public void IsListening(ListenState state) {
+        mListenState = state;
+        if (state == ListenState.NOT_LISTENING) {
+            mButtonDisplayVoice.setText(getResources().getString(R.string.listen));
+        } else if (state == ListenState.LISTENING) {
+            mButtonDisplayVoice.setText(getResources().getString(R.string.listening));
+        } else if (state == ListenState.PROCESSING){
+            mButtonDisplayVoice.setText(getResources().getString(R.string.processing));
+        }
+    }
+
+    public void Result(String value) {
+        if (mTextDisplayVoice.getText().toString().isEmpty()) {
+            mTextDisplayVoice.append(value);
+        } else {
+            mTextDisplayVoice.append("\n" + value);
+        }
+
+        // scroll after text is displayed
+        mScrollDisplayVoice.post(new Runnable() {
+            public void run() {
+                mScrollDisplayVoice.fullScroll(View.FOCUS_DOWN);
+            }
+        });
+    }
+
+    public void Error(String message) {
+        View view = getView();
+        if (view != null) {
+            Snackbar.make(getView(), message, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null)
+                    .show();
+        }
     }
 }

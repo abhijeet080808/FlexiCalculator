@@ -8,7 +8,10 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static android.speech.RecognizerIntent.EXTRA_LANGUAGE_MODEL;
 import static android.speech.RecognizerIntent.LANGUAGE_MODEL_FREE_FORM;
@@ -23,9 +26,14 @@ class VoiceCalculator implements RecognitionListener {
     private final SpeechRecognizer mRecognizer;
     private final VoiceResultListener mResultListener;
 
+    private final Calculator mCalculator;
+
     VoiceCalculator(Context context, VoiceResultListener resultListener) {
         mResultListener = resultListener;
+        mCalculator = new Calculator();
         if (SpeechRecognizer.isRecognitionAvailable(context)) {
+            // TODO prompt microphone permission if needed
+            // https://developer.android.com/training/permissions/requesting.html
             mRecognizer = SpeechRecognizer.createSpeechRecognizer(context);
             mRecognizer.setRecognitionListener(this);
         } else {
@@ -35,7 +43,7 @@ class VoiceCalculator implements RecognitionListener {
 
     void Start() {
         if (mRecognizer == null) {
-            mResultListener.Result("Speech Recognition Is Not Available on This Phone");
+            mResultListener.Error("Speech Recognition Is Not Available on This Phone");
             return;
         }
 
@@ -63,41 +71,43 @@ class VoiceCalculator implements RecognitionListener {
 
     public void onEndOfSpeech() {
         // called after the user stops speaking
+        mResultListener.IsListening(VoiceResultListener.ListenState.PROCESSING);
     }
 
     public void onError(int error) {
         // network or recognition error occurred
         switch (error) {
             case SpeechRecognizer.ERROR_AUDIO:
-                mResultListener.Result("Error Recording Audio");
+                mResultListener.Error("Error Recording Audio");
                 break;
             case SpeechRecognizer.ERROR_CLIENT:
-                mResultListener.Result("Client Error");
+                mResultListener.Error("Client Error");
                 break;
             case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
-                mResultListener.Result("Insufficient Permissions");
+                mResultListener.Error("Insufficient Permissions");
                 break;
             case SpeechRecognizer.ERROR_NETWORK:
-                mResultListener.Result("Network Error");
+                mResultListener.Error("Network Error");
                 break;
             case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
-                mResultListener.Result("Network Timeout");
+                mResultListener.Error("Network Timeout");
                 break;
             case SpeechRecognizer.ERROR_NO_MATCH:
-                mResultListener.Result("Failed to Recognise Voice");
+                mResultListener.Error("Failed to Recognise Voice");
                 break;
             case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
-                mResultListener.Result("Recognition Service Busy");
+                mResultListener.Error("Recognition Service Busy");
                 break;
             case SpeechRecognizer.ERROR_SERVER:
-                mResultListener.Result("Server Error");
+                mResultListener.Error("Server Error");
                 break;
             case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
-                mResultListener.Result("Failed to Recognise Voice");
+                mResultListener.Error("Failed to Hear Voice");
                 break;
             default:
                 break;
         }
+        mResultListener.IsListening(VoiceResultListener.ListenState.NOT_LISTENING);
     }
 
     public void onEvent(int eventType, Bundle params) {
@@ -110,17 +120,17 @@ class VoiceCalculator implements RecognitionListener {
 
     public void onReadyForSpeech(Bundle params) {
         // called when the endpoint is ready for the user to start speaking
+        mResultListener.IsListening(VoiceResultListener.ListenState.LISTENING);
     }
 
     public void onResults(Bundle results) {
         // called when recognition results are ready
+        mResultListener.IsListening(VoiceResultListener.ListenState.NOT_LISTENING);
         ArrayList<String> result = results.getStringArrayList(RESULTS_RECOGNITION);
         if (result == null) {
             return;
         }
-
-        Log.v(TAG, result.toString());
-        mResultListener.Result(result.toString());
+        process(result);
     }
 
     public void onRmsChanged(float rmsDb) {
@@ -128,4 +138,39 @@ class VoiceCalculator implements RecognitionListener {
     }
 
     // ---------------------------------------------
+
+    private void process(ArrayList<String> inputList) {
+        // TODO use last result in parsing
+        for (String input: inputList) {
+            // strings can be in form oneplus 2, one plus 2, 1 + 2, one plus two etc
+            String values[] = new String[]{
+                    "plus",
+                    "minus",
+                    "multiply", "multiplied by", "into", "times",
+                    "/", "by", "divided by",
+                    "% of",
+                    "to the power"
+            };
+            String replacements[] = new String[] {
+                    Calculator.ADD,
+                    Calculator.SUBTRACT,
+                    Calculator.MULTIPLY, Calculator.MULTIPLY, Calculator.MULTIPLY, Calculator.MULTIPLY,
+                    Calculator.DIVIDE, Calculator.DIVIDE, Calculator.DIVIDE,
+                    " " + Calculator.PERCENTAGE + " " + Calculator.MULTIPLY,
+                    Calculator.POWER};
+            String processed_input = StringUtils.replaceEach(input, values, replacements);
+            // try to break down to infix expression tokens
+            ArrayList<String> infix_expression = new ArrayList<>(Arrays.asList(StringUtils.split(processed_input)));
+            try {
+                String result = mCalculator.Evaluate(infix_expression, Calculator.Base.DEC, Calculator.AngularUnit.DEGREE);
+                mResultListener.Result(StringUtils.deleteWhitespace(processed_input));
+                mResultListener.Result(result);
+                return;
+            } catch (Exception e) {
+                Log.v(TAG, "Failed to parse " + input);
+                // do nothing
+            }
+        }
+        mResultListener.Error("Failed to Parse " + inputList.toString());
+    }
 }

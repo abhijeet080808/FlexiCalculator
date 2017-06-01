@@ -27,7 +27,6 @@
             android:gravity="center_vertical"
             android:layout_gravity="end"
             android:includeFontPadding="true"
-            android:text="@string/zero"
             android:textSize="@dimen/display_font_size"
             android:textColor="@color/colorCalcText"/>
 
