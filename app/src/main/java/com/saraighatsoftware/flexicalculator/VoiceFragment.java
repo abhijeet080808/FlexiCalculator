@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 interface VoiceResultListener {
     enum ListenState {
-        NOT_LISTENING,
+        IDLE,
         LISTENING,
         PROCESSING
     }
@@ -81,7 +81,7 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
         Context context = getContext();
 
         mVoiceCalculator = new VoiceCalculator(context, this);
-        mListenState = ListenState.NOT_LISTENING;
+        mListenState = ListenState.IDLE;
 
         View root_view = inflater.inflate(R.layout.fragment_voice, container, false);
 
@@ -91,7 +91,7 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
             public void onClick(View v) {
                 if (mListenState == ListenState.LISTENING) {
                     mVoiceCalculator.Stop();
-                } else if (mListenState == ListenState.NOT_LISTENING){
+                } else if (mListenState == ListenState.IDLE){
                     mVoiceCalculator.Start();
                 }
             }
@@ -114,7 +114,7 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
 
     public void IsListening(ListenState state) {
         mListenState = state;
-        if (state == ListenState.NOT_LISTENING) {
+        if (state == ListenState.IDLE) {
             mButtonDisplayVoice.setText(getResources().getString(R.string.listen));
         } else if (state == ListenState.LISTENING) {
             mButtonDisplayVoice.setText(getResources().getString(R.string.listening));
