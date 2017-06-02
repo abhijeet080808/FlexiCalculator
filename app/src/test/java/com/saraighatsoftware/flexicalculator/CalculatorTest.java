@@ -2,6 +2,7 @@ package com.saraighatsoftware.flexicalculator;
 
 import android.util.Log;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
@@ -24,51 +25,51 @@ public class CalculatorTest {
 
         // expected result vs input pairs
         ArrayList<Pair<String, String>> tests = new ArrayList<>();
-        tests.add(new Pair<>("4", "2 + 2"));
-        tests.add(new Pair<>("9", "5 + 2 * 2"));
-        tests.add(new Pair<>("5", "5 / 2 * 2"));
-        tests.add(new Pair<>("2", "( 2 )"));
-        tests.add(new Pair<>("1.25", "5 / ( 2 * 2 )"));
-        tests.add(new Pair<>("4", "( 2 * 2 )"));
-        tests.add(new Pair<>("12", "5 + ( 2 * 2 + 4 - 1 )"));
-        tests.add(new Pair<>("15", "5 + ( 2 * ( 2 + 4 - 1 ) )"));
-        tests.add(new Pair<>("35", "5 + ( 2 * ( 2 + 4 - 1 ) ) * ( 2 + 1 )"));
-        tests.add(new Pair<>("35", "( 2 * ( 2 + 4 - 1 ) ) * ( 2 + 1 ) + 5"));
-        tests.add(new Pair<>("3.142857", "( 22 / 7 )"));
-        tests.add(new Pair<>("4.714286", "( 33 / 7 )"));
-        tests.add(new Pair<>("1.1", ".1 + 1"));
-        tests.add(new Pair<>("1.1", "1 + .1"));
-        tests.add(new Pair<>("1.1", "0.1 + 1"));
-        tests.add(new Pair<>("1.1", "1 + 0.1"));
-        tests.add(new Pair<>("2", "4 - 2"));
-        tests.add(new Pair<>("4", "2 - ( -2 )"));
-        tests.add(new Pair<>("4", "-2 + 6"));
-        tests.add(new Pair<>("4", "6 + -2"));
-        tests.add(new Pair<>("5", "7 - 4 + 2")); // (7 - 4) + 2 and not 7 - (4 + 2) left associative
-        tests.add(new Pair<>("262144", "4 ^ 3 ^ 2")); // 4 ^ (3 ^ 2) right associative
-        tests.add(new Pair<>("2", "sin 90 * 2"));
-        tests.add(new Pair<>("0", "cos 90"));
-        tests.add(new Pair<>("1", "tan ( 45 + 10 - ( 2 * 5 ) )"));
-        tests.add(new Pair<>("2", "log 100"));
-        tests.add(new Pair<>("2.995732", "ln 20"));
-        tests.add(new Pair<>("100", "500 * 20 %"));
-        tests.add(new Pair<>("100", "20 % * 500"));
-        tests.add(new Pair<>("125", "5 ! + 5"));
-        tests.add(new Pair<>("5", Calculator.SQUARE_ROOT + " 25"));
-        tests.add(new Pair<>("25", "5 " + Calculator.SQUARE ));
-        tests.add(new Pair<>("200", "100 " + Calculator.LSH + " 1"));
-        tests.add(new Pair<>("50", "100 " + Calculator.RSH + " 1"));
-        tests.add(new Pair<>("32", "100 " + Calculator.AND + " 50"));
-        tests.add(new Pair<>("118", "100 " + Calculator.OR + " 50"));
-        tests.add(new Pair<>("86", "100 " + Calculator.XOR + " 50"));
+        tests.add(Pair.of("4", "2 + 2"));
+        tests.add(Pair.of("9", "5 + 2 * 2"));
+        tests.add(Pair.of("5", "5 / 2 * 2"));
+        tests.add(Pair.of("2", "( 2 )"));
+        tests.add(Pair.of("1.25", "5 / ( 2 * 2 )"));
+        tests.add(Pair.of("4", "( 2 * 2 )"));
+        tests.add(Pair.of("12", "5 + ( 2 * 2 + 4 - 1 )"));
+        tests.add(Pair.of("15", "5 + ( 2 * ( 2 + 4 - 1 ) )"));
+        tests.add(Pair.of("35", "5 + ( 2 * ( 2 + 4 - 1 ) ) * ( 2 + 1 )"));
+        tests.add(Pair.of("35", "( 2 * ( 2 + 4 - 1 ) ) * ( 2 + 1 ) + 5"));
+        tests.add(Pair.of("3.142857", "( 22 / 7 )"));
+        tests.add(Pair.of("4.714286", "( 33 / 7 )"));
+        tests.add(Pair.of("1.1", ".1 + 1"));
+        tests.add(Pair.of("1.1", "1 + .1"));
+        tests.add(Pair.of("1.1", "0.1 + 1"));
+        tests.add(Pair.of("1.1", "1 + 0.1"));
+        tests.add(Pair.of("2", "4 - 2"));
+        tests.add(Pair.of("4", "2 - ( -2 )"));
+        tests.add(Pair.of("4", "-2 + 6"));
+        tests.add(Pair.of("4", "6 + -2"));
+        tests.add(Pair.of("5", "7 - 4 + 2")); // (7 - 4) + 2 and not 7 - (4 + 2) left associative
+        tests.add(Pair.of("262144", "4 ^ 3 ^ 2")); // 4 ^ (3 ^ 2) right associative
+        tests.add(Pair.of("2", "sin 90 * 2"));
+        tests.add(Pair.of("0", "cos 90"));
+        tests.add(Pair.of("1", "tan ( 45 + 10 - ( 2 * 5 ) )"));
+        tests.add(Pair.of("2", "log 100"));
+        tests.add(Pair.of("2.995732", "ln 20"));
+        tests.add(Pair.of("100", "500 * 20 %"));
+        tests.add(Pair.of("100", "20 % * 500"));
+        tests.add(Pair.of("125", "5 ! + 5"));
+        tests.add(Pair.of("5", Calculator.SQUARE_ROOT + " 25"));
+        tests.add(Pair.of("25", "5 " + Calculator.SQUARE ));
+        tests.add(Pair.of("200", "100 " + Calculator.LSH + " 1"));
+        tests.add(Pair.of("50", "100 " + Calculator.RSH + " 1"));
+        tests.add(Pair.of("32", "100 " + Calculator.AND + " 50"));
+        tests.add(Pair.of("118", "100 " + Calculator.OR + " 50"));
+        tests.add(Pair.of("86", "100 " + Calculator.XOR + " 50"));
 
         for (Pair<String, String> test : tests) {
-            String input = test.second().
+            String input = test.getLeft().
                     replace("/", Calculator.DIVIDE).
                     replace("*", Calculator.MULTIPLY).
                     replace("-", Calculator.SUBTRACT);
             assertEquals(
-                    test.first(),
+                    test.getLeft(),
                     mCalculator.Evaluate(
                             new ArrayList<>(Arrays.asList(input.split(" "))),
                             Calculator.Base.DEC,
@@ -165,71 +166,71 @@ public class CalculatorTest {
 
         // input pairs
         ArrayList<Pair<String, Character>> pass_tests = new ArrayList<>();
-        pass_tests.add(new Pair<>("0.2", '1'));
-        pass_tests.add(new Pair<>("22", '1'));
-        pass_tests.add(new Pair<>("0", '1'));
-        pass_tests.add(new Pair<>(".2", '1'));
-        pass_tests.add(new Pair<>(".21", '1'));
-        pass_tests.add(new Pair<>("-0.", '1'));
-        pass_tests.add(new Pair<>("-.2", '1'));
-        pass_tests.add(new Pair<>("-2", '1'));
-        pass_tests.add(new Pair<>("-22", '1'));
-        pass_tests.add(new Pair<>("-22", '.'));
-        pass_tests.add(new Pair<>("-22.", '1'));
-        pass_tests.add(new Pair<>("-", '1'));
-        pass_tests.add(new Pair<>(".", '1'));
-        pass_tests.add(new Pair<>("2", '1'));
-        pass_tests.add(new Pair<>("-", '.'));
-        pass_tests.add(new Pair<>("", '-'));
-        pass_tests.add(new Pair<>("", '.'));
-        pass_tests.add(new Pair<>("", '0'));
-        pass_tests.add(new Pair<>("1", '.'));
-        pass_tests.add(new Pair<>("12345678901", '0'));
-        pass_tests.add(new Pair<>("123456789.01", '0'));
-        pass_tests.add(new Pair<>("123456789012", '.'));
-        pass_tests.add(new Pair<>("0.12345", '0'));
-        pass_tests.add(new Pair<>("-12345678901", '0'));
-        pass_tests.add(new Pair<>("-123456789.01", '0'));
-        pass_tests.add(new Pair<>("-123456789012", '.'));
-        pass_tests.add(new Pair<>("0.", '0'));
-        pass_tests.add(new Pair<>(".", '0'));
-        pass_tests.add(new Pair<>("-0.", '0'));
-        pass_tests.add(new Pair<>("-.", '0'));
+        pass_tests.add(Pair.of("0.2", '1'));
+        pass_tests.add(Pair.of("22", '1'));
+        pass_tests.add(Pair.of("0", '1'));
+        pass_tests.add(Pair.of(".2", '1'));
+        pass_tests.add(Pair.of(".21", '1'));
+        pass_tests.add(Pair.of("-0.", '1'));
+        pass_tests.add(Pair.of("-.2", '1'));
+        pass_tests.add(Pair.of("-2", '1'));
+        pass_tests.add(Pair.of("-22", '1'));
+        pass_tests.add(Pair.of("-22", '.'));
+        pass_tests.add(Pair.of("-22.", '1'));
+        pass_tests.add(Pair.of("-", '1'));
+        pass_tests.add(Pair.of(".", '1'));
+        pass_tests.add(Pair.of("2", '1'));
+        pass_tests.add(Pair.of("-", '.'));
+        pass_tests.add(Pair.of("", '-'));
+        pass_tests.add(Pair.of("", '.'));
+        pass_tests.add(Pair.of("", '0'));
+        pass_tests.add(Pair.of("1", '.'));
+        pass_tests.add(Pair.of("12345678901", '0'));
+        pass_tests.add(Pair.of("123456789.01", '0'));
+        pass_tests.add(Pair.of("123456789012", '.'));
+        pass_tests.add(Pair.of("0.12345", '0'));
+        pass_tests.add(Pair.of("-12345678901", '0'));
+        pass_tests.add(Pair.of("-123456789.01", '0'));
+        pass_tests.add(Pair.of("-123456789012", '.'));
+        pass_tests.add(Pair.of("0.", '0'));
+        pass_tests.add(Pair.of(".", '0'));
+        pass_tests.add(Pair.of("-0.", '0'));
+        pass_tests.add(Pair.of("-.", '0'));
 
         // input pairs
         ArrayList<Pair<String, Character>> fail_test = new ArrayList<>();
-        fail_test.add(new Pair<>("1.", '.'));
-        fail_test.add(new Pair<>("1.", '-'));
-        fail_test.add(new Pair<>(".", '-'));
-        fail_test.add(new Pair<>("-", '-'));
-        fail_test.add(new Pair<>("12", '-'));
-        fail_test.add(new Pair<>("-.", '.'));
-        fail_test.add(new Pair<>("123456789012", '0'));
-        fail_test.add(new Pair<>("123456789.012", '0'));
-        fail_test.add(new Pair<>(".123456", '0'));
-        fail_test.add(new Pair<>("-123456789012", '0'));
-        fail_test.add(new Pair<>("-123456789.012", '0'));
-        fail_test.add(new Pair<>("12", '+'));
-        fail_test.add(new Pair<>("+", '1'));
-        fail_test.add(new Pair<>("1-", '1'));
-        fail_test.add(new Pair<>("0", '0'));
+        fail_test.add(Pair.of("1.", '.'));
+        fail_test.add(Pair.of("1.", '-'));
+        fail_test.add(Pair.of(".", '-'));
+        fail_test.add(Pair.of("-", '-'));
+        fail_test.add(Pair.of("12", '-'));
+        fail_test.add(Pair.of("-.", '.'));
+        fail_test.add(Pair.of("123456789012", '0'));
+        fail_test.add(Pair.of("123456789.012", '0'));
+        fail_test.add(Pair.of(".123456", '0'));
+        fail_test.add(Pair.of("-123456789012", '0'));
+        fail_test.add(Pair.of("-123456789.012", '0'));
+        fail_test.add(Pair.of("12", '+'));
+        fail_test.add(Pair.of("+", '1'));
+        fail_test.add(Pair.of("1-", '1'));
+        fail_test.add(Pair.of("0", '0'));
 
         Calculator mCalculator = new Calculator();
 
         for (Pair<String, Character> test : pass_tests) {
             assertEquals(true,
                     mCalculator.IsOperandAllowed(
-                            test.first().replace("-", Calculator.SUBTRACT),
+                            test.getLeft().replace("-", Calculator.SUBTRACT),
                             Calculator.Base.DEC,
-                            test.second() == '-' ? Calculator.SUBTRACT_CHAR : test.second()));
+                            test.getRight() == '-' ? Calculator.SUBTRACT_CHAR : test.getRight()));
         }
 
         for (Pair<String, Character> test : fail_test) {
             assertEquals(false,
                     mCalculator.IsOperandAllowed(
-                            test.first().replace("-", Calculator.SUBTRACT),
+                            test.getLeft().replace("-", Calculator.SUBTRACT),
                             Calculator.Base.DEC,
-                            test.second() == '-' ? Calculator.SUBTRACT_CHAR : test.second()));
+                            test.getRight() == '-' ? Calculator.SUBTRACT_CHAR : test.getRight()));
         }
 
         assertEquals(false, mCalculator.IsOperandAllowed("10", Calculator.Base.DEC, 'A'));
