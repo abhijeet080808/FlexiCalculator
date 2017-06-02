@@ -173,8 +173,8 @@ class VoiceCalculator implements RecognitionListener {
         // called when recognition results are ready
         mResultListener.IsListening(VoiceResultListener.ListenState.IDLE);
         ArrayList<String> result = results.getStringArrayList(RESULTS_RECOGNITION);
-        if (result == null) {
-            mResultListener.Error(-1, "Failed to Parse Voice Input");
+        if (result == null || result.isEmpty()) {
+            mResultListener.Error(-1, "Failed to Process Voice Input");
             return;
         }
         process(result);
