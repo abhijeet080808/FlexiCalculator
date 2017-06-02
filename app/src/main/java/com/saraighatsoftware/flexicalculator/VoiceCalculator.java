@@ -16,6 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static android.speech.RecognizerIntent.EXTRA_LANGUAGE_MODEL;
+import static android.speech.RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS;
 import static android.speech.RecognizerIntent.LANGUAGE_MODEL_FREE_FORM;
 import static android.speech.SpeechRecognizer.RESULTS_RECOGNITION;
 
@@ -125,6 +126,7 @@ class VoiceCalculator implements RecognitionListener {
 
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(EXTRA_LANGUAGE_MODEL, LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
 
         mListenStartTimeMillis = System.currentTimeMillis();
         mRecognizer.startListening(intent);

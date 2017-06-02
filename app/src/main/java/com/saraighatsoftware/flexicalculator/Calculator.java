@@ -2,8 +2,6 @@ package com.saraighatsoftware.flexicalculator;
 
 import android.util.Log;
 
-import org.apache.commons.math3.util.CombinatoricsUtils;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -354,8 +352,11 @@ class Calculator {
             case PERCENTAGE:
                 return operand.divide(new BigDecimal(100), INTERNAL_SCALE, BigDecimal.ROUND_HALF_EVEN);
             case FACTORIAL:
-                // TODO 200!
-                return new BigDecimal(CombinatoricsUtils.factorialDouble(operand.intValue()));
+                BigInteger fact = BigInteger.ONE;
+                for (int i = 1; i <= operand.intValue(); i++) {
+                    fact = fact.multiply(new BigInteger(String.valueOf(i)));
+                }
+                return new BigDecimal(fact);
             case SQUARE_ROOT:
                 return new BigDecimal(Math.sqrt(operand.doubleValue()));
             case SQUARE:
