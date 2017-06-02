@@ -3,6 +3,7 @@ package com.saraighatsoftware.flexicalculator;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ConverterFragment extends Fragment {
+
+    private static final String TAG = "ConverterFragment";
 
     private static final String ARG_INPUT = "input";
     private static final String ARG_OUTPUT = "output";
@@ -345,10 +348,16 @@ public class ConverterFragment extends Fragment {
                     output == AdapterView.INVALID_POSITION) {
                 return;
             }
-            mOutput = mConverters[category].Convert(
-                    mInput.toString(),
-                    mConverters[category].getUnitFromInteger(input),
-                    mConverters[category].getUnitFromInteger(output));
+
+            try {
+                mOutput = mConverters[category].Convert(
+                        mInput.toString(),
+                        mConverters[category].getUnitFromInteger(input),
+                        mConverters[category].getUnitFromInteger(output));
+            } catch (Exception e) {
+                Log.v(TAG, "evaluate ", e);
+                mOutput = "";
+            }
         }
         updateText();
     }

@@ -3,6 +3,8 @@ package com.saraighatsoftware.flexicalculator;
 import android.content.Context;
 import android.util.Log;
 
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.fraction.BigFraction;
 
 import java.math.BigDecimal;
@@ -60,7 +62,8 @@ class ConverterFuelEconomy extends Converter {
                 new BigFraction(480L, 112903L));
     }
 
-    String Convert(String value, Unit input, Unit output) {
+    String Convert(String value, Unit input, Unit output)
+            throws NullArgumentException, MathArithmeticException {
         if (input != FuelEconomyUnit.LITERS_PER_100_KILOMETERS &&
                 output != FuelEconomyUnit.LITERS_PER_100_KILOMETERS) {
             return super.Convert(value, input, output);

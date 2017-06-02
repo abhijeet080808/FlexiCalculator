@@ -3,6 +3,8 @@ package com.saraighatsoftware.flexicalculator;
 import android.content.Context;
 import android.util.Log;
 
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.fraction.BigFraction;
 
 import java.math.BigDecimal;
@@ -49,7 +51,8 @@ class ConverterTemperature extends Converter {
     }
 
     @Override
-    String Convert(String value, Unit input, Unit output) {
+    String Convert(String value, Unit input, Unit output)
+            throws NullArgumentException, MathArithmeticException {
         try {
             BigFraction in = ToBigFraction(new BigDecimal(value));
             Log.v(TAG, "Converting " + in + " from " + input + " to " + output);

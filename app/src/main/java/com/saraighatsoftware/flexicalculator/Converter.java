@@ -2,6 +2,8 @@ package com.saraighatsoftware.flexicalculator;
 
 import android.util.Log;
 
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.fraction.BigFraction;
 
 import java.math.BigDecimal;
@@ -64,27 +66,23 @@ abstract class Converter {
         return new BigFraction(val.unscaledValue().multiply(BigInteger.TEN.pow(-scale)));
     }
 
-    String Convert(String value, Unit input, Unit output) {
+    String Convert(String value, Unit input, Unit output)
+            throws NullArgumentException, MathArithmeticException {
         if (input == output) {
             return value;
         }
-        try {
-            // convert to base unit first
-            BigFraction in = ToBigFraction(new BigDecimal(value));
-            Log.v(TAG, "Converting " + in + " from " + input + " to " + output);
-            if (input != getBaseUnit()) {
-                in = in.divide(getConversionFactor(new ConversionPair(getBaseUnit(), input)));
-            }
-            // convert to output format
-            BigFraction out = in;
-            if (output != getBaseUnit()) {
-                out = out.multiply(getConversionFactor(new ConversionPair(getBaseUnit(), output)));
-            }
-            Log.v(TAG, "Converted to " + out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
-            return ResultFormat.Format(out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
+        // convert to base unit first
+        BigFraction in = ToBigFraction(new BigDecimal(value));
+        Log.v(TAG, "Converting " + in + " from " + input + " to " + output);
+        if (input != getBaseUnit()) {
+            in = in.divide(getConversionFactor(new ConversionPair(getBaseUnit(), input)));
         }
-        catch (Exception e) {
-            return "";
+        // convert to output format
+        BigFraction out = in;
+        if (output != getBaseUnit()) {
+            out = out.multiply(getConversionFactor(new ConversionPair(getBaseUnit(), output)));
         }
+        Log.v(TAG, "Converted to " + out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
+        return ResultFormat.Format(out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
     }
 }

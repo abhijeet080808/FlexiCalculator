@@ -230,4 +230,9 @@ class VoiceCalculator implements RecognitionListener {
         }
         mResultListener.Error(-1, "Failed to Process Voice Input - " + inputList.get(0));
     }
+
+    private void convert(ArrayList<String> inputList) {
+        // process strings like convert 1 ml to litre
+
+    }
 }
