@@ -57,30 +57,18 @@ class VoiceCalculator implements RecognitionListener {
         // http://par.cse.nsysu.edu.tw/link/math-pronunciation.pdf
         // strings can be in form oneplus 2, one plus 2, 1 + 2, one plus two etc
         // locale affects recognition of words like 1 million vs 10 lakhs
-        // map of operator vs keywords
-        HashMap<String, String[]> operator_map = new HashMap<>();
-        operator_map.put(Calculator.OPEN_BRACKET, new String[]{ "open bracket" });
-        operator_map.put(Calculator.CLOSE_BRACKET, new String[]{ "close bracket" });
-        operator_map.put(" " + Calculator.PERCENTAGE + " " + Calculator.MULTIPLY, new String[]{ "% of" });
-        operator_map.put(Calculator.FACTORIAL, new String[]{ "factorial" });
-        operator_map.put(Calculator.SQUARE_ROOT, new String[]{ "square root of", "square root", "root" });
-        operator_map.put(Calculator.SQUARE, new String[]{ "square", "squared" });
-        operator_map.put(Calculator.POWER, new String[]{ "to the power", "to the power of" });
-        operator_map.put(Calculator.DIVIDE, new String[]{ "/", "by", "divided by", "over" });
-        operator_map.put(Calculator.MULTIPLY, new String[]{ "x", "multiplied by", "into", "times" });
-        operator_map.put(Calculator.MODULUS, new String[]{ "modulus", "modulo", "mod" });
-        operator_map.put(Calculator.SUBTRACT, new String[]{ "minus" });
-        operator_map.put(Calculator.ADD, new String[]{ "plus" });
-
         ArrayList<String> operator_keywords = new ArrayList<>();
         ArrayList<String> operator_replacements = new ArrayList<>();
-        for (String key : operator_map.keySet()) {
-            String[] values = operator_map.get(key);
-            for (String value : values) {
-                operator_keywords.add(value);
-                operator_replacements.add(key);
+        for (Operator operator : OperatorFinder.GetAll()) {
+            String keywords[] = operator.Keywords();
+            for (String keyword : keywords) {
+                operator_keywords.add(keyword);
+                operator_replacements.add(operator.Symbol());
             }
         }
+        // special keyword that maps to more than 1 operator
+        operator_keywords.add("% of");
+        operator_replacements.add(" " + Operator.PERCENTAGE.Symbol() + " " + Operator.MULTIPLY.Symbol());
 
         mOperatorKeywords = operator_keywords.toArray(new String[operator_keywords.size()]);
         mOperatorReplacements = operator_replacements.toArray(new String[operator_replacements.size()]);
@@ -104,6 +92,7 @@ class VoiceCalculator implements RecognitionListener {
                 new ConverterAngle(context)
         };
 
+        // TODO improve keywords
         // mapping of converter unit vs keywords
         mConverterKeywords = new HashMap<>();
         for (Converter converter : mConverters) {

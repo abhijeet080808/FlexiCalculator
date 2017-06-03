@@ -261,7 +261,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.OPEN_BRACKET);
+                expressionListener(Operator.OPEN_BRACKET.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -270,7 +270,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.CLOSE_BRACKET);
+                expressionListener(Operator.CLOSE_BRACKET.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -279,7 +279,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.DIVIDE);
+                expressionListener(Operator.DIVIDE.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -288,7 +288,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.MULTIPLY);
+                expressionListener(Operator.MULTIPLY.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -297,7 +297,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.SUBTRACT);
+                expressionListener(Operator.SUBTRACT.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -306,7 +306,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.ADD);
+                expressionListener(Operator.ADD.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -340,7 +340,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.MODULUS);
+                expressionListener(Operator.MODULUS.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -349,7 +349,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.POWER);
+                expressionListener(Operator.POWER.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -358,7 +358,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.SIN);
+                expressionListener(Operator.SIN.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -367,7 +367,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.COS);
+                expressionListener(Operator.COS.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -376,7 +376,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.TAN);
+                expressionListener(Operator.TAN.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -385,7 +385,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.LOG);
+                expressionListener(Operator.LOG.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -394,7 +394,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.LN);
+                expressionListener(Operator.LN.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -403,7 +403,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.PERCENTAGE);
+                expressionListener(Operator.PERCENTAGE.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -412,7 +412,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.FACTORIAL);
+                expressionListener(Operator.FACTORIAL.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -421,7 +421,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.SQUARE_ROOT);
+                expressionListener(Operator.SQUARE_ROOT.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -430,7 +430,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.SQUARE);
+                expressionListener(Operator.SQUARE.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -439,7 +439,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.LSH);
+                expressionListener(Operator.LSH.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -448,7 +448,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.RSH);
+                expressionListener(Operator.RSH.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -457,7 +457,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.AND);
+                expressionListener(Operator.AND.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -466,7 +466,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.OR);
+                expressionListener(Operator.OR.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -475,7 +475,7 @@ public class CalculatorFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expressionListener(Calculator.XOR);
+                expressionListener(Operator.XOR.Symbol());
             }
         });
         button.setTypeface(FontCache.GetRegular(context));
@@ -559,7 +559,7 @@ public class CalculatorFragment extends Fragment {
                 } else {
                     mInfixExpression.add(token);
                 }
-            } else if (token.equals(Calculator.OPEN_BRACKET)) {
+            } else if (token.equals(Operator.OPEN_BRACKET.Symbol())) {
                 mInfixExpression.add(token);
             } else if (mCalculator.IsPreUnaryOperator(token)) {
                 mInfixExpression.add(token);
@@ -570,7 +570,7 @@ public class CalculatorFragment extends Fragment {
             if (mCalculator.IsBinaryOperator(token) || mCalculator.IsPostUnaryOperator(token)) {
                 mInfixExpression.add(token);
                 mIsResultSet = false;
-            } else if (token.equals(Calculator.OPEN_BRACKET)) {
+            } else if (token.equals(Operator.OPEN_BRACKET.Symbol())) {
                 mInfixExpression.remove(mInfixExpression.size() - 1);
                 mInfixExpression.add(token);
                 mIsResultSet = false;
@@ -597,8 +597,9 @@ public class CalculatorFragment extends Fragment {
             // consider as part of operand only when it is the first operand
             // or when it is just after an open bracket
 
-            if (last_token.equals(Calculator.SUBTRACT) &&
-                    (last_to_last_token.equals(Calculator.OPEN_BRACKET) || last_to_last_token.equals(""))) {
+            if (last_token.equals(Operator.SUBTRACT.Symbol()) &&
+                    (last_to_last_token.equals(Operator.OPEN_BRACKET.Symbol()) ||
+                            last_to_last_token.equals(""))) {
 
                 if(mCalculator.IsOperandAllowed(last_token, mBase, token.charAt(0))) {
                     mInfixExpression.remove(mInfixExpression.size() - 1);
@@ -617,7 +618,7 @@ public class CalculatorFragment extends Fragment {
                     mInfixExpression.add(token);
                 } else if (mCalculator.IsPreUnaryOperator(token)) {
                     mInfixExpression.add(token);
-                } else if (token.equals(Calculator.OPEN_BRACKET)) {
+                } else if (token.equals(Operator.OPEN_BRACKET.Symbol())) {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     // operator can not be followed by close bracket
@@ -635,7 +636,7 @@ public class CalculatorFragment extends Fragment {
                 if (mCalculator.IsPreUnaryOperator(token)) {
                     mInfixExpression.remove(mInfixExpression.size() - 1);
                     mInfixExpression.add(token);
-                } else if (token.equals(Calculator.OPEN_BRACKET)) {
+                } else if (token.equals(Operator.OPEN_BRACKET.Symbol())) {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     // operator can not be followed by close bracket
@@ -653,20 +654,20 @@ public class CalculatorFragment extends Fragment {
                 if (mCalculator.IsPostUnaryOperator(token)) {
                     mInfixExpression.remove(mInfixExpression.size() - 1);
                     mInfixExpression.add(token);
-                } else if (token.equals(Calculator.CLOSE_BRACKET)) {
+                } else if (token.equals(Operator.CLOSE_BRACKET.Symbol())) {
                     mInfixExpression.add(token);
                 } else if (mCalculator.IsBinaryOperator(token)) {
                     mInfixExpression.add(token);
                 }
 
-            } else if (last_token.equals(Calculator.OPEN_BRACKET)) {
+            } else if (last_token.equals(Operator.OPEN_BRACKET.Symbol())) {
 
                 //if (Calculator.IsOperator(token, false)) {
                     // open bracket can not be followed by operator
                 //} else
                 if (mCalculator.IsPreUnaryOperator(token)) {
                     mInfixExpression.add(token);
-                } else if (token.equals(Calculator.OPEN_BRACKET)) {
+                } else if (token.equals(Operator.OPEN_BRACKET.Symbol())) {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.CLOSE_BRACKET)) {
                     // open bracket can not be followed by close bracket
@@ -679,13 +680,13 @@ public class CalculatorFragment extends Fragment {
                     }
                 }
 
-            } else if (last_token.equals(Calculator.CLOSE_BRACKET)) {
+            } else if (last_token.equals(Operator.CLOSE_BRACKET.Symbol())) {
 
                 if (mCalculator.IsBinaryOperator(token) || mCalculator.IsPostUnaryOperator(token)) {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.OPEN_BRACKET)) {
                     // close bracket can not be followed by open bracket
-                } else if (token.equals(Calculator.CLOSE_BRACKET)) {
+                } else if (token.equals(Operator.CLOSE_BRACKET.Symbol())) {
                     mInfixExpression.add(token);
                     // check that number of close bracket is balanced
                     if (!mCalculator.IsSane(mInfixExpression, mBase, false)) {
@@ -702,8 +703,8 @@ public class CalculatorFragment extends Fragment {
                 // allow 0.1 -0.1
                 if (last_token.equals("0") && !token.equals(Calculator.POINT)) {
                     mInfixExpression.add(token);
-                } else if (last_token.equals(Calculator.SUBTRACT + "0") && !token.equals(Calculator.POINT)) {
-                    mInfixExpression.add(Calculator.SUBTRACT + token);
+                } else if (last_token.equals(Operator.SUBTRACT.Symbol() + "0") && !token.equals(Calculator.POINT)) {
+                    mInfixExpression.add(Operator.SUBTRACT.Symbol() + token);
                 } else {
                     mInfixExpression.add(last_token + token);
                 }
@@ -719,7 +720,7 @@ public class CalculatorFragment extends Fragment {
                     mInfixExpression.add(token);
                 //} else if (token.equals(Calculator.OPEN_BRACKET)) {
                     // operand can not be followed by open bracket
-                } else if (token.equals(Calculator.CLOSE_BRACKET)) {
+                } else if (token.equals(Operator.CLOSE_BRACKET.Symbol())) {
                     // terminate last operand 0. with 0.0
                     if (last_token.indexOf(Calculator.POINT_CHAR) == last_token.length() - 1) {
                         mInfixExpression.remove(mInfixExpression.size() - 1);

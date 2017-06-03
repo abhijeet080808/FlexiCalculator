@@ -5,16 +5,11 @@ import android.util.Log;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Stack;
 
 class Calculator {
 
     private static final String TAG = "Calculator";
-
-    private enum OperatorType {
-        BINARY, PRE_UNARY, POST_UNARY, OTHER
-    }
 
     enum Base {
         HEX(16), DEC(10), OCT(8), BIN(2);
@@ -34,40 +29,6 @@ class Calculator {
         DEGREE, RADIAN
     }
 
-    private class OperatorInfo {
-        OperatorInfo(OperatorType type, int precedence, boolean isRightAssoc) {
-            mType = type;
-            mPrecedence = precedence;
-            mIsRightAssoc = isRightAssoc;
-        }
-
-        final OperatorType mType;
-        final int mPrecedence; // lower the value, higher the precedence
-        final boolean mIsRightAssoc;
-    }
-
-    static final String OPEN_BRACKET = "(";
-    static final String CLOSE_BRACKET = ")";
-    static final String SIN = "sin";
-    static final String COS = "cos";
-    static final String TAN = "tan";
-    static final String LOG = "log";
-    static final String LN = "ln";
-    static final String PERCENTAGE = "%";
-    static final String FACTORIAL = "!";
-    static final String SQUARE_ROOT = "\u221a";
-    static final String SQUARE = "\u00b2";
-    static final String POWER = "^";
-    static final String DIVIDE = "\u00f7";
-    static final String MULTIPLY = "\u00d7";
-    static final String MODULUS = "mod";
-    static final String SUBTRACT = "\u2212";
-    static final String ADD = "+";
-    static final String LSH = "<<"; // left shift
-    static final String RSH = ">>"; // right shift
-    static final String AND = "and"; // right shift
-    static final String OR = "or"; // right shift
-    static final String XOR = "xor"; // right shift
     static final String POINT = ".";
 
     static final char DIVIDE_CHAR = '\u00f7';
@@ -81,33 +42,10 @@ class Calculator {
     // Scale is the number of digits after the decimal point
     private static final int INPUT_SCALE = 6;
 
-    private final HashMap<String, OperatorInfo> mOperators;
+    private final OperatorFinder mOpFinder;
 
     Calculator() {
-        mOperators = new HashMap<>();
-        mOperators.put(OPEN_BRACKET, new OperatorInfo(OperatorType.OTHER, 1, false));
-        mOperators.put(CLOSE_BRACKET, new OperatorInfo(OperatorType.OTHER, 1, false));
-        mOperators.put(SIN, new OperatorInfo(OperatorType.PRE_UNARY, 2, false));
-        mOperators.put(COS, new OperatorInfo(OperatorType.PRE_UNARY, 2, false));
-        mOperators.put(TAN, new OperatorInfo(OperatorType.PRE_UNARY, 2, false));
-        mOperators.put(LOG, new OperatorInfo(OperatorType.PRE_UNARY, 2, false));
-        mOperators.put(LN, new OperatorInfo(OperatorType.PRE_UNARY, 2, false));
-        mOperators.put(PERCENTAGE, new OperatorInfo(OperatorType.POST_UNARY, 2, false));
-        mOperators.put(FACTORIAL, new OperatorInfo(OperatorType.POST_UNARY, 2, false));
-        mOperators.put(SQUARE_ROOT, new OperatorInfo(OperatorType.PRE_UNARY, 2, false));
-        mOperators.put(SQUARE, new OperatorInfo(OperatorType.POST_UNARY, 2, false));
-        // power is the only right associative operator
-        mOperators.put(POWER, new OperatorInfo(OperatorType.BINARY, 3, true));
-        mOperators.put(DIVIDE, new OperatorInfo(OperatorType.BINARY, 4, false));
-        mOperators.put(MULTIPLY, new OperatorInfo(OperatorType.BINARY, 4, false));
-        mOperators.put(MODULUS, new OperatorInfo(OperatorType.BINARY, 4, false));
-        mOperators.put(SUBTRACT, new OperatorInfo(OperatorType.BINARY, 5, false));
-        mOperators.put(ADD, new OperatorInfo(OperatorType.BINARY, 5, false));
-        mOperators.put(LSH, new OperatorInfo(OperatorType.BINARY, 6, false));
-        mOperators.put(RSH, new OperatorInfo(OperatorType.BINARY, 6, false));
-        mOperators.put(AND, new OperatorInfo(OperatorType.BINARY, 7, false));
-        mOperators.put(OR, new OperatorInfo(OperatorType.BINARY, 7, false));
-        mOperators.put(XOR, new OperatorInfo(OperatorType.BINARY, 7, false));
+        mOpFinder = new OperatorFinder();
     }
 
     /*
@@ -165,21 +103,22 @@ class Calculator {
                     "Calculator::Evaluate: Invalid expression " + infixExpression.toString());
         }
 
-        Stack<BigDecimal> operands = new Stack<>();  // for numbers
-        Stack<String> operators = new Stack<>(); // for operators and parenthesis
+        Stack<BigDecimal> operands = new Stack<>(); // for numbers
+        Stack<Operator> operators = new Stack<>();  // for operators and parenthesis
 
         for (String item : infixExpression) {
             if (IsOperand(item, base)) {
                 Log.v(TAG, "Processing " + item);
                 operands.push(getBigDecimal(item, base));
-            } else if (item.equals(OPEN_BRACKET)) {
+            } else if (item.equals(Operator.OPEN_BRACKET.Symbol())) {
                 Log.v(TAG, "Processing " + item);
-                operators.push(item);
-            } else if (item.equals(CLOSE_BRACKET)) {
+                operators.push(Operator.OPEN_BRACKET);
+            } else if (item.equals(Operator.CLOSE_BRACKET.Symbol())) {
                 Log.v(TAG, "Processing " + item);
-                while (!operators.peek().equals(OPEN_BRACKET)) {
-                    String operator = operators.pop();
-                    if (IsPreUnaryOperator(operator) || IsPostUnaryOperator(operator)) {
+                while (!operators.peek().equals(Operator.OPEN_BRACKET)) {
+                    Operator operator = operators.pop();
+                    if (operator.Type() == Operator.OperatorType.PRE_UNARY ||
+                            operator.Type() == Operator.OperatorType.POST_UNARY) {
                         BigDecimal operand = operands.pop();
                         Log.v(TAG, "Got close bracket - "
                                 + operator + " " + operand);
@@ -196,20 +135,20 @@ class Calculator {
             } else { // it is an operator
                 // process all operators with higher or same precedence as current operator
                 Log.v(TAG, "Processing " + item);
-                while (!operators.isEmpty() &&
-                        ((!mOperators.get(item).mIsRightAssoc &&
-                                mOperators.get(operators.peek()).mPrecedence <= mOperators.get(item).mPrecedence)
-                        || (!mOperators.get(item).mIsRightAssoc &&
-                                mOperators.get(operators.peek()).mPrecedence < mOperators.get(item).mPrecedence))) {
+                Operator current_operator = mOpFinder.Get(item);
+                while (!operators.isEmpty() && (
+                        (!current_operator.IsRightAssoc() && operators.peek().Precedence() <= current_operator.Precedence()) ||
+                        (current_operator.IsRightAssoc() && operators.peek().Precedence() < current_operator.Precedence()))) {
                     // lower the precedence value, higher is the precedence
 
-                    if (operators.peek().equals(OPEN_BRACKET) ||
-                            operators.peek().equals(CLOSE_BRACKET)) {
+                    if (operators.peek().equals(Operator.OPEN_BRACKET) ||
+                            operators.peek().equals(Operator.CLOSE_BRACKET)) {
                         break;
                     }
 
-                    String operator = operators.pop();
-                    if (IsPreUnaryOperator(operator) || IsPostUnaryOperator(operator)) {
+                    Operator operator = operators.pop();
+                    if (operator.Type() == Operator.OperatorType.PRE_UNARY ||
+                            operator.Type() == Operator.OperatorType.POST_UNARY) {
                         BigDecimal operand = operands.pop();
                         Log.v(TAG, "Got higher precedence than " + item + " - "
                                 + operator + " " + operand);
@@ -222,13 +161,14 @@ class Calculator {
                         operands.push(operate(operator, operand1, operand2));
                     }
                 }
-                operators.push(item);
+                operators.push(current_operator);
             }
         }
 
         while (!operators.isEmpty()) {
-            String operator = operators.pop();
-            if (IsPreUnaryOperator(operator) || IsPostUnaryOperator(operator)) {
+            Operator operator = operators.pop();
+            if (operator.Type() == Operator.OperatorType.PRE_UNARY ||
+                    operator.Type() == Operator.OperatorType.POST_UNARY) {
                 BigDecimal operand = operands.pop();
                 Log.v(TAG, "Got operator in stack - "
                         + operator + " " + operand);
@@ -286,7 +226,7 @@ class Calculator {
         }
     }
 
-    private BigDecimal operate(final String operator,
+    private BigDecimal operate(final Operator operator,
                                final BigDecimal operand1,
                                final BigDecimal operand2)
             throws IllegalArgumentException, ArithmeticException {
@@ -340,7 +280,7 @@ class Calculator {
         }
     }
 
-    private BigDecimal operate(final String operator,
+    private BigDecimal operate(final Operator operator,
                                final BigDecimal operand,
                                final AngularUnit angularUnit)
             throws IllegalArgumentException, ArithmeticException {
@@ -394,9 +334,9 @@ class Calculator {
             if (!IsOperand(item, base) && !IsOperator(item)) {
                 return false;
             }
-            if (item.equals(OPEN_BRACKET)) {
+            if (item.equals(Operator.OPEN_BRACKET.Symbol())) {
                 brackets++;
-            } else if (item.equals(CLOSE_BRACKET)) {
+            } else if (item.equals(Operator.CLOSE_BRACKET.Symbol())) {
                 brackets--;
             }
             if (brackets < 0) {
@@ -406,8 +346,10 @@ class Calculator {
 
         //noinspection SimplifiableIfStatement
         if (isComplete) {
-            return (!IsBinaryOperator(infixExpression.get(infixExpression.size() - 1))
-                    && !IsPreUnaryOperator(infixExpression.get(infixExpression.size() - 1))
+            Operator operator = mOpFinder.Get(infixExpression.get(infixExpression.size() - 1));
+            return ((operator == null || (
+                            operator.Type() != Operator.OperatorType.BINARY &&
+                            operator.Type() != Operator.OperatorType.PRE_UNARY))
                     && brackets == 0);
         } else {
             return true;
@@ -472,23 +414,22 @@ class Calculator {
     }
 
     boolean IsOperator(final String s) {
-        OperatorInfo info = mOperators.get(s);
-        return (info != null);
+        return (mOpFinder.Get(s) != null);
     }
 
     boolean IsBinaryOperator(final String s) {
-        OperatorInfo info = mOperators.get(s);
-        return (info != null && info.mType == OperatorType.BINARY);
+        Operator operator = mOpFinder.Get(s);
+        return (operator != null && operator.Type() == Operator.OperatorType.BINARY);
     }
 
     boolean IsPreUnaryOperator(final String s) {
-        OperatorInfo info = mOperators.get(s);
-        return (info != null && info.mType == OperatorType.PRE_UNARY);
+        Operator operator = mOpFinder.Get(s);
+        return (operator != null && operator.Type() == Operator.OperatorType.PRE_UNARY);
     }
 
     boolean IsPostUnaryOperator(final String s) {
-        OperatorInfo info = mOperators.get(s);
-        return (info != null && info.mType == OperatorType.POST_UNARY);
+        Operator operator = mOpFinder.Get(s);
+        return (operator != null && operator.Type() == Operator.OperatorType.POST_UNARY);
     }
 
     boolean IsOperandAllowed(final String existingOperand, final Base base, final char newChar) {

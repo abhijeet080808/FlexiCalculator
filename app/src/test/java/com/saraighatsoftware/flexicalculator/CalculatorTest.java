@@ -55,28 +55,28 @@ public class CalculatorTest {
         tests.add(Pair.of("100", "500 * 20 %"));
         tests.add(Pair.of("100", "20 % * 500"));
         tests.add(Pair.of("125", "5 ! + 5"));
-        tests.add(Pair.of("5", Calculator.SQUARE_ROOT + " 25"));
-        tests.add(Pair.of("25", "5 " + Calculator.SQUARE ));
-        tests.add(Pair.of("200", "100 " + Calculator.LSH + " 1"));
-        tests.add(Pair.of("50", "100 " + Calculator.RSH + " 1"));
-        tests.add(Pair.of("32", "100 " + Calculator.AND + " 50"));
-        tests.add(Pair.of("118", "100 " + Calculator.OR + " 50"));
-        tests.add(Pair.of("86", "100 " + Calculator.XOR + " 50"));
-        tests.add(Pair.of("3", "10 " + Calculator.MODULUS + " 7"));
-        tests.add(Pair.of("3", "10 " + Calculator.MODULUS + " -7"));
-        tests.add(Pair.of("-3", "-10 " + Calculator.MODULUS + " -7"));
-        tests.add(Pair.of("-3", "-10 " + Calculator.MODULUS + " 7"));
+        tests.add(Pair.of("5", Operator.SQUARE_ROOT + " 25"));
+        tests.add(Pair.of("25", "5 " + Operator.SQUARE ));
+        tests.add(Pair.of("200", "100 " + Operator.LSH + " 1"));
+        tests.add(Pair.of("50", "100 " + Operator.RSH + " 1"));
+        tests.add(Pair.of("32", "100 " + Operator.AND + " 50"));
+        tests.add(Pair.of("118", "100 " + Operator.OR + " 50"));
+        tests.add(Pair.of("86", "100 " + Operator.XOR + " 50"));
+        tests.add(Pair.of("3", "10 " + Operator.MODULUS + " 7"));
+        tests.add(Pair.of("3", "10 " + Operator.MODULUS + " -7"));
+        tests.add(Pair.of("-3", "-10 " + Operator.MODULUS + " -7"));
+        tests.add(Pair.of("-3", "-10 " + Operator.MODULUS + " 7"));
         tests.add(Pair.of("30414093201713378043612608166064768844377641568960512000000000000",
-                "50 " + Calculator.FACTORIAL));
+                "50 " + Operator.FACTORIAL));
         tests.add(Pair.of("7886578673647905035523632139321850622951359776871732632947425332443594" +
                         "499634033429203042840119846239041772121389196388302576427902426371050619" +
                         "266249528299311134628572707633172373969889439224456214516642402540332918" +
                         "641312274282948532775242424075739032403212574055795686602260319041703240" +
                         "623517008587961789222227896237038973747200000000000000000000000000000000" +
                         "00000000000000000",
-                "200 " + Calculator.FACTORIAL));
-        tests.add(Pair.of("1024", "2 " + Calculator.POWER + " 10"));
-        tests.add(Pair.of("1267650600228229401496703205376", "2 " + Calculator.POWER + " 100"));
+                "200 " + Operator.FACTORIAL));
+        tests.add(Pair.of("1024", "2 " + Operator.POWER + " 10"));
+        tests.add(Pair.of("1267650600228229401496703205376", "2 " + Operator.POWER + " 100"));
         tests.add(Pair.of("1000000000000000000000000000000000000000000000000000000000000000000000" +
                         "000000000000000000000000000000000000000000000000000000000000000000000000" +
                         "000000000000000000000000000000000000000000000000000000000000000000000000" +
@@ -84,24 +84,24 @@ public class CalculatorTest {
                         "000000000000000000000000000000000000000000000000000000000000000000000000" +
                         "000000000000000000000000000000000000000000000000000000000000000000000000" +
                         "00000000000000000000000000000000000000000000000000000000000000000000000",
-                "10 " + Calculator.POWER + " 500"));
-        tests.add(Pair.of("1.414214", "2 " + Calculator.POWER + " 0.5"));
-        tests.add(Pair.of("45.254834", "2 " + Calculator.POWER + " 5.5"));
-        tests.add(Pair.of("0.176777", "2 " + Calculator.POWER + " -2.5"));
-        tests.add(Pair.of("0.25", "2 " + Calculator.POWER + " -2"));
-        tests.add(Pair.of("0.25", "-2 " + Calculator.POWER + " -2"));
-        tests.add(Pair.of("4", "-2 " + Calculator.POWER + " 2"));
-        tests.add(Pair.of("0.125", "2 " + Calculator.POWER + " -3"));
-        tests.add(Pair.of("-0.125", "-2 " + Calculator.POWER + " -3"));
-        tests.add(Pair.of("-8", "-2 " + Calculator.POWER + " 3"));
+                "10 " + Operator.POWER + " 500"));
+        tests.add(Pair.of("1.414214", "2 " + Operator.POWER + " 0.5"));
+        tests.add(Pair.of("45.254834", "2 " + Operator.POWER + " 5.5"));
+        tests.add(Pair.of("0.176777", "2 " + Operator.POWER + " -2.5"));
+        tests.add(Pair.of("0.25", "2 " + Operator.POWER + " -2"));
+        tests.add(Pair.of("0.25", "-2 " + Operator.POWER + " -2"));
+        tests.add(Pair.of("4", "-2 " + Operator.POWER + " 2"));
+        tests.add(Pair.of("0.125", "2 " + Operator.POWER + " -3"));
+        tests.add(Pair.of("-0.125", "-2 " + Operator.POWER + " -3"));
+        tests.add(Pair.of("-8", "-2 " + Operator.POWER + " 3"));
 
         for (Pair<String, String> test : tests) {
             String input = test.getRight().
-                    replace("/", Calculator.DIVIDE).
-                    replace("*", Calculator.MULTIPLY).
-                    replace("-", Calculator.SUBTRACT);
+                    replace("/", Operator.DIVIDE.Symbol()).
+                    replace("*", Operator.MULTIPLY.Symbol()).
+                    replace("-", Operator.SUBTRACT.Symbol());
             assertEquals(
-                    test.getLeft().replace("-", Calculator.SUBTRACT),
+                    test.getLeft().replace("-", Operator.SUBTRACT.Symbol()),
                     mCalculator.Evaluate(
                             new ArrayList<>(Arrays.asList(input.split(" "))),
                             Calculator.Base.DEC,
@@ -126,36 +126,36 @@ public class CalculatorTest {
 
         assertEquals("5",
                 mCalculator.Evaluate(
-                        new ArrayList<>(Arrays.asList((Calculator.SUBTRACT + "A + F").split(" "))),
+                        new ArrayList<>(Arrays.asList((Operator.SUBTRACT + "A + F").split(" "))),
                         Calculator.Base.HEX,
                         Calculator.AngularUnit.DEGREE));
         assertEquals("30",
                 mCalculator.Evaluate(
-                        new ArrayList<>(Arrays.asList((Calculator.SUBTRACT + "30 + 60").split(" "))),
+                        new ArrayList<>(Arrays.asList((Operator.SUBTRACT + "30 + 60").split(" "))),
                         Calculator.Base.OCT,
                         Calculator.AngularUnit.DEGREE));
         assertEquals("1",
                 mCalculator.Evaluate(
-                        new ArrayList<>(Arrays.asList((Calculator.SUBTRACT + "1010 + 1011").split(" "))),
+                        new ArrayList<>(Arrays.asList((Operator.SUBTRACT + "1010 + 1011").split(" "))),
                         Calculator.Base.BIN,
                         Calculator.AngularUnit.DEGREE));
 
-        assertEquals(Calculator.SUBTRACT  + "3F",
+        assertEquals(Operator.SUBTRACT  + "3F",
                 mCalculator.Evaluate(
                         new ArrayList<>(Arrays.asList(
-                                (Calculator.SUBTRACT + "FF " + Calculator.DIVIDE + " 4").split(" "))),
+                                (Operator.SUBTRACT + "FF " + Operator.DIVIDE + " 4").split(" "))),
                         Calculator.Base.HEX,
                         Calculator.AngularUnit.DEGREE));
-        assertEquals(Calculator.SUBTRACT  + "77",
+        assertEquals(Operator.SUBTRACT  + "77",
                 mCalculator.Evaluate(
                         new ArrayList<>(Arrays.asList(
-                                (Calculator.SUBTRACT + "377 " + Calculator.DIVIDE + " 4").split(" "))),
+                                (Operator.SUBTRACT + "377 " + Operator.DIVIDE + " 4").split(" "))),
                         Calculator.Base.OCT,
                         Calculator.AngularUnit.DEGREE));
-        assertEquals(Calculator.SUBTRACT  + "111111",
+        assertEquals(Operator.SUBTRACT  + "111111",
                 mCalculator.Evaluate(
                         new ArrayList<>(Arrays.asList(
-                                (Calculator.SUBTRACT + "11111111 " + Calculator.DIVIDE + " 100").split(" "))),
+                                (Operator.SUBTRACT + "11111111 " + Operator.DIVIDE + " 100").split(" "))),
                         Calculator.Base.BIN,
                         Calculator.AngularUnit.DEGREE));
 
@@ -252,7 +252,7 @@ public class CalculatorTest {
         for (Pair<String, Character> test : pass_tests) {
             assertEquals(true,
                     mCalculator.IsOperandAllowed(
-                            test.getLeft().replace("-", Calculator.SUBTRACT),
+                            test.getLeft().replace("-", Operator.SUBTRACT.Symbol()),
                             Calculator.Base.DEC,
                             test.getRight() == '-' ? Calculator.SUBTRACT_CHAR : test.getRight()));
         }
@@ -260,7 +260,7 @@ public class CalculatorTest {
         for (Pair<String, Character> test : fail_test) {
             assertEquals(false,
                     mCalculator.IsOperandAllowed(
-                            test.getLeft().replace("-", Calculator.SUBTRACT),
+                            test.getLeft().replace("-", Operator.SUBTRACT.Symbol()),
                             Calculator.Base.DEC,
                             test.getRight() == '-' ? Calculator.SUBTRACT_CHAR : test.getRight()));
         }
