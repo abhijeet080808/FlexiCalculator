@@ -2,7 +2,9 @@ package com.saraighatsoftware.flexicalculator;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -26,6 +28,8 @@ class VoiceCalculator implements RecognitionListener {
 
     private static final String TAG = "VoiceCalculator";
 
+    private static final int AUDIO_UNMUTE_DELAY_MILLIS = 1000;
+
     private final SpeechRecognizer mRecognizer;
     private final VoiceResultListener mResultListener;
 
@@ -39,10 +43,14 @@ class VoiceCalculator implements RecognitionListener {
     private final Converter[] mConverters;
 
     // map of unit keyword vs unit
-    private HashMap<String, Converter.Unit> mConverterKeywords;
-    private Pattern mConverterPattern;
+    private final HashMap<String, Converter.Unit> mConverterKeywords;
+    private final Pattern mConverterPattern;
 
     private String mLastResult;
+
+    private final AudioManager mAudioManager;
+    private final Handler mAudioHandler;
+    private final Runnable mAudioUnmuteRunnable;
 
     VoiceCalculator(Context context, VoiceResultListener resultListener) {
         if (SpeechRecognizer.isRecognitionAvailable(context)) {
@@ -108,6 +116,23 @@ class VoiceCalculator implements RecognitionListener {
         mConverterPattern = Pattern.compile("([0-9]+.*[0-9]*) ([a-z]+) to ([a-z]+)");
 
         mLastResult = "";
+
+        // use this to mute audio before listening on user speech to avoid beep
+        // also use this to un-mute audio after user speech ends
+        //
+        // - this fixes bug when recogniser stops listening on its own just after starting recognition
+        //   this happens because speech recognizer identifies the beep as start of speech and
+        //   ending of the beep as end of speech
+        // - it is less irritating this way
+        mAudioManager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+        mAudioHandler = new Handler();
+        mAudioUnmuteRunnable = new Runnable() {
+            @Override
+            @SuppressWarnings("deprecation")
+            public void run() {
+                mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+            }
+        };
     }
 
     void Start() {
@@ -121,6 +146,7 @@ class VoiceCalculator implements RecognitionListener {
         intent.putExtra(EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
 
         mListenStartTimeMillis = System.currentTimeMillis();
+        muteAudio();
         mRecognizer.startListening(intent);
     }
 
@@ -147,6 +173,10 @@ class VoiceCalculator implements RecognitionListener {
 
     // -------- RecognitionListener methods --------
 
+    // User does not speak - onEndOfSpeech, onError
+    // User cancels soon - onError
+    // User speaks - onEndOfSpeech, onResults
+
     public void onBeginningOfSpeech() {
         // user has started to speak
     }
@@ -156,13 +186,7 @@ class VoiceCalculator implements RecognitionListener {
     }
 
     public void onEndOfSpeech() {
-        // called after the user stops speaking
-        if (mListenStartTimeMillis != 0) {
-            mResultListener.IsListening(VoiceResultListener.ListenState.PROCESSING);
-        } else {
-            // this is a forced stop
-            mResultListener.IsListening(VoiceResultListener.ListenState.IDLE);
-        }
+        mResultListener.IsListening(VoiceResultListener.ListenState.PROCESSING);
     }
 
     public void onError(int error) {
@@ -207,6 +231,7 @@ class VoiceCalculator implements RecognitionListener {
             default:
                 break;
         }
+        delayedUnmuteAudio();
         mResultListener.IsListening(VoiceResultListener.ListenState.IDLE);
     }
 
@@ -225,7 +250,6 @@ class VoiceCalculator implements RecognitionListener {
 
     public void onResults(Bundle results) {
         // called when recognition results are ready
-        mResultListener.IsListening(VoiceResultListener.ListenState.IDLE);
         ArrayList<String> result = results.getStringArrayList(RESULTS_RECOGNITION);
         if (result == null || result.isEmpty()) {
             mResultListener.Error(-1, "Failed to Process Voice Input");
@@ -237,6 +261,8 @@ class VoiceCalculator implements RecognitionListener {
                 mResultListener.Error(-1, "Failed to Process Voice Input - " + result.get(0));
             }
         }
+        delayedUnmuteAudio();
+        mResultListener.IsListening(VoiceResultListener.ListenState.IDLE);
     }
 
     public void onRmsChanged(float rmsDb) {
@@ -244,6 +270,16 @@ class VoiceCalculator implements RecognitionListener {
     }
 
     // ---------------------------------------------
+
+    @SuppressWarnings("deprecation")
+    private void muteAudio() {
+        mAudioHandler.removeCallbacks(mAudioUnmuteRunnable);
+        mAudioManager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+    }
+
+    private void delayedUnmuteAudio() {
+        mAudioHandler.postDelayed(mAudioUnmuteRunnable, AUDIO_UNMUTE_DELAY_MILLIS);
+    }
 
     private boolean calculate(final ArrayList<String> inputList) {
         Log.v(TAG, "Parsing " + inputList);

@@ -15,17 +15,6 @@ import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-interface VoiceResultListener {
-    enum ListenState {
-        IDLE,
-        LISTENING,
-        PROCESSING
-    }
-    void IsListening(ListenState state);
-    void Result(String value);
-    void Error(int code, String message);
-}
-
 public class VoiceFragment extends Fragment implements VoiceResultListener {
 
     private static final int PERMISSION_RECORD_AUDIO = 1;
