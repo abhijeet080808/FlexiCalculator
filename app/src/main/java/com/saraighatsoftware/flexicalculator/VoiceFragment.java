@@ -112,7 +112,7 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
         mVoiceCalculator.Destroy();
     }
 
-    public void IsListening(ListenState state) {
+    public void IsListening(final ListenState state) {
         mListenState = state;
         if (state == ListenState.IDLE) {
             mButtonDisplayVoice.setText(getResources().getString(R.string.listen));
@@ -123,7 +123,7 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
         }
     }
 
-    public void Result(String value) {
+    public void Result(final String value) {
         if (mDisplayVoice.length() > 0) {
             mDisplayVoice.append("\n");
         }
@@ -132,7 +132,7 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
         updateText();
     }
 
-    public void Error(int code, String message) {
+    public void Error(final int code, final String message) {
         View view = getView();
         if (view != null) {
             Snackbar.make(getView(), message, Snackbar.LENGTH_LONG)

@@ -253,7 +253,7 @@ class VoiceCalculator implements RecognitionListener {
 
     // ---------------------------------------------
 
-    private boolean calculate(ArrayList<String> inputList) {
+    private boolean calculate(final ArrayList<String> inputList) {
         Log.v(TAG, "Parsing " + inputList);
         for (String input: inputList) {
             // replace recognized operator keywords
@@ -300,7 +300,7 @@ class VoiceCalculator implements RecognitionListener {
         return false;
     }
 
-    private boolean convert(ArrayList<String> inputList) {
+    private boolean convert(final ArrayList<String> inputList) {
         Log.v(TAG, "Converting " + inputList);
         // process strings like convert 1 ml to litre
         for (String input : inputList) {

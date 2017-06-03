@@ -62,14 +62,46 @@ public class CalculatorTest {
         tests.add(Pair.of("32", "100 " + Calculator.AND + " 50"));
         tests.add(Pair.of("118", "100 " + Calculator.OR + " 50"));
         tests.add(Pair.of("86", "100 " + Calculator.XOR + " 50"));
+        tests.add(Pair.of("3", "10 " + Calculator.MODULUS + " 7"));
+        tests.add(Pair.of("3", "10 " + Calculator.MODULUS + " -7"));
+        tests.add(Pair.of("-3", "-10 " + Calculator.MODULUS + " -7"));
+        tests.add(Pair.of("-3", "-10 " + Calculator.MODULUS + " 7"));
+        tests.add(Pair.of("30414093201713378043612608166064768844377641568960512000000000000",
+                "50 " + Calculator.FACTORIAL));
+        tests.add(Pair.of("7886578673647905035523632139321850622951359776871732632947425332443594" +
+                        "499634033429203042840119846239041772121389196388302576427902426371050619" +
+                        "266249528299311134628572707633172373969889439224456214516642402540332918" +
+                        "641312274282948532775242424075739032403212574055795686602260319041703240" +
+                        "623517008587961789222227896237038973747200000000000000000000000000000000" +
+                        "00000000000000000",
+                "200 " + Calculator.FACTORIAL));
+        tests.add(Pair.of("1024", "2 " + Calculator.POWER + " 10"));
+        tests.add(Pair.of("1267650600228229401496703205376", "2 " + Calculator.POWER + " 100"));
+        tests.add(Pair.of("1000000000000000000000000000000000000000000000000000000000000000000000" +
+                        "000000000000000000000000000000000000000000000000000000000000000000000000" +
+                        "000000000000000000000000000000000000000000000000000000000000000000000000" +
+                        "000000000000000000000000000000000000000000000000000000000000000000000000" +
+                        "000000000000000000000000000000000000000000000000000000000000000000000000" +
+                        "000000000000000000000000000000000000000000000000000000000000000000000000" +
+                        "00000000000000000000000000000000000000000000000000000000000000000000000",
+                "10 " + Calculator.POWER + " 500"));
+        tests.add(Pair.of("1.414214", "2 " + Calculator.POWER + " 0.5"));
+        tests.add(Pair.of("45.254834", "2 " + Calculator.POWER + " 5.5"));
+        tests.add(Pair.of("0.176777", "2 " + Calculator.POWER + " -2.5"));
+        tests.add(Pair.of("0.25", "2 " + Calculator.POWER + " -2"));
+        tests.add(Pair.of("0.25", "-2 " + Calculator.POWER + " -2"));
+        tests.add(Pair.of("4", "-2 " + Calculator.POWER + " 2"));
+        tests.add(Pair.of("0.125", "2 " + Calculator.POWER + " -3"));
+        tests.add(Pair.of("-0.125", "-2 " + Calculator.POWER + " -3"));
+        tests.add(Pair.of("-8", "-2 " + Calculator.POWER + " 3"));
 
         for (Pair<String, String> test : tests) {
-            String input = test.getLeft().
+            String input = test.getRight().
                     replace("/", Calculator.DIVIDE).
                     replace("*", Calculator.MULTIPLY).
                     replace("-", Calculator.SUBTRACT);
             assertEquals(
-                    test.getLeft(),
+                    test.getLeft().replace("-", Calculator.SUBTRACT),
                     mCalculator.Evaluate(
                             new ArrayList<>(Arrays.asList(input.split(" "))),
                             Calculator.Base.DEC,

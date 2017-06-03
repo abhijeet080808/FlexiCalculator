@@ -304,8 +304,26 @@ class Calculator {
             case MODULUS:
                 return operand1.remainder(operand2);
             case POWER:
-                // TODO 10 ^ 500
-                return new BigDecimal(Math.pow(operand1.doubleValue(), operand2.doubleValue()));
+                // 5 ^ 5.5 = (5 ^ 5) x (5 ^ 0.5)
+                if (operand2.compareTo(new BigDecimal(Integer.MAX_VALUE)) > 0) {
+                    throw new ArithmeticException("Exponent is too big");
+                }
+                int exponent = operand2.intValue();
+
+                BigDecimal integer_part = operand1.pow(Math.abs(exponent));
+
+                BigDecimal decimal_part =  new BigDecimal(Math.pow(
+                        operand1.doubleValue(),
+                        operand2.remainder(new BigDecimal(exponent != 0 ? Math.abs(exponent) : 1))
+                                .abs()
+                                .doubleValue()));
+                BigDecimal result = integer_part.multiply(decimal_part);
+                if (exponent < 0) {
+                    return BigDecimal.ONE.divide(result, INTERNAL_SCALE, BigDecimal.ROUND_HALF_EVEN);
+                } else {
+                    return result;
+                }
+
             case LSH:
                 return new BigDecimal(operand1.toBigInteger().shiftLeft(operand2.intValue()));
             case RSH:
