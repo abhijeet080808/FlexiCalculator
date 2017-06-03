@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="pref_category_about"
+        android:persistent="false"
+        android:title="About">
+
+        <PreferenceScreen
+            android:key="pref_screen_about"
+            android:persistent="false"
+            android:title="About this App">
+
+            <Preference
+                android:key="pref_key_about_name"
+                android:persistent="false"
+                android:title="@string/app_name"/>
+
+            <Preference
+                android:key="pref_key_about_version"
+                android:persistent="false"
+                android:title="Version 1.0"/>
+
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
