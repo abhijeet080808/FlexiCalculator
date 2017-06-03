@@ -12,14 +12,24 @@ class ConverterSpeed extends Converter {
 
     // must be same order and value as R.array.speed
     enum SpeedUnit implements Unit {
-        METERS_PER_SECOND,
-        KILOMETERS_PER_SECOND,
-        KILOMETERS_PER_HOUR,
-        FEET_PER_SECOND,
-        MILES_PER_SECOND,
-        MILES_PER_HOUR,
-        KNOTS,
-        MACH
+        METERS_PER_SECOND(new String[] { "metres per second" }),
+        KILOMETERS_PER_SECOND(new String[] { "kilometres per second" }),
+        KILOMETERS_PER_HOUR(new String[] { "kilometres per hour" }),
+        FEET_PER_SECOND(new String[] { "feet per second" }),
+        MILES_PER_SECOND(new String[] { "miles per second" }),
+        MILES_PER_HOUR(new String[] { "miles per hour" }),
+        KNOTS(new String[] { "knots" }),
+        MACH(new String[] { "mach" });
+
+        final String[] mKeywords;
+
+        SpeedUnit(String[] keywords) {
+            mKeywords = keywords;
+        }
+
+        public String[] GetKeywords() {
+            return mKeywords;
+        }
     }
 
     private final List<String> mUnits;
@@ -73,5 +83,9 @@ class ConverterSpeed extends Converter {
 
     protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
+    }
+
+    Unit[] GetAllUnits() {
+        return mValues;
     }
 }

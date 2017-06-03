@@ -12,17 +12,27 @@ class ConverterLength extends Converter {
 
     // must be same order and value as R.array.length
     enum LengthUnit implements Unit {
-        NANOMETERS,
-        MICRONS,
-        MILLIMETERS,
-        CENTIMETERS,
-        METERS,
-        KILOMETERS,
-        INCHES,
-        FEET,
-        YARDS,
-        MILES,
-        NAUTICAL_MILES,
+        NANOMETERS(new String[] { "nanometre" }),
+        MICRONS(new String[] { "micron" }),
+        MILLIMETERS(new String[] { "millimetre" }),
+        CENTIMETERS(new String[] { "centimetre" }),
+        METERS(new String[] { "metre" }),
+        KILOMETERS(new String[] { "kilometre" }),
+        INCHES(new String[] { "inch" }),
+        FEET(new String[] { "foot" }),
+        YARDS(new String[] { "yard" }),
+        MILES(new String[] { "mile" }),
+        NAUTICAL_MILES(new String[] { "nautical mile" });
+
+        final String[] mKeywords;
+
+        LengthUnit(String[] keywords) {
+            mKeywords = keywords;
+        }
+
+        public String[] GetKeywords() {
+            return mKeywords;
+        }
     }
 
     private final List<String> mUnits;
@@ -84,5 +94,9 @@ class ConverterLength extends Converter {
 
     protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
+    }
+
+    Unit[] GetAllUnits() {
+        return mValues;
     }
 }

@@ -15,6 +15,7 @@ abstract class Converter {
     private static final String TAG = "Converter";
 
     interface Unit {
+        String[] GetKeywords();
     }
 
     class ConversionPair {
@@ -56,6 +57,8 @@ abstract class Converter {
 
     // output = input * conversion_factor
     protected abstract BigFraction getConversionFactor(ConversionPair pair);
+
+    abstract Unit[] GetAllUnits();
 
     static BigFraction ToBigFraction(BigDecimal val) {
         final int scale = val.scale();

@@ -12,9 +12,19 @@ class ConverterAngle extends Converter {
 
     // must be same order and value as R.array.angle
     enum AngleUnit implements Unit {
-        DEGREES,
-        RADIANS,
-        GRADIANS
+        DEGREES(new String[] { "degree" }),
+        RADIANS(new String[] { "radian" }),
+        GRADIANS(new String[] { "gradian" });
+
+        final String[] mKeywords;
+
+        AngleUnit(String[] keywords) {
+            mKeywords = keywords;
+        }
+
+        public String[] GetKeywords() {
+            return mKeywords;
+        }
     }
 
     private final List<String> mUnits;
@@ -52,5 +62,9 @@ class ConverterAngle extends Converter {
 
     protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
+    }
+
+    Unit[] GetAllUnits() {
+        return mValues;
     }
 }

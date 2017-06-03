@@ -18,10 +18,20 @@ class ConverterFuelEconomy extends Converter {
 
     // must be same order and value as R.array.fuel_economy
     enum FuelEconomyUnit implements Unit {
-        MILES_PER_GALLON_US,
-        MILES_PER_GALLON_UK,
-        KILOMETERS_PER_LITER,
-        LITERS_PER_100_KILOMETERS
+        MILES_PER_GALLON_US(new String[] { "miles per us gallon" }),
+        MILES_PER_GALLON_UK(new String[] { "miles per uk gallon" }),
+        KILOMETERS_PER_LITER(new String[] { "kilometres per litre" }),
+        LITERS_PER_100_KILOMETERS(new String[] { "litre per 100 kilometres" });
+
+        final String[] mKeywords;
+
+        FuelEconomyUnit(String[] keywords) {
+            mKeywords = keywords;
+        }
+
+        public String[] GetKeywords() {
+            return mKeywords;
+        }
     }
 
     private final List<String> mUnits;
@@ -130,5 +140,9 @@ class ConverterFuelEconomy extends Converter {
 
     protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
+    }
+
+    Unit[] GetAllUnits() {
+        return mValues;
     }
 }

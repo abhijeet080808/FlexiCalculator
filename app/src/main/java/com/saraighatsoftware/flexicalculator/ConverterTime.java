@@ -12,14 +12,24 @@ class ConverterTime extends Converter {
 
     // must be same order and value as R.array.time
     enum TimeUnit implements Unit {
-        MICROSECONDS,
-        MILLISECONDS,
-        SECONDS,
-        MINUTES,
-        HOURS,
-        DAYS,
-        WEEKS,
-        YEARS
+        MICROSECONDS(new String[] { "microsecond" }),
+        MILLISECONDS(new String[] { "millisecond" }),
+        SECONDS(new String[] { "second" }),
+        MINUTES(new String[] { "minute" }),
+        HOURS(new String[] { "hour" }),
+        DAYS(new String[] { "day" }),
+        WEEKS(new String[] { "week" }),
+        YEARS(new String[] { "year" });
+
+        final String[] mKeywords;
+
+        TimeUnit(String[] keywords) {
+            mKeywords = keywords;
+        }
+
+        public String[] GetKeywords() {
+            return mKeywords;
+        }
     }
 
     private final List<String> mUnits;
@@ -72,5 +82,9 @@ class ConverterTime extends Converter {
 
     protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
+    }
+
+    Unit[] GetAllUnits() {
+        return mValues;
     }
 }

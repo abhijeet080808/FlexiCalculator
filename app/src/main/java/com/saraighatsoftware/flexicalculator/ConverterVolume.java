@@ -12,27 +12,37 @@ class ConverterVolume extends Converter {
 
     // must be same order and value as R.array.volume
     enum VolumeUnit implements Converter.Unit {
-        MILLILITERS,
-        LITERS,
-        CUBIC_CENTIMETERS,
-        CUBIC_METERS,
-        CUBIC_INCHES,
-        CUBIC_FEET,
-        CUBIC_YARDS,
-        TEASPOONS_US,
-        TABLESPOONS_US,
-        FLUID_OUNCES_US,
-        CUPS_US,
-        PINTS_US,
-        QUARTS_US,
-        GALLONS_US,
-        TEASPOONS_UK,
-        TABLESPOONS_UK,
-        FLUID_OUNCES_UK,
-        CUPS_UK,
-        PINTS_UK,
-        QUARTS_UK,
-        GALLONS_UK
+        MILLILITERS(new String[] { "millimetre" }),
+        LITERS(new String[] { "litre" }),
+        CUBIC_CENTIMETERS(new String[] { "cubic centimetre" }),
+        CUBIC_METERS(new String[] { "cubic metre" }),
+        CUBIC_INCHES(new String[] { "cubic inch" }),
+        CUBIC_FEET(new String[] { "cubic feet" }),
+        CUBIC_YARDS(new String[] { "cubic yard" }),
+        TEASPOONS_US(new String[] { "teaspoon us" }),
+        TABLESPOONS_US(new String[] { "tablespoon us" }),
+        FLUID_OUNCES_US(new String[] { "fluid ounce us" }),
+        CUPS_US(new String[] { "cup us" }),
+        PINTS_US(new String[] { "pint us" }),
+        QUARTS_US(new String[] { "quart us" }),
+        GALLONS_US(new String[] { "gallon us" }),
+        TEASPOONS_UK(new String[] { "teaspoon uk" }),
+        TABLESPOONS_UK(new String[] { "tablespoon uk" }),
+        FLUID_OUNCES_UK(new String[] { "fluid ounce uk" }),
+        CUPS_UK(new String[] { "cup uk" }),
+        PINTS_UK(new String[] { "pint uk" }),
+        QUARTS_UK(new String[] { "quart uk" }),
+        GALLONS_UK(new String[] { "gallon uk" });
+
+        final String[] mKeywords;
+
+        VolumeUnit(String[] keywords) {
+            mKeywords = keywords;
+        }
+
+        public String[] GetKeywords() {
+            return mKeywords;
+        }
     }
 
     private final List<String> mUnits;
@@ -122,5 +132,9 @@ class ConverterVolume extends Converter {
 
     protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
+    }
+
+    Unit[] GetAllUnits() {
+        return mValues;
     }
 }

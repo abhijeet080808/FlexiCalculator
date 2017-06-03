@@ -12,12 +12,22 @@ class ConverterPressure extends Converter {
 
     // must be same order and value as R.array.pressure
     enum PressureUnit implements Unit {
-        ATMOSPHERES,
-        BARS,
-        PASCALS,
-        KILOPASCALS,
-        POUNDS_PER_SQUARE_INCH,
-        TORRS
+        ATMOSPHERES(new String[] { "atmosphere" }),
+        BARS(new String[] { "bar" }),
+        PASCALS(new String[] { "pascal" }),
+        KILOPASCALS(new String[] { "kilopascal" }),
+        POUNDS_PER_SQUARE_INCH(new String[] { "pounds per square inch" }),
+        TORRS(new String[] { "torr" });
+
+        final String[] mKeywords;
+
+        PressureUnit(String[] keywords) {
+            mKeywords = keywords;
+        }
+
+        public String[] GetKeywords() {
+            return mKeywords;
+        }
     }
 
     private final List<String> mUnits;
@@ -68,5 +78,9 @@ class ConverterPressure extends Converter {
 
     protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
+    }
+
+    Unit[] GetAllUnits() {
+        return mValues;
     }
 }

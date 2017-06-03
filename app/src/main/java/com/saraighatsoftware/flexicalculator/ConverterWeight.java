@@ -12,20 +12,30 @@ class ConverterWeight extends Converter {
 
     // must be same order and value as R.array.weight
     enum WeightUnit implements Unit {
-        CARATS,
-        MILLIGRAMS,
-        CENTIGRAMS,
-        DECIGRAMS,
-        GRAMS,
-        DEKAGRAMS,
-        HECTOGRAMS,
-        KILOGRAMS,
-        METRIC_TONNES,
-        OUNCES,
-        POUNDS,
-        STONES,
-        SHORT_TONS_US,
-        LONG_TONS_UK
+        CARATS(new String[] { "carat" }),
+        MILLIGRAMS(new String[] { "milligram" }),
+        CENTIGRAMS(new String[] { "centigram" }),
+        DECIGRAMS(new String[] { "decigram" }),
+        GRAMS(new String[] { "gram" }),
+        DEKAGRAMS(new String[] { "dekagram" }),
+        HECTOGRAMS(new String[] { "hectogram" }),
+        KILOGRAMS(new String[] { "kilogram" }),
+        METRIC_TONNES(new String[] { "metric tonne" }),
+        OUNCES(new String[] { "ounce" }),
+        POUNDS(new String[] { "pound" }),
+        STONES(new String[] { "stone" }),
+        SHORT_TONS_US(new String[] { "short ton" }),
+        LONG_TONS_UK(new String[] { "long ton" });
+
+        final String[] mKeywords;
+
+        WeightUnit(String[] keywords) {
+            mKeywords = keywords;
+        }
+
+        public String[] GetKeywords() {
+            return mKeywords;
+        }
     }
 
     private final List<String> mUnits;
@@ -96,5 +106,9 @@ class ConverterWeight extends Converter {
 
     protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
+    }
+
+    Unit[] GetAllUnits() {
+        return mValues;
     }
 }

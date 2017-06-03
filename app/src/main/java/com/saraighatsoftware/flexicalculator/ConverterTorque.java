@@ -12,11 +12,21 @@ class ConverterTorque extends Converter {
 
     // must be same order and value as R.array.torque
     enum TorqueUnit implements Unit {
-        NEWTON_METERS,
-        KILOGRAM_METERS,
-        JOULES_PER_RADIAN,
-        POUND_INCHES,
-        POUND_FEET
+        NEWTON_METERS(new String[] { "newton metre" }),
+        KILOGRAM_METERS(new String[] { "kilogram metre" }),
+        JOULES_PER_RADIAN(new String[] { "joules per radian" }),
+        POUND_INCHES(new String[] { "pound inch" }),
+        POUND_FEET(new String[] { "pound foot" });
+
+        final String[] mKeywords;
+
+        TorqueUnit(String[] keywords) {
+            mKeywords = keywords;
+        }
+
+        public String[] GetKeywords() {
+            return mKeywords;
+        }
     }
 
     private final List<String> mUnits;
@@ -72,5 +82,9 @@ class ConverterTorque extends Converter {
 
     protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
+    }
+
+    Unit[] GetAllUnits() {
+        return mValues;
     }
 }

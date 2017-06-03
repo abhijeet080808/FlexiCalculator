@@ -36,11 +36,11 @@ class VoiceCalculator implements RecognitionListener {
 
     private final Calculator mCalculator;
 
+    private final Converter[] mConverters;
+
     // map of unit keyword vs unit
     private HashMap<String, Converter.Unit> mConverterKeywords;
     private Pattern mConverterPattern;
-
-    private final Converter[] mConverters;
 
     private String mLastResult;
 
@@ -87,18 +87,6 @@ class VoiceCalculator implements RecognitionListener {
 
         mCalculator = new Calculator();
 
-        // TODO complete this
-        // mapping of converter unit vs keywords
-        mConverterKeywords = new HashMap<>();
-        mConverterKeywords.put("mm", ConverterLength.LengthUnit.MILLIMETERS);
-        mConverterKeywords.put("millimeter", ConverterLength.LengthUnit.MILLIMETERS);
-        mConverterKeywords.put("millimetre", ConverterLength.LengthUnit.MILLIMETERS);
-        mConverterKeywords.put("meter", ConverterLength.LengthUnit.METERS);
-        mConverterKeywords.put("metre", ConverterLength.LengthUnit.METERS);
-
-        // matches - 1.5 litre to ml
-        mConverterPattern = Pattern.compile("([0-9]+.*[0-9]*) ([a-z]+) to ([a-z]+)");
-
         mConverters = new Converter[] {
                 new ConverterVolume(context),
                 new ConverterWeight(context),
@@ -115,6 +103,21 @@ class VoiceCalculator implements RecognitionListener {
                 new ConverterData(context),
                 new ConverterAngle(context)
         };
+
+        // mapping of converter unit vs keywords
+        mConverterKeywords = new HashMap<>();
+        for (Converter converter : mConverters) {
+            for (Converter.Unit unit : converter.GetAllUnits()) {
+                String[] keywords = unit.GetKeywords();
+                for (String keyword : keywords) {
+                    mConverterKeywords.put(keyword, unit);
+                }
+            }
+        }
+
+        // matches - 1.5 litre to ml
+        mConverterPattern = Pattern.compile("([0-9]+.*[0-9]*) ([a-z]+) to ([a-z]+)");
+
         mLastResult = "";
     }
 
@@ -304,6 +307,7 @@ class VoiceCalculator implements RecognitionListener {
         Log.v(TAG, "Converting " + inputList);
         // process strings like convert 1 ml to litre
         for (String input : inputList) {
+            input = input.toLowerCase();
             Matcher m = mConverterPattern.matcher(input);
             if (m.matches()) {
                 String input_value = m.group(1);
@@ -316,6 +320,7 @@ class VoiceCalculator implements RecognitionListener {
                 if (input_unit != null && output_unit != null) {
                     String result;
                     Converter converter;
+                    // as per mConverters initialization above
                     try {
                         if (input_unit instanceof ConverterVolume.VolumeUnit &&
                                 output_unit instanceof ConverterVolume.VolumeUnit) {
@@ -373,7 +378,11 @@ class VoiceCalculator implements RecognitionListener {
                     } catch (Exception e) {
                         // do nothing
                     }
+                } else {
+                    Log.v(TAG, "Unknown units " + input_unit_string + " " + output_unit_string);
                 }
+            } else {
+                Log.v(TAG, "Unknown conversion command " + input);
             }
         }
         return false;

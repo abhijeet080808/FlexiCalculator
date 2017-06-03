@@ -12,16 +12,26 @@ class ConverterPower extends Converter {
 
     // must be same order and value as R.array.power
     enum PowerUnit implements Unit {
-        WATTS,
-        KILOWATTS,
-        MEGAWATTS,
-        GIGAWATTS,
-        JOULES_PER_SECOND,
-        HORSEPOWER_ELECTRICAL,
-        HORSEPOWER_MECHANICAL,
-        PFERDESTARKE,
-        FOOT_POUNDS_PER_MINUTE,
-        BTUS_IT_PER_MINUTE
+        WATTS(new String[] { "watt" }),
+        KILOWATTS(new String[] { "kilowatt" }),
+        MEGAWATTS(new String[] { "megawatt" }),
+        GIGAWATTS(new String[] { "gigawatt" }),
+        JOULES_PER_SECOND(new String[] { "joules per second" }),
+        HORSEPOWER_ELECTRICAL(new String[] { "horsepower electrical" }),
+        HORSEPOWER_MECHANICAL(new String[] { "horsepower mechanical" }),
+        PFERDESTARKE(new String[] { "pferdestarke" }),
+        FOOT_POUNDS_PER_MINUTE(new String[] { "foot pounds per minute" }),
+        BTUS_IT_PER_MINUTE(new String[] { "btu per minute" });
+
+        final String[] mKeywords;
+
+        PowerUnit(String[] keywords) {
+            mKeywords = keywords;
+        }
+
+        public String[] GetKeywords() {
+            return mKeywords;
+        }
     }
 
     private final List<String> mUnits;
@@ -93,5 +103,9 @@ class ConverterPower extends Converter {
 
     protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
+    }
+
+    Unit[] GetAllUnits() {
+        return mValues;
     }
 }

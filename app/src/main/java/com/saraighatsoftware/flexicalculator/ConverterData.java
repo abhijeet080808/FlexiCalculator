@@ -12,28 +12,38 @@ class ConverterData extends Converter {
 
     // must be same order and value as R.array.data
     enum DataUnit implements Unit {
-        BITS,
-        BYTES,
-        KILOBITS,
-        KIBIBITS,
-        KILOBYTES,
-        KIBIBYTES,
-        MEGABITS,
-        MEBIBITS,
-        MEGABYTES,
-        MEBIBYTES,
-        GIGABITS,
-        GIBIBITS,
-        GIGABYTES,
-        GIBIBYTES,
-        TERABITS,
-        TEBIBITS,
-        TERABYTES,
-        TEBIBYTES,
-        PETABITS,
-        PEBIBITS,
-        PETABYTES,
-        PEBIBYTES
+        BITS(new String[] { "bit" }),
+        BYTES(new String[] { "byte" }),
+        KILOBITS(new String[] { "kilobit" }),
+        KIBIBITS(new String[] { "kibibit" }),
+        KILOBYTES(new String[] { "kilobyte" }),
+        KIBIBYTES(new String[] { "kibibyte" }),
+        MEGABITS(new String[] { "megabit" }),
+        MEBIBITS(new String[] { "mebibit" }),
+        MEGABYTES(new String[] { "megabyte" }),
+        MEBIBYTES(new String[] { "mebibyte" }),
+        GIGABITS(new String[] { "gigabit" }),
+        GIBIBITS(new String[] { "gibibit" }),
+        GIGABYTES(new String[] { "gigabyte" }),
+        GIBIBYTES(new String[] { "gibibyte" }),
+        TERABITS(new String[] { "terabit" }),
+        TEBIBITS(new String[] { "tebibit" }),
+        TERABYTES(new String[] { "terabyte" }),
+        TEBIBYTES(new String[] { "tebibyte" }),
+        PETABITS(new String[] { "petabit" }),
+        PEBIBITS(new String[] { "pebibit" }),
+        PETABYTES(new String[] { "petabyte" }),
+        PEBIBYTES(new String[] { "pebibyte" });
+
+        final String[] mKeywords;
+
+        DataUnit(String[] keywords) {
+            mKeywords = keywords;
+        }
+
+        public String[] GetKeywords() {
+            return mKeywords;
+        }
     }
 
     private final List<String> mUnits;
@@ -112,5 +122,9 @@ class ConverterData extends Converter {
 
     protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
+    }
+
+    Unit[] GetAllUnits() {
+        return mValues;
     }
 }

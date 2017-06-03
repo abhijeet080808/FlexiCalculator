@@ -12,16 +12,26 @@ class ConverterArea extends Converter {
 
     // must be same order and value as R.array.area
     enum AreaUnit implements Unit {
-        SQUARE_MILLIMETERS,
-        SQUARE_CENTIMETERS,
-        SQUARE_METERS,
-        SQUARE_KILOMETERS,
-        ACRES,
-        HECTARES,
-        SQUARE_INCHES,
-        SQUARE_FEET,
-        SQUARE_YARDS,
-        SQUARE_MILES
+        SQUARE_MILLIMETERS(new String[]{ "square millimeter" }),
+        SQUARE_CENTIMETERS(new String[]{ "square centimeter" }),
+        SQUARE_METERS(new String[]{ "square meter" }),
+        SQUARE_KILOMETERS(new String[]{ "square kilometer" }),
+        ACRES(new String[]{ "square acre" }),
+        HECTARES(new String[]{ "square hectare" }),
+        SQUARE_INCHES(new String[]{ "square inch" }),
+        SQUARE_FEET(new String[]{ "square foot" }),
+        SQUARE_YARDS(new String[]{ "square yard" }),
+        SQUARE_MILES(new String[]{ "square mile" });
+
+        final String[] mKeywords;
+
+        AreaUnit(String[] keywords) {
+            mKeywords = keywords;
+        }
+
+        public String[] GetKeywords() {
+            return mKeywords;
+        }
     }
 
     private final List<String> mUnits;
@@ -80,5 +90,9 @@ class ConverterArea extends Converter {
 
     protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
+    }
+
+    Unit[] GetAllUnits() {
+        return mValues;
     }
 }

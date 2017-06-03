@@ -13,18 +13,28 @@ class ConverterEnergy extends Converter {
 
     // must be same order and value as R.array.energy
     enum EnergyUnit implements Unit {
-        ELECTRON_VOLTS,
-        JOULES,
-        KILOJOULES,
-        WATT_HOURS,
-        KILOWATT_HOURS,
-        CALORIES_THERMOCHEMICAL,
-        CALORIES_IT,
-        CALORIES_FOOD,
-        FOOT_POUNDS,
-        BRITISH_THERMAL_UNITS_THERMOCHEMICAL,
-        BRITISH_THERMAL_UNITS_IT,
-        BRITISH_THERMAL_UNITS_ISO
+        ELECTRON_VOLTS(new String[] { "electron volt" }),
+        JOULES(new String[] { "joule" }),
+        KILOJOULES(new String[] { "kilojoule" }),
+        WATT_HOURS(new String[] { "watt hour" }),
+        KILOWATT_HOURS(new String[] { "kilowatt hour" }),
+        CALORIES_THERMOCHEMICAL(new String[] { "calories thermochemical" }),
+        CALORIES_IT(new String[] { "calories it"}),
+        CALORIES_FOOD(new String[] { "calories food" }),
+        FOOT_POUNDS(new String[] { "foot pound" }),
+        BRITISH_THERMAL_UNITS_THERMOCHEMICAL(new String[] { "btu thermochemical" }),
+        BRITISH_THERMAL_UNITS_IT(new String[] { "btu it" }),
+        BRITISH_THERMAL_UNITS_ISO(new String[] { "btu iso" });
+
+        final String[] mKeywords;
+
+        EnergyUnit(String[] keywords) {
+            mKeywords = keywords;
+        }
+
+        public String[] GetKeywords() {
+            return mKeywords;
+        }
     }
 
     private final List<String> mUnits;
@@ -120,5 +130,9 @@ class ConverterEnergy extends Converter {
 
     protected BigFraction getConversionFactor(ConversionPair pair) {
         return mConversionFactors.get(pair);
+    }
+
+    Unit[] GetAllUnits() {
+        return mValues;
     }
 }

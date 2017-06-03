@@ -17,9 +17,19 @@ class ConverterTemperature extends Converter {
 
     // must be same order and value as R.array.temperature
     enum TemperatureUnit implements Unit {
-        CELSIUS,
-        FAHRENHEIT,
-        KELVIN
+        CELSIUS(new String[] { "celsius" }),
+        FAHRENHEIT(new String[] { "fahrenheit" }),
+        KELVIN(new String[] { "kelvin" });
+
+        final String[] mKeywords;
+
+        TemperatureUnit(String[] keywords) {
+            mKeywords = keywords;
+        }
+
+        public String[] GetKeywords() {
+            return mKeywords;
+        }
     }
 
     private final List<String> mUnits;
@@ -48,6 +58,10 @@ class ConverterTemperature extends Converter {
 
     protected BigFraction getConversionFactor(ConversionPair pair) {
         return null;
+    }
+
+    Unit[] GetAllUnits() {
+        return mValues;
     }
 
     @Override
