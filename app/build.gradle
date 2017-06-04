@@ -24,6 +24,9 @@ android {
     lintOptions {
         disable 'GoogleAppIndexingWarning'
     }
+    applicationVariants.all { variant ->
+        variant.resValue "string", "versionName", "Version " + variant.versionName
+    }
 }
 
 dependencies {

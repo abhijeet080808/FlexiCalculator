@@ -5,50 +5,51 @@
     <PreferenceCategory
         android:key="pref_category_about"
         android:persistent="false"
-        android:title="About">
+        android:title="@string/about">
 
+        <!--suppress AndroidDomInspection -->
         <Preference
             android:key="pref_key_about_version"
             android:persistent="false"
             android:selectable="true"
             android:title="@string/app_name"
-            android:summary="v 1.0.0">
+            android:summary="@string/versionName">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://play.google.com/store/apps/developer?id=Saraighat+Software" />
+                android:data="@string/app_store_link" />
         </Preference>
 
         <Preference
             android:key="pref_key_about_license"
             android:persistent="false"
             android:selectable="true"
-            android:title="Licensed under MIT License"
-            android:summary="Copyright © 2017 Saraighat Software [abhijeet080808]">
+            android:title="@string/mit_license"
+            android:summary="@string/copyright">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://raw.githubusercontent.com/abhijeet080808/FlexiCalculator/master/LICENSE" />
+                android:data="@string/license_link" />
         </Preference>
 
         <Preference
             android:key="pref_key_about_source"
             android:persistent="false"
             android:selectable="true"
-            android:title="Source Code"
-            android:summary="github.com/abhijeet080808/FlexiCalculator">
+            android:title="@string/source_code"
+            android:summary="@string/source_code_location">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/abhijeet080808/FlexiCalculator" />
+                android:data="@string/source_code_link" />
         </Preference>
 
         <Preference
             android:key="pref_key_about_bugs"
             android:persistent="false"
             android:selectable="true"
-            android:title="Bugs and Feedback"
-            android:summary="github.com/abhijeet080808/FlexiCalculator/issues">
+            android:title="@string/bugs"
+            android:summary="@string/bugs_location">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/abhijeet080808/FlexiCalculator/issues" />
+                android:data="@string/bugs_link" />
         </Preference>
 
     </PreferenceCategory>
@@ -56,28 +57,28 @@
     <PreferenceCategory
         android:key="pref_category_third_party"
         android:persistent="false"
-        android:title="Third Party Licenses">
+        android:title="@string/third_party">
 
         <Preference
             android:key="pref_key_third_party_apache"
             android:persistent="false"
             android:selectable="true"
-            android:title="Apache Commons"
-            android:summary="Licensed under Apache License, v 2.0\nCopyright © 2017 The Apache Software Foundation">
+            android:title="@string/apache"
+            android:summary="@string/apache_summary">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://commons.apache.org/" />
+                android:data="@string/apache_link" />
         </Preference>
 
         <Preference
             android:key="pref_key_third_party_teko"
             android:persistent="false"
             android:selectable="true"
-            android:title="Teko Font"
-            android:summary="Licensed under Open Font License, v 1.1\nCopyright © 2014 Indian Type Foundry">
+            android:title="@string/teko"
+            android:summary="@string/teko_summary">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://www.indiantypefoundry.com/" />
+                android:data="@string/teko_link" />
         </Preference>
 
     </PreferenceCategory>

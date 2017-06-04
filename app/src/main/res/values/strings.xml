@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">FlexiCalculator</string>
-    <string name="settings">Settings</string>
     <string name="fragment_calculator">Calculate</string>
     <string name="fragment_converter">Convert</string>
     <string name="fragment_voice">Voice</string>
@@ -260,5 +259,25 @@
     <string name="listen">Listen</string>
     <string name="listening">Listening</string>
     <string name="processing">Processing</string>
+
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="app_store_link">https://play.google.com/store/apps/developer?id=Saraighat+Software</string>
+    <string name="mit_license">Licensed under MIT License</string>
+    <string name="copyright">Copyright © 2017 Saraighat Software - abhijeet080808</string>
+    <string name="license_link">https://raw.githubusercontent.com/abhijeet080808/FlexiCalculator/master/LICENSE</string>
+    <string name="source_code">Source Code</string>
+    <string name="source_code_location">github.com/abhijeet080808/FlexiCalculator</string>
+    <string name="source_code_link">https://github.com/abhijeet080808/FlexiCalculator</string>
+    <string name="bugs">Bugs and Feedback</string>
+    <string name="bugs_location">github.com/abhijeet080808/FlexiCalculator/issues</string>
+    <string name="bugs_link">https://github.com/abhijeet080808/FlexiCalculator/issues</string>
+    <string name="third_party">Third Party Licenses</string>
+    <string name="apache">Apache Commons</string>
+    <string name="apache_summary">Licensed under Apache License, v 2.0\nCopyright © 2017 The Apache Software Foundation</string>
+    <string name="apache_link">https://commons.apache.org/</string>
+    <string name="teko">Teko Font</string>
+    <string name="teko_summary">Licensed under Open Font License, v 1.1\nCopyright © 2014 Indian Type Foundry</string>
+    <string name="teko_link">https://www.indiantypefoundry.com/</string>
 
 </resources>
