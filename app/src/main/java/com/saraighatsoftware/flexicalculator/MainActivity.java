@@ -40,16 +40,6 @@ public class MainActivity extends AppCompatActivity {
             ss.setSpan(type_span, 0, title.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
             action_bar.setTitle(ss);
         }
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
     }
 
     @Override

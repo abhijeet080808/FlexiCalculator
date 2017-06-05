@@ -325,6 +325,7 @@ class Calculator {
         }
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     boolean IsSane(final ArrayList<String> infixExpression, final Base base, final boolean isComplete) {
         // check that expression is not empty and open/close brackets are balanced
         if (infixExpression.isEmpty()) { return false; }

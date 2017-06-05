@@ -83,7 +83,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            style="?android:attr/buttonBarStyle">
+            style="?android:attr/buttonBarStyle"
+            tools:ignore="NestedWeights">
 
             <Button
                 android:id="@+id/button_seven"
@@ -92,7 +93,8 @@
                 android:layout_weight="1"
                 android:text="@string/seven"
                 style="?android:attr/buttonBarButtonStyle"
-                android:textSize="@dimen/main_buttons_font_size" />
+                android:textSize="@dimen/main_buttons_font_size"
+                tools:ignore="NestedWeights" />
 
             <Button
                 android:id="@+id/button_eight"

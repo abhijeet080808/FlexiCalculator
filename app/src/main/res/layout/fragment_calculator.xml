@@ -46,7 +46,8 @@
             android:layout_weight="1"
             android:text="@string/degree"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="@dimen/advanced_buttons_font_size" />
+            android:textSize="@dimen/advanced_buttons_font_size"
+            tools:ignore="NestedWeights" />
 
         <Button
             android:id="@+id/button_sin"
@@ -114,7 +115,8 @@
             android:layout_weight="1"
             android:text="@string/decimal"
             style="?android:attr/buttonBarButtonStyle"
-            android:textSize="@dimen/advanced_buttons_font_size" />
+            android:textSize="@dimen/advanced_buttons_font_size"
+            tools:ignore="NestedWeights" />
 
         <Button
             android:id="@+id/button_lsh"
@@ -183,7 +185,8 @@
             android:text="@string/modulus"
             style="?android:attr/buttonBarButtonStyle"
             android:textSize="@dimen/advanced_buttons_font_size"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            tools:ignore="NestedWeights" />
 
         <Button
             android:id="@+id/button_percentage"
@@ -247,7 +250,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            style="?android:attr/buttonBarStyle">
+            style="?android:attr/buttonBarStyle"
+            tools:ignore="NestedWeights">
 
             <Button
                 android:id="@+id/button_f"
@@ -256,7 +260,8 @@
                 android:layout_weight="1"
                 android:text="@string/f"
                 style="?android:attr/buttonBarButtonStyle"
-                android:textSize="@dimen/main_buttons_font_size" />
+                android:textSize="@dimen/main_buttons_font_size"
+                tools:ignore="NestedWeights" />
 
             <Button
                 android:id="@+id/button_e"
@@ -325,7 +330,8 @@
                     android:layout_weight="1"
                     android:text="@string/seven"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="@dimen/main_buttons_font_size" />
+                    android:textSize="@dimen/main_buttons_font_size"
+                    tools:ignore="NestedWeights" />
 
                 <Button
                     android:id="@+id/button_eight"
@@ -361,7 +367,8 @@
                     android:layout_weight="1"
                     android:text="@string/four"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="@dimen/main_buttons_font_size" />
+                    android:textSize="@dimen/main_buttons_font_size"
+                    tools:ignore="NestedWeights" />
 
                 <Button
                     android:id="@+id/button_five"
@@ -397,7 +404,8 @@
                     android:layout_weight="1"
                     android:text="@string/one"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="@dimen/main_buttons_font_size" />
+                    android:textSize="@dimen/main_buttons_font_size"
+                    tools:ignore="NestedWeights" />
 
                 <Button
                     android:id="@+id/button_two"
@@ -433,7 +441,8 @@
                     android:layout_weight="1"
                     android:text="@string/point"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="@dimen/main_buttons_font_size" />
+                    android:textSize="@dimen/main_buttons_font_size"
+                    tools:ignore="NestedWeights" />
 
                 <Button
                     android:id="@+id/button_zero"
@@ -477,7 +486,8 @@
                     android:layout_weight="1"
                     android:text="@string/open_bracket"
                     style="?android:attr/buttonBarButtonStyle"
-                    android:textSize="@dimen/main_buttons_font_size" />
+                    android:textSize="@dimen/main_buttons_font_size"
+                    tools:ignore="NestedWeights" />
 
                 <Button
                     android:id="@+id/button_close_bracket"
