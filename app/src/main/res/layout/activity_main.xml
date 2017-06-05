@@ -27,13 +27,19 @@
                 android:background="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:titleTextAppearance="@style/AppTheme.ToolbarStyle.Title"/>
+                app:titleTextAppearance="@style/AppTheme.ToolbarStyle.Title">
 
-            <com.saraighatsoftware.flexicalculator.CustomTabLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/CustomTabLayout"/>
+                <com.saraighatsoftware.flexicalculator.CustomTabLayout
+                    android:id="@+id/tabs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    style="@style/CustomTabLayout"
+                    app:tabMode="fixed"
+                    app:tabGravity="center"
+                    tools:ignore="RtlHardcoded" />
+
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
 
@@ -42,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/appbar"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </RelativeLayout>
 

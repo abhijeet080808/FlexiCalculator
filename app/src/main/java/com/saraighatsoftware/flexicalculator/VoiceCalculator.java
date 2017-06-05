@@ -287,7 +287,6 @@ class VoiceCalculator implements RecognitionListener {
             // replace recognized operator keywords
             String replaced_input =
                     StringUtils.replaceEach(input, mOperatorKeywords, mOperatorReplacements);
-            // TODO negative numbers
             // try to break down to infix expression tokens
             String[] split_input = StringUtils.split(replaced_input);
             // drop all non numbers and non operators
