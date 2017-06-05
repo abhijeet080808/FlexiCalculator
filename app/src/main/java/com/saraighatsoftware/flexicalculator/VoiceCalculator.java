@@ -13,11 +13,13 @@ import android.util.Log;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static android.speech.RecognizerIntent.EXTRA_LANGUAGE_MODEL;
+import static android.speech.RecognizerIntent.EXTRA_MAX_RESULTS;
 import static android.speech.RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS;
 import static android.speech.RecognizerIntent.LANGUAGE_MODEL_FREE_FORM;
 import static android.speech.SpeechRecognizer.RESULTS_RECOGNITION;
@@ -144,6 +146,7 @@ class VoiceCalculator implements RecognitionListener {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(EXTRA_LANGUAGE_MODEL, LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000);
+        intent.putExtra(EXTRA_MAX_RESULTS, 50);
 
         mListenStartTimeMillis = System.currentTimeMillis();
         muteAudio();
@@ -258,6 +261,7 @@ class VoiceCalculator implements RecognitionListener {
 
         if (!convert(result)) {
             if (!calculate(result)) {
+                // TODO process words like 1 billion as google doesn't always give those as numbers
                 mResultListener.Error(-1, "Failed to Process Voice Input - " + result.get(0));
             }
         }
@@ -289,14 +293,8 @@ class VoiceCalculator implements RecognitionListener {
                     StringUtils.replaceEach(input, mOperatorKeywords, mOperatorReplacements);
             // try to break down to infix expression tokens
             String[] split_input = StringUtils.split(replaced_input);
-            // drop all non numbers and non operators
-            ArrayList<String> infix_expression = new ArrayList<>();
-            for (String s : split_input) {
-                if (mCalculator.IsOperator(s) || mCalculator.IsOperand(s, Calculator.Base.DEC)) {
-                    infix_expression.add(s);
-                }
-            }
-            if (infix_expression.isEmpty() || infix_expression.size() == 1) {
+            ArrayList<String> infix_expression = new ArrayList<>(Arrays.asList(split_input));
+            if (infix_expression.isEmpty()) {
                 // nothing to evaluate
                 continue;
             }

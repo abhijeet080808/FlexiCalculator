@@ -1,6 +1,10 @@
 package com.saraighatsoftware.flexicalculator;
 
 enum Operator {
+
+    // Keyword of higher priority should be placed first. Eg - "divide by" and "by" - "by" comes
+    // later as otherwise we will get "5 divide by 2" as "5 divide ÷ 2"
+
     OPEN_BRACKET("(", OperatorType.OTHER, 1, false, new String[]{ "open bracket" }),
     CLOSE_BRACKET(")", OperatorType.OTHER, 1, false, new String[]{ "close bracket" }),
     SIN("sin", OperatorType.PRE_UNARY, 2, false, new String[]{ "sine" }),
@@ -14,7 +18,7 @@ enum Operator {
     SQUARE("\u00b2", OperatorType.POST_UNARY, 2, false, new String[]{ "square", "squared" }),
     // power is the only right associative operator
     POWER("^", OperatorType.BINARY, 3, true, new String[]{ "to the power", "to the power of" }),
-    DIVIDE("\u00f7", OperatorType.BINARY, 4, false, new String[]{ "/", "by", "divided by", "over" }),
+    DIVIDE("\u00f7", OperatorType.BINARY, 4, false, new String[]{ "/", "divided by", "divide by", "by", "over" }),
     MULTIPLY("\u00d7", OperatorType.BINARY, 4, false, new String[]{ "x", "multiplied by", "into", "times" }),
     MODULUS("mod", OperatorType.BINARY, 4, false, new String[]{ "modulus", "modulo", "mod" }),
     SUBTRACT("\u2212", OperatorType.BINARY, 5, false, new String[]{ "minus" }),
