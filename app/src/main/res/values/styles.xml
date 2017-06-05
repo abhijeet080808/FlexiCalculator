@@ -22,7 +22,7 @@
     <style name="AppTheme.TextAppearance.Tab" parent="TextAppearance.AppCompat.Button">
         <item name="android:textSize">@dimen/tab_font_size</item>
         <item name="android:textColor">?android:textColorSecondary</item>
-        <item name="textAllCaps">false</item>
+        <item name="textAllCaps">true</item>
     </style>
 
     <style name="CustomTabLayout" parent="Base.Widget.Design.TabLayout">
