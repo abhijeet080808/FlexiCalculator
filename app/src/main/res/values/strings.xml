@@ -262,6 +262,29 @@
 
     <string name="settings">Settings</string>
     <string name="about">About</string>
+    <string name="defaults">Defaults</string>
+    <string name="base">Numerical Base</string>
+    <string-array name="base_names">
+        <item>Hexadecimal</item>
+        <item>Decimal</item>
+        <item>Octal</item>
+        <item>Binary</item>
+    </string-array>
+    <string-array name="base_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string name="angular_unit">Angular Unit</string>
+    <string-array name="angular_unit_names">
+        <item>Degree</item>
+        <item>Radian</item>
+    </string-array>
+    <string-array name="angular_unit_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
     <string name="app_store_link">https://play.google.com/store/apps/developer?id=Saraighat+Software</string>
     <string name="mit_license">Licensed under MIT License</string>
     <string name="copyright">Copyright © 2017 Saraighat Software - abhijeet080808</string>

@@ -1,7 +1,9 @@
 package com.saraighatsoftware.flexicalculator;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,10 +56,6 @@ public class CalculatorFragment extends Fragment {
 
     public CalculatorFragment() {
         mCalculator = new Calculator();
-        mInfixExpression = new ArrayList<>();
-        mIsResultSet = false;
-        mBase = Calculator.Base.DEC;
-        mAngularUnit = Calculator.AngularUnit.DEGREE;
     }
 
     @Override
@@ -70,23 +68,6 @@ public class CalculatorFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            // fragment was destroyed by the system, so restore fragment state, set view state
-            mInfixExpression = savedInstanceState.getStringArrayList(ARG_INFIX_EXPRESSION);
-            mIsResultSet = savedInstanceState.getBoolean(ARG_IS_RESULT_SET);
-            mBase = (Calculator.Base) savedInstanceState.getSerializable(ARG_BASE);
-            mAngularUnit = (Calculator.AngularUnit) savedInstanceState.getSerializable(ARG_ANGULAR_UNIT);
-
-            updateText();
-            setBaseButtonState();
-            setDigitButtonStates();
-            setAngularUnitButtonState();
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
@@ -94,6 +75,43 @@ public class CalculatorFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         Context context = getContext();
+
+        if (savedInstanceState == null) {
+            mInfixExpression = new ArrayList<>();
+            mIsResultSet = false;
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+            switch (sharedPref.getString("pref_key_default_base", "1")) {
+                case "0":
+                    mBase = Calculator.Base.HEX;
+                    break;
+                case "1":
+                    mBase = Calculator.Base.DEC;
+                    break;
+                case "2":
+                    mBase = Calculator.Base.OCT;
+                    break;
+                case "3":
+                    mBase = Calculator.Base.BIN;
+                    break;
+                default:
+                    mBase = Calculator.Base.DEC;
+            }
+            switch (sharedPref.getString("pref_key_default_angular_unit", "0")) {
+                case "0":
+                    mAngularUnit = Calculator.AngularUnit.DEGREE;
+                    break;
+                case "1":
+                    mAngularUnit = Calculator.AngularUnit.RADIAN;
+                    break;
+                default:
+                    mAngularUnit = Calculator.AngularUnit.DEGREE;
+            }
+        } else {
+            mInfixExpression = savedInstanceState.getStringArrayList(ARG_INFIX_EXPRESSION);
+            mIsResultSet = savedInstanceState.getBoolean(ARG_IS_RESULT_SET);
+            mBase = (Calculator.Base) savedInstanceState.getSerializable(ARG_BASE);
+            mAngularUnit = (Calculator.AngularUnit) savedInstanceState.getSerializable(ARG_ANGULAR_UNIT);
+        }
 
         View root_view = inflater.inflate(R.layout.fragment_calculator, container, false);
 

@@ -42,9 +42,6 @@ public class ConverterFragment extends Fragment {
     private int mLastSelectedCategory;
 
     public ConverterFragment() {
-        mInput = new StringBuffer();
-        mOutput = "";
-        mLastSelectedCategory = -1;
     }
 
     @Override
@@ -53,19 +50,6 @@ public class ConverterFragment extends Fragment {
         outState.putString(ARG_INPUT, mInput.toString());
         outState.putString(ARG_OUTPUT, mOutput);
         outState.putInt(ARG_LAST_SELECTED_CATEGORY, mLastSelectedCategory);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            // fragment was destroyed by the system, so restore fragment state, set view state
-            mInput = new StringBuffer(savedInstanceState.getString(ARG_INPUT));
-            mOutput = savedInstanceState.getString(ARG_OUTPUT);
-            mLastSelectedCategory = savedInstanceState.getInt(ARG_LAST_SELECTED_CATEGORY);
-
-            updateText();
-        }
     }
 
     @Override
@@ -93,6 +77,16 @@ public class ConverterFragment extends Fragment {
                 new ConverterData(context),
                 new ConverterAngle(context)
         };
+
+        if (savedInstanceState == null) {
+            mInput = new StringBuffer();
+            mOutput = "";
+            mLastSelectedCategory = -1;
+        } else {
+            mInput = new StringBuffer(savedInstanceState.getString(ARG_INPUT));
+            mOutput = savedInstanceState.getString(ARG_OUTPUT);
+            mLastSelectedCategory = savedInstanceState.getInt(ARG_LAST_SELECTED_CATEGORY);
+        }
 
         View root_view = inflater.inflate(R.layout.fragment_converter, container, false);
 

@@ -3,6 +3,31 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
+        android:key="pref_category_defaults"
+        android:persistent="false"
+        android:title="@string/defaults">
+
+        <ListPreference
+            android:key="pref_key_default_base"
+            android:persistent="true"
+            android:title="@string/base"
+            android:entries="@array/base_names"
+            android:entryValues="@array/base_values"
+            android:defaultValue="1">
+        </ListPreference>
+
+        <ListPreference
+            android:key="pref_key_default_angular_unit"
+            android:persistent="true"
+            android:title="@string/angular_unit"
+            android:entries="@array/angular_unit_names"
+            android:entryValues="@array/angular_unit_values"
+            android:defaultValue="0">
+        </ListPreference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="pref_category_about"
         android:persistent="false"
         android:title="@string/about">
