@@ -10,7 +10,7 @@
     <dimen name="operator_buttons_font_size">28sp</dimen>
 
     <dimen name="tab_font_size">20sp</dimen>
-    <dimen name="toolbar_font_size">28sp</dimen>
+    <dimen name="toolbar_font_size">24sp</dimen>
 
     <dimen name="spinner_font_size">22sp</dimen>
 </resources>
