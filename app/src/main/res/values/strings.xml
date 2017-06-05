@@ -2,7 +2,7 @@
     <string name="app_name">FlexiCalculator</string>
     <string name="fragment_calculator">Calculate</string>
     <string name="fragment_converter">Convert</string>
-    <string name="fragment_voice">Voice</string>
+    <string name="fragment_voice">Speak</string>
 
     <string name="zero">0</string>
     <string name="one">1</string>
