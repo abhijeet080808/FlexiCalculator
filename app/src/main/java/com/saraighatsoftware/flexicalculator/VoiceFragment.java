@@ -45,6 +45,7 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        // TODO save scroll position for all 3 fragments
         super.onSaveInstanceState(outState);
         outState.putString(ARG_DISPLAY_VOICE, mDisplayVoice.toString());
     }

@@ -8,10 +8,12 @@ public class SettingsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // display the fragment as the main content
-        getFragmentManager()
-                .beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment())
-                .commit();
+        if (savedInstanceState == null) {
+            // display the fragment as the main content
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(android.R.id.content, new SettingsFragment())
+                    .commit();
+        }
     }
 }
