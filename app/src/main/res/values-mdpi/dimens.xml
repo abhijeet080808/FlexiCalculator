@@ -1,0 +1,16 @@
+<resources>
+    <dimen name="activity_horizontal_margin">8dp</dimen>
+    <dimen name="activity_vertical_margin">8dp</dimen>
+    <dimen name="appbar_height">36dp</dimen>
+    <dimen name="appbar_padding_top">4dp</dimen>
+
+    <dimen name="display_font_size">34sp</dimen>
+    <dimen name="advanced_buttons_font_size">16sp</dimen>
+    <dimen name="main_buttons_font_size">18sp</dimen>
+    <dimen name="operator_buttons_font_size">22sp</dimen>
+
+    <dimen name="tab_font_size">18sp</dimen>
+    <dimen name="toolbar_font_size">22sp</dimen>
+
+    <dimen name="spinner_font_size">22sp</dimen>
+</resources>

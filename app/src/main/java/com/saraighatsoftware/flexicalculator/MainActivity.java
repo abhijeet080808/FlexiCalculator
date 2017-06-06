@@ -15,8 +15,6 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    // TODO small screen
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar action_bar  = getSupportActionBar();
         if (action_bar != null) {
-            String title = getString(R.string.app_name);
+            String title = getString(R.string.toolbar_name);
             SpannableString ss = new SpannableString(title);
             TypefaceSpan type_span = new CustomTypefaceSpan(FontCache.GetSemiBold(getApplicationContext()));
             ss.setSpan(type_span, 0, title.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">FlexiCalculator</string>
+    <string name="toolbar_name">FlexiCalculator</string>
     <string name="fragment_calculator">Calculate</string>
     <string name="fragment_converter">Convert</string>
     <string name="fragment_voice">Speak</string>
