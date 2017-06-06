@@ -139,7 +139,7 @@ class VoiceCalculator implements RecognitionListener {
 
     void Start() {
         if (mRecognizer == null) {
-            mResultListener.Error(-1, "Speech Recognition Service Is Not Available on This Phone");
+            mResultListener.OnListenError(-1, "Speech Recognition Service Is Not Available on This Phone");
             return;
         }
 
@@ -189,53 +189,53 @@ class VoiceCalculator implements RecognitionListener {
     }
 
     public void onEndOfSpeech() {
-        mResultListener.IsListening(VoiceResultListener.ListenState.PROCESSING);
+        mResultListener.OnListenStateChange(VoiceResultListener.ListenState.PROCESSING);
     }
 
     public void onError(int error) {
         // network or recognition error occurred
         switch (error) {
             case SpeechRecognizer.ERROR_AUDIO:
-                mResultListener.Error(error, "Failed to Record Audio while Performing Speech Recognition");
+                mResultListener.OnListenError(error, "Failed to Record Audio while Performing Speech Recognition");
                 break;
             case SpeechRecognizer.ERROR_CLIENT:
-                mResultListener.Error(error, "Speech Recognition Client Error");
+                mResultListener.OnListenError(error, "Speech Recognition Client Error");
                 break;
             case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
-                mResultListener.Error(error, "Insufficient Permission to Record Audio for Speech Recognition");
+                mResultListener.OnListenError(error, "Insufficient Permission to Record Audio for Speech Recognition");
                 break;
             case SpeechRecognizer.ERROR_NETWORK:
-                mResultListener.Error(error, "Network Failed while Performing Speech Recognition");
+                mResultListener.OnListenError(error, "Network Failed while Performing Speech Recognition");
                 break;
             case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
-                mResultListener.Error(error, "Network Timed Out while Performing Speech Recognition");
+                mResultListener.OnListenError(error, "Network Timed Out while Performing Speech Recognition");
                 break;
             case SpeechRecognizer.ERROR_NO_MATCH:
                 if (System.currentTimeMillis() - mListenStartTimeMillis > 4000 && mListenStartTimeMillis != 0) {
                     // this bypasses the error message in case of -
                     // - android bug when it stops listening on its own just after starting
                     // - user stops the listening
-                    mResultListener.Error(error, "Failed to Recognise Voice while Performing Speech Recognition");
+                    mResultListener.OnListenError(error, "Failed to Recognise Voice while Performing Speech Recognition");
                 }
                 break;
             case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
-                mResultListener.Error(error, "Speech Recognition Service Busy");
+                mResultListener.OnListenError(error, "Speech Recognition Service Busy");
                 break;
             case SpeechRecognizer.ERROR_SERVER:
-                mResultListener.Error(error, "Speech Recognition Server Error");
+                mResultListener.OnListenError(error, "Speech Recognition Server Error");
                 break;
             case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
                 if (mListenStartTimeMillis != 0) {
                     // this bypasses the error message in case of -
                     // - user stops the listening
-                    mResultListener.Error(error, "Failed to Hear Voice while Performing Speech Recognition");
+                    mResultListener.OnListenError(error, "Failed to Hear Voice while Performing Speech Recognition");
                 }
                 break;
             default:
                 break;
         }
         delayedUnmuteAudio();
-        mResultListener.IsListening(VoiceResultListener.ListenState.IDLE);
+        mResultListener.OnListenStateChange(VoiceResultListener.ListenState.IDLE);
     }
 
     public void onEvent(int eventType, Bundle params) {
@@ -248,25 +248,25 @@ class VoiceCalculator implements RecognitionListener {
 
     public void onReadyForSpeech(Bundle params) {
         // called when the endpoint is ready for the user to start speaking
-        mResultListener.IsListening(VoiceResultListener.ListenState.LISTENING);
+        mResultListener.OnListenStateChange(VoiceResultListener.ListenState.LISTENING);
     }
 
     public void onResults(Bundle results) {
         // called when recognition results are ready
         ArrayList<String> result = results.getStringArrayList(RESULTS_RECOGNITION);
         if (result == null || result.isEmpty()) {
-            mResultListener.Error(-1, "Failed to Process Voice Input");
+            mResultListener.OnListenError(-1, "Failed to Process Voice Input");
             return;
         }
 
         if (!convert(result)) {
             if (!calculate(result)) {
                 // TODO process words like 1 billion as google doesn't always give those as numbers
-                mResultListener.Error(-1, "Failed to Process Voice Input - " + result.get(0));
+                mResultListener.OnListenError(-1, "Failed to Process Voice Input - " + result.get(0));
             }
         }
         delayedUnmuteAudio();
-        mResultListener.IsListening(VoiceResultListener.ListenState.IDLE);
+        mResultListener.OnListenStateChange(VoiceResultListener.ListenState.IDLE);
     }
 
     public void onRmsChanged(float rmsDb) {
@@ -313,8 +313,8 @@ class VoiceCalculator implements RecognitionListener {
 
                 mLastResult = result;
 
-                mResultListener.Result(infix_string);
-                mResultListener.Result(result);
+                mResultListener.OnListenResult(infix_string);
+                mResultListener.OnListenResult(result);
                 Log.v(TAG, "Parsed " + infix_string + " as " + result);
 
                 return true;
@@ -392,8 +392,8 @@ class VoiceCalculator implements RecognitionListener {
                         }
 
                         result = converter.Convert(input_value, input_unit, output_unit);
-                        mResultListener.Result(input_value + " " + input_unit);
-                        mResultListener.Result(result + " " + output_unit);
+                        mResultListener.OnListenResult(input_value + " " + input_unit);
+                        mResultListener.OnListenResult(result + " " + output_unit);
                         Log.v(TAG, "Converted " + input_value + " " + input_unit +
                                 " to " + result + " " + output_unit);
                         return true;

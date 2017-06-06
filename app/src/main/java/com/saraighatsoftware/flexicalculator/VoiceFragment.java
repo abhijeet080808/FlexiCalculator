@@ -19,20 +19,21 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
 
     private static final int PERMISSION_RECORD_AUDIO = 1;
 
-    private static final String ARG_DISPLAY_VOICE = "display_voice";
+    private static final String ARG_DISPLAY_TEXT = "display_text";
+    private static final String ARG_DISPLAY_SCROLL_POS = "display_scroll_pos";
 
-    private Button mButtonDisplayVoice;
-    private TextView mTextDisplayVoice;
-    private ScrollView mScrollDisplayVoice;
+    private Button mButtonVoice;
+    private TextView mTextDisplay;
+    private ScrollView mScrollDisplay;
 
     private VoiceCalculator mVoiceCalculator;
 
     private ListenState mListenState;
 
-    private StringBuffer mDisplayVoice;
+    private StringBuffer mVoiceText;
 
     public VoiceFragment() {
-        mDisplayVoice = new StringBuffer();
+        mVoiceText = new StringBuffer();
     }
 
     @Override
@@ -40,25 +41,15 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
         super.onPause();
         // stop ongoing listening if applicable
         mVoiceCalculator.Cancel();
-        mButtonDisplayVoice.setText(getResources().getString(R.string.listen));
+        OnListenStateChange(ListenState.IDLE);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        // TODO save scroll position for all 3 fragments
         super.onSaveInstanceState(outState);
-        outState.putString(ARG_DISPLAY_VOICE, mDisplayVoice.toString());
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            // fragment was destroyed by the system, so restore fragment state, set view state
-            mDisplayVoice = new StringBuffer(savedInstanceState.getString(ARG_DISPLAY_VOICE));
-
-            updateText();
-        }
+        outState.putString(ARG_DISPLAY_TEXT, mVoiceText.toString());
+        outState.putIntArray(ARG_DISPLAY_SCROLL_POS,
+                new int[]{ mScrollDisplay.getScrollX(), mScrollDisplay.getScrollY()});
     }
 
     @Override
@@ -70,13 +61,22 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
 
         Context context = getContext();
 
+        int[] scroll_position = null;
+
+        if (savedInstanceState == null) {
+            mVoiceText = new StringBuffer();
+        } else {
+            mVoiceText = new StringBuffer(savedInstanceState.getString(ARG_DISPLAY_TEXT));
+            scroll_position = savedInstanceState.getIntArray(ARG_DISPLAY_SCROLL_POS);
+        }
+
         mVoiceCalculator = new VoiceCalculator(context, this);
         mListenState = ListenState.IDLE;
 
         View root_view = inflater.inflate(R.layout.fragment_voice, container, false);
 
-        mButtonDisplayVoice = (Button) root_view.findViewById(R.id.button_display_voice);
-        mButtonDisplayVoice.setOnClickListener(new View.OnClickListener() {
+        mButtonVoice = (Button) root_view.findViewById(R.id.button_voice);
+        mButtonVoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mListenState == ListenState.LISTENING) {
@@ -86,12 +86,14 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
                 }
             }
         });
-        mButtonDisplayVoice.setTypeface(FontCache.GetLight(context));
+        mButtonVoice.setTypeface(FontCache.GetLight(context));
 
-        mTextDisplayVoice = (TextView) root_view.findViewById(R.id.text_display_voice);
-        mTextDisplayVoice.setTypeface(FontCache.GetLight(context));
+        mTextDisplay = (TextView) root_view.findViewById(R.id.text_display_voice);
+        mTextDisplay.setTypeface(FontCache.GetLight(context));
 
-        mScrollDisplayVoice = (ScrollView) root_view.findViewById(R.id.scroll_display_voice);
+        mScrollDisplay = (ScrollView) root_view.findViewById(R.id.scroll_display_voice);
+
+        updateText(scroll_position);
 
         return root_view;
     }
@@ -102,27 +104,27 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
         mVoiceCalculator.Destroy();
     }
 
-    public void IsListening(final ListenState state) {
+    public void OnListenStateChange(final ListenState state) {
         mListenState = state;
         if (state == ListenState.IDLE) {
-            mButtonDisplayVoice.setText(getResources().getString(R.string.listen));
+            mButtonVoice.setText(getResources().getString(R.string.listen));
         } else if (state == ListenState.LISTENING) {
-            mButtonDisplayVoice.setText(getResources().getString(R.string.listening));
+            mButtonVoice.setText(getResources().getString(R.string.listening));
         } else if (state == ListenState.PROCESSING){
-            mButtonDisplayVoice.setText(getResources().getString(R.string.processing));
+            mButtonVoice.setText(getResources().getString(R.string.processing));
         }
     }
 
-    public void Result(final String value) {
-        if (mDisplayVoice.length() > 0) {
-            mDisplayVoice.append("\n");
+    public void OnListenResult(final String value) {
+        if (mVoiceText.length() > 0) {
+            mVoiceText.append("\n");
         }
-        mDisplayVoice.append(value);
+        mVoiceText.append(value);
 
-        updateText();
+        updateText(null);
     }
 
-    public void Error(final int code, final String message) {
+    public void OnListenError(final int code, final String message) {
         View view = getView();
         if (view != null) {
             Snackbar.make(getView(), message, Snackbar.LENGTH_LONG)
@@ -134,15 +136,23 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
         }
     }
 
-    private void updateText() {
-        mTextDisplayVoice.setText(mDisplayVoice.toString());
+    private void updateText(final int[] scrollPosition ) {
+        mTextDisplay.setText(mVoiceText.toString());
 
-        // scroll after text is displayed
-        mScrollDisplayVoice.post(new Runnable() {
-            public void run() {
-                mScrollDisplayVoice.fullScroll(View.FOCUS_DOWN);
-            }
-        });
+        if (scrollPosition == null) {
+            // scroll after text is displayed
+            mScrollDisplay.post(new Runnable() {
+                public void run() {
+                    mScrollDisplay.fullScroll(View.FOCUS_DOWN);
+                }
+            });
+        } else {
+            mScrollDisplay.post(new Runnable() {
+                public void run() {
+                    mScrollDisplay.scrollTo(scrollPosition[0], scrollPosition[1]);
+                }
+            });
+        }
     }
 
     private void requestPermissions() {

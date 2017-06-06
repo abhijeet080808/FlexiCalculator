@@ -20,8 +20,10 @@ public class ConverterFragment extends Fragment {
 
     private static final String TAG = "ConverterFragment";
 
-    private static final String ARG_INPUT = "input";
-    private static final String ARG_OUTPUT = "output";
+    private static final String ARG_INPUT_TEXT = "input_text";
+    private static final String ARG_OUTPUT_TEXT = "output_text";
+    private static final String ARG_INPUT_SCROLL_POS = "input_scroll_pos";
+    private static final String ARG_OUTPUT_SCROLL_POS = "output_scroll_pos";
     private static final String ARG_LAST_SELECTED_CATEGORY = "last_selected_category";
 
     private TextView mTextDisplayInput;
@@ -47,8 +49,12 @@ public class ConverterFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(ARG_INPUT, mInput.toString());
-        outState.putString(ARG_OUTPUT, mOutput);
+        outState.putString(ARG_INPUT_TEXT, mInput.toString());
+        outState.putString(ARG_OUTPUT_TEXT, mOutput);
+        outState.putIntArray(ARG_INPUT_SCROLL_POS,
+                new int[]{ mScrollDisplayInput.getScrollX(), mScrollDisplayInput.getScrollY()});
+        outState.putIntArray(ARG_OUTPUT_SCROLL_POS,
+                new int[]{ mScrollDisplayOutput.getScrollX(), mScrollDisplayOutput.getScrollY()});
         outState.putInt(ARG_LAST_SELECTED_CATEGORY, mLastSelectedCategory);
     }
 
@@ -78,13 +84,18 @@ public class ConverterFragment extends Fragment {
                 new ConverterAngle(context)
         };
 
+        int[] scroll_position_input = null;
+        int[] scroll_position_output = null;
+
         if (savedInstanceState == null) {
             mInput = new StringBuffer();
             mOutput = "";
             mLastSelectedCategory = -1;
         } else {
-            mInput = new StringBuffer(savedInstanceState.getString(ARG_INPUT));
-            mOutput = savedInstanceState.getString(ARG_OUTPUT);
+            mInput = new StringBuffer(savedInstanceState.getString(ARG_INPUT_TEXT));
+            mOutput = savedInstanceState.getString(ARG_OUTPUT_TEXT);
+            scroll_position_input = savedInstanceState.getIntArray(ARG_INPUT_SCROLL_POS);
+            scroll_position_output = savedInstanceState.getIntArray(ARG_OUTPUT_SCROLL_POS);
             mLastSelectedCategory = savedInstanceState.getInt(ARG_LAST_SELECTED_CATEGORY);
         }
 
@@ -295,7 +306,7 @@ public class ConverterFragment extends Fragment {
         });
         button.setTypeface(FontCache.GetRegular(context));
 
-        updateText();
+        updateText(scroll_position_input, scroll_position_output);
 
         return root_view;
     }
@@ -353,24 +364,36 @@ public class ConverterFragment extends Fragment {
                 mOutput = "";
             }
         }
-        updateText();
+        updateText(null, null);
     }
 
-    private void updateText() {
+    private void updateText(final int[] scrollPositionInput, final int[] scrollPositionOutput) {
         mTextDisplayInput.setText(mInput.toString());
         mTextDisplayOutput.setText(mOutput);
 
-        // scroll after text is displayed
-        mScrollDisplayInput.post(new Runnable() {
-            public void run() {
-                mScrollDisplayInput.fullScroll(View.FOCUS_RIGHT);
-            }
-        });
-        mScrollDisplayOutput.post(new Runnable() {
-            public void run() {
-                mScrollDisplayOutput.fullScroll(View.FOCUS_RIGHT);
-            }
-        });
-
+        if (scrollPositionInput == null || scrollPositionOutput == null) {
+            // scroll after text is displayed
+            mScrollDisplayInput.post(new Runnable() {
+                public void run() {
+                    mScrollDisplayInput.fullScroll(View.FOCUS_RIGHT);
+                }
+            });
+            mScrollDisplayOutput.post(new Runnable() {
+                public void run() {
+                    mScrollDisplayOutput.fullScroll(View.FOCUS_RIGHT);
+                }
+            });
+        } else {
+            mScrollDisplayInput.post(new Runnable() {
+                public void run() {
+                    mScrollDisplayInput.scrollTo(scrollPositionInput[0], scrollPositionInput[1]);
+                }
+            });
+            mScrollDisplayOutput.post(new Runnable() {
+                public void run() {
+                    mScrollDisplayOutput.scrollTo(scrollPositionOutput[0], scrollPositionOutput[1]);
+                }
+            });
+        }
     }
 }

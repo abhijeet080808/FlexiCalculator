@@ -23,6 +23,7 @@ public class CalculatorFragment extends Fragment {
     private static final String ARG_IS_RESULT_SET = "is_result_set";
     private static final String ARG_BASE = "base";
     private static final String ARG_ANGULAR_UNIT = "angular_unit";
+    private static final String ARG_DISPLAY_SCROLL_POS = "display_scroll_pos";
 
     private TextView mTextDisplay;
     private HorizontalScrollView mScrollDisplay;
@@ -65,6 +66,8 @@ public class CalculatorFragment extends Fragment {
         outState.putBoolean(ARG_IS_RESULT_SET, mIsResultSet);
         outState.putSerializable(ARG_BASE, mBase);
         outState.putSerializable(ARG_ANGULAR_UNIT, mAngularUnit);
+        outState.putIntArray(ARG_DISPLAY_SCROLL_POS,
+                new int[]{ mScrollDisplay.getScrollX(), mScrollDisplay.getScrollY()});
     }
 
     @Override
@@ -75,6 +78,8 @@ public class CalculatorFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         Context context = getContext();
+
+        int[] scroll_position = null;
 
         if (savedInstanceState == null) {
             mInfixExpression = new ArrayList<>();
@@ -111,6 +116,7 @@ public class CalculatorFragment extends Fragment {
             mIsResultSet = savedInstanceState.getBoolean(ARG_IS_RESULT_SET);
             mBase = (Calculator.Base) savedInstanceState.getSerializable(ARG_BASE);
             mAngularUnit = (Calculator.AngularUnit) savedInstanceState.getSerializable(ARG_ANGULAR_UNIT);
+            scroll_position = savedInstanceState.getIntArray(ARG_DISPLAY_SCROLL_POS);
         }
 
         View root_view = inflater.inflate(R.layout.fragment_calculator, container, false);
@@ -535,7 +541,7 @@ public class CalculatorFragment extends Fragment {
                 } else {
                     mInfixExpression.clear();
                 }
-                updateText();
+                updateText(null);
             }
         });
         mButtonBase.setTypeface(FontCache.GetRegular(context));
@@ -557,7 +563,7 @@ public class CalculatorFragment extends Fragment {
         });
         mButtonAngularUnit.setTypeface(FontCache.GetRegular(context));
 
-        updateText();
+        updateText(scroll_position);
         setBaseButtonState();
         setDigitButtonStates();
         setAngularUnitButtonState();
@@ -759,7 +765,7 @@ public class CalculatorFragment extends Fragment {
             }
         }
 
-        updateText();
+        updateText(null);
     }
 
     private void evaluate() {
@@ -775,11 +781,11 @@ public class CalculatorFragment extends Fragment {
             mInfixExpression.clear();
             mInfixExpression.add(result);
             mIsResultSet = true;
-            updateText();
+            updateText(null);
         } catch (Exception e) {
             Log.v(TAG, "evaluate ", e);
             mInfixExpression.clear();
-            updateText();
+            updateText(null);
         }
     }
 
@@ -795,15 +801,15 @@ public class CalculatorFragment extends Fragment {
         }
         mIsResultSet = false;
 
-        updateText();
+        updateText(null);
     }
 
     private void clear() {
         mInfixExpression.clear();
-        updateText();
+        updateText(null);
     }
 
-    private void updateText() {
+    private void updateText(final int[] scrollPosition) {
         if (mInfixExpression.isEmpty()) {
             mTextDisplay.setText("");
         } else {
@@ -814,12 +820,20 @@ public class CalculatorFragment extends Fragment {
             mTextDisplay.setText(buffer.toString());
         }
 
-        // scroll after text is displayed
-        mScrollDisplay.post(new Runnable() {
-            public void run() {
-                mScrollDisplay.fullScroll(View.FOCUS_RIGHT);
-            }
-        });
+        if (scrollPosition == null) {
+            // scroll after text is displayed
+            mScrollDisplay.post(new Runnable() {
+                public void run() {
+                    mScrollDisplay.fullScroll(View.FOCUS_RIGHT);
+                }
+            });
+        } else {
+            mScrollDisplay.post(new Runnable() {
+                public void run() {
+                    mScrollDisplay.scrollTo(scrollPosition[0], scrollPosition[1]);
+                }
+            });
+        }
 
     }
 

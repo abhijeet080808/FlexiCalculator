@@ -8,7 +8,7 @@ interface VoiceResultListener {
         PROCESSING
     }
 
-    void IsListening(ListenState state);
-    void Result(String value);
-    void Error(int code, String message);
+    void OnListenStateChange(ListenState state);
+    void OnListenResult(String value);
+    void OnListenError(int code, String message);
 }
