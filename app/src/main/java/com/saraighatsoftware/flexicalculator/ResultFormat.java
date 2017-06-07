@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 
 class ResultFormat {
 
-    private static final int RESULT_SCALE = 6;
+    private static final int RESULT_SCALE = 9;
     private static final DecimalFormat format = new DecimalFormat();
 
     static String Format(BigDecimal value) {
