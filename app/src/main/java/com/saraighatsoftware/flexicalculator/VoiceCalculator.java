@@ -32,6 +32,8 @@ class VoiceCalculator implements RecognitionListener {
 
     private static final int AUDIO_UNMUTE_DELAY_MILLIS = 1000;
 
+    private final Context mContext;
+
     private final SpeechRecognizer mRecognizer;
     private final VoiceResultListener mResultListener;
 
@@ -55,6 +57,8 @@ class VoiceCalculator implements RecognitionListener {
     private final Runnable mAudioUnmuteRunnable;
 
     VoiceCalculator(Context context, VoiceResultListener resultListener) {
+        mContext = context;
+
         if (SpeechRecognizer.isRecognitionAvailable(context)) {
             mRecognizer = SpeechRecognizer.createSpeechRecognizer(context);
             mRecognizer.setRecognitionListener(this);
@@ -391,8 +395,11 @@ class VoiceCalculator implements RecognitionListener {
                         }
 
                         result = converter.Convert(input_value, input_unit, output_unit);
-                        mResultListener.OnListenResult(input_value + " " + input_unit);
-                        mResultListener.OnListenResult(result + " " + output_unit);
+                        mResultListener.OnListenResult(input_value
+                                        + " " + input_unit
+                                        + " " + mContext.getString(R.string.is)
+                                        + " " + result
+                                        + " " + output_unit);
                         Log.v(TAG, "Converted " + input_value + " " + input_unit +
                                 " to " + result + " " + output_unit);
                         return true;

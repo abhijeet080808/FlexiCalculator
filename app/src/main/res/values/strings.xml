@@ -260,6 +260,7 @@
     <string name="listen">Listen</string>
     <string name="listening">Listening</string>
     <string name="processing">Processing</string>
+    <string name="is">is</string>
 
     <string name="settings">Settings</string>
     <string name="about">About</string>
