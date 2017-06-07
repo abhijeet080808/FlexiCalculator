@@ -12,14 +12,37 @@ class ConverterSpeed extends Converter {
 
     // must be same order and value as R.array.speed
     enum SpeedUnit implements Unit {
-        METERS_PER_SECOND(new String[] { "metres per second" }),
-        KILOMETERS_PER_SECOND(new String[] { "kilometres per second" }),
-        KILOMETERS_PER_HOUR(new String[] { "kilometres per hour" }),
-        FEET_PER_SECOND(new String[] { "feet per second" }),
-        MILES_PER_SECOND(new String[] { "miles per second" }),
-        MILES_PER_HOUR(new String[] { "miles per hour" }),
-        KNOTS(new String[] { "knots" }),
-        MACH(new String[] { "mach" });
+        METERS_PER_SECOND(new String[] {
+                "meters per second",
+                "meter per second",
+                "metres per second",
+                "metre per second" }),
+        KILOMETERS_PER_SECOND(new String[] {
+                "kilometers per second",
+                "kilometer per second",
+                "kilometres per second",
+                "kilometre per second" }),
+        KILOMETERS_PER_HOUR(new String[] {
+                "kilometers per hour",
+                "kilometer per hour",
+                "kilometres per hour",
+                "kilometre per hour",
+                "kmph",
+                "kph" }),
+        FEET_PER_SECOND(new String[] {
+                "feet per second",
+                "foot per second" }),
+        MILES_PER_SECOND(new String[] {
+                "miles per second",
+                "mile per second" }),
+        MILES_PER_HOUR(new String[] {
+                "miles per hour",
+                "mile per hour",
+                "mph" }),
+        KNOTS(new String[] {
+                "knots" }),
+        MACH(new String[] {
+                "mach" });
 
         final String[] mKeywords;
 

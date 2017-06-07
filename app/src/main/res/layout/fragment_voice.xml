@@ -28,7 +28,7 @@
             android:paddingRight="4dp"
             android:gravity="end"
             android:textColor="@color/colorCalcText"
-            android:textSize="@dimen/display_font_size"/>
+            android:textSize="@dimen/voice_display_font_size"/>
 
     </ScrollView>
 

@@ -12,16 +12,40 @@ class ConverterPower extends Converter {
 
     // must be same order and value as R.array.power
     enum PowerUnit implements Unit {
-        WATTS(new String[] { "watt" }),
-        KILOWATTS(new String[] { "kilowatt" }),
-        MEGAWATTS(new String[] { "megawatt" }),
-        GIGAWATTS(new String[] { "gigawatt" }),
-        JOULES_PER_SECOND(new String[] { "joules per second" }),
-        HORSEPOWER_ELECTRICAL(new String[] { "horsepower electrical" }),
-        HORSEPOWER_MECHANICAL(new String[] { "horsepower mechanical" }),
-        PFERDESTARKE(new String[] { "pferdestarke" }),
-        FOOT_POUNDS_PER_MINUTE(new String[] { "foot pounds per minute" }),
-        BTUS_IT_PER_MINUTE(new String[] { "btu per minute" });
+        WATTS(new String[] {
+                "watts",
+                "watt" }),
+        KILOWATTS(new String[] {
+                "kilowatts",
+                "kilowatt" }),
+        MEGAWATTS(new String[] {
+                "megawatts",
+                "megawatt" }),
+        GIGAWATTS(new String[] {
+                "gigawatts",
+                "gigawatt" }),
+        JOULES_PER_SECOND(new String[] {
+                "joules per second",
+                "joule per second" }),
+        HORSEPOWER_ELECTRICAL(new String[] {
+                "electrical horsepower",
+                "horsepower electrical" }),
+        HORSEPOWER_MECHANICAL(new String[] {
+                "mechanical horsepower",
+                "horsepower mechanical",
+                "horsepower",
+                "hp" }),
+        PFERDESTARKE(new String[] {
+                "ps",
+                "pferdestarke" }),
+        FOOT_POUNDS_PER_MINUTE(new String[] {
+                "foot pounds per minute",
+                "foot pound per minute" }),
+        BTUS_IT_PER_MINUTE(new String[] {
+                "british thermal units per minute",
+                "british thermal unit per minute",
+                "btus per minute",
+                "btu per minute" });
 
         final String[] mKeywords;
 

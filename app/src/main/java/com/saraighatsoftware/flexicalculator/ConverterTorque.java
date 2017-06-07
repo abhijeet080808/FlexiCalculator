@@ -12,11 +12,27 @@ class ConverterTorque extends Converter {
 
     // must be same order and value as R.array.torque
     enum TorqueUnit implements Unit {
-        NEWTON_METERS(new String[] { "newton metre" }),
-        KILOGRAM_METERS(new String[] { "kilogram metre" }),
-        JOULES_PER_RADIAN(new String[] { "joules per radian" }),
-        POUND_INCHES(new String[] { "pound inch" }),
-        POUND_FEET(new String[] { "pound foot" });
+        NEWTON_METERS(new String[] {
+                "newton meters",
+                "newton meter",
+                "newton metres",
+                "newton metre",
+                "nm" }),
+        KILOGRAM_METERS(new String[] {
+                "kilogram meters",
+                "kilogram meter",
+                "kilogram metres",
+                "kilogram metre",
+                "kgm" }),
+        JOULES_PER_RADIAN(new String[] {
+                "joules per radian",
+                "joule per radian" }),
+        POUND_INCHES(new String[] {
+                "pound inches",
+                "pound inch" }),
+        POUND_FEET(new String[] {
+                "pound feet",
+                "pound foot" });
 
         final String[] mKeywords;
 

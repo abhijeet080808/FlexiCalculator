@@ -18,10 +18,61 @@ class ConverterFuelEconomy extends Converter {
 
     // must be same order and value as R.array.fuel_economy
     enum FuelEconomyUnit implements Unit {
-        MILES_PER_GALLON_US(new String[] { "miles per us gallon" }),
-        MILES_PER_GALLON_UK(new String[] { "miles per uk gallon" }),
-        KILOMETERS_PER_LITER(new String[] { "kilometres per litre" }),
-        LITERS_PER_100_KILOMETERS(new String[] { "litre per 100 kilometres" });
+        MILES_PER_GALLON_US(new String[] {
+                "us miles per gallon",
+                "miles per gallon us",
+                "miles per gallon",
+                "mpg" }),
+        MILES_PER_GALLON_UK(new String[] {
+                "uk miles per gallon",
+                "imperial miles per gallon",
+                "british miles per gallon",
+                "miles per gallon uk" }),
+        KILOMETERS_PER_LITER(new String[] {
+                "kilometers per liter",
+                "kilometer per liter",
+                "kilometres per liter",
+                "kilometre per liter",
+                "kilometers per litre",
+                "kilometer per litre",
+                "kilometres per litre",
+                "kilometre per litre",
+                "kmpl",
+                "kpl" }),
+        LITERS_PER_100_KILOMETERS(new String[] {
+                "liters per 100 kilometers",
+                "liter per 100 kilometers",
+                "litres per 100 kilometers",
+                "litre per 100 kilometers",
+                "liters per 100 kilometres",
+                "liter per 100 kilometres",
+                "litres per 100 kilometres",
+                "litre per 100 kilometres",
+                "liters per 100 kilometer",
+                "liter per 100 kilometer",
+                "litres per 100 kilometer",
+                "litre per 100 kilometer",
+                "liters per 100 kilometre",
+                "liter per 100 kilometre",
+                "litres per 100 kilometre",
+                "litre per 100 kilometre",
+
+                "liters per hundred kilometers",
+                "liter per hundred kilometers",
+                "litres per hundred kilometers",
+                "litre per hundred kilometers",
+                "liters per hundred kilometres",
+                "liter per hundred kilometres",
+                "litres per hundred kilometres",
+                "litre per hundred kilometres",
+                "liters per hundred kilometer",
+                "liter per hundred kilometer",
+                "litres per hundred kilometer",
+                "litre per hundred kilometer",
+                "liters per hundred kilometre",
+                "liter per hundred kilometre",
+                "litres per hundred kilometre",
+                "litre per hundred kilometre" });
 
         final String[] mKeywords;
 

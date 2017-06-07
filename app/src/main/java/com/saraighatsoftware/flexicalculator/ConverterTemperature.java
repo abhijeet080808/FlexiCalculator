@@ -17,9 +17,19 @@ class ConverterTemperature extends Converter {
 
     // must be same order and value as R.array.temperature
     enum TemperatureUnit implements Unit {
-        CELSIUS(new String[] { "celsius" }),
-        FAHRENHEIT(new String[] { "fahrenheit" }),
-        KELVIN(new String[] { "kelvin" });
+        CELSIUS(new String[] {
+                "degrees centigrade",
+                "degree centigrade",
+                "centigrade",
+                "degrees celsius",
+                "degree celsius",
+                "celsius" }),
+        FAHRENHEIT(new String[] {
+                "degrees fahrenheit",
+                "degree fahrenheit",
+                "fahrenheit" }),
+        KELVIN(new String[] {
+                "kelvin" });
 
         final String[] mKeywords;
 

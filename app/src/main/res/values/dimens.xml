@@ -15,6 +15,6 @@
 
     <dimen name="spinner_font_size">22sp</dimen>
 
+    <dimen name="voice_display_font_size">28sp</dimen>
     <dimen name="voice_button_margin">28dp</dimen>
-
 </resources>

@@ -12,14 +12,30 @@ class ConverterTime extends Converter {
 
     // must be same order and value as R.array.time
     enum TimeUnit implements Unit {
-        MICROSECONDS(new String[] { "microsecond" }),
-        MILLISECONDS(new String[] { "millisecond" }),
-        SECONDS(new String[] { "second" }),
-        MINUTES(new String[] { "minute" }),
-        HOURS(new String[] { "hour" }),
-        DAYS(new String[] { "day" }),
-        WEEKS(new String[] { "week" }),
-        YEARS(new String[] { "year" });
+        MICROSECONDS(new String[] {
+                "microseconds",
+                "microsecond" }),
+        MILLISECONDS(new String[] {
+                "milliseconds",
+                "millisecond" }),
+        SECONDS(new String[] {
+                "seconds",
+                "second" }),
+        MINUTES(new String[] {
+                "minutes",
+                "minute" }),
+        HOURS(new String[] {
+                "hours",
+                "hour" }),
+        DAYS(new String[] {
+                "days",
+                "day" }),
+        WEEKS(new String[] {
+                "weeks",
+                "week" }),
+        YEARS(new String[] {
+                "years",
+                "year" });
 
         final String[] mKeywords;
 

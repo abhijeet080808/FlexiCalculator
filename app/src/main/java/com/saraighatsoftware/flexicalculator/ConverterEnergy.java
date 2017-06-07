@@ -13,18 +13,75 @@ class ConverterEnergy extends Converter {
 
     // must be same order and value as R.array.energy
     enum EnergyUnit implements Unit {
-        ELECTRON_VOLTS(new String[] { "electron volt" }),
-        JOULES(new String[] { "joule" }),
-        KILOJOULES(new String[] { "kilojoule" }),
-        WATT_HOURS(new String[] { "watt hour" }),
-        KILOWATT_HOURS(new String[] { "kilowatt hour" }),
-        CALORIES_THERMOCHEMICAL(new String[] { "calories thermochemical" }),
-        CALORIES_IT(new String[] { "calories it"}),
-        CALORIES_FOOD(new String[] { "calories food" }),
-        FOOT_POUNDS(new String[] { "foot pound" }),
-        BRITISH_THERMAL_UNITS_THERMOCHEMICAL(new String[] { "btu thermochemical" }),
-        BRITISH_THERMAL_UNITS_IT(new String[] { "btu it" }),
-        BRITISH_THERMAL_UNITS_ISO(new String[] { "btu iso" });
+        ELECTRON_VOLTS(new String[] {
+                "electron volts",
+                "electron volt",
+                "ev" }),
+        JOULES(new String[] {
+                "joules",
+                "joule" }),
+        KILOJOULES(new String[] {
+                "kilojoules",
+                "kilojoule",
+                "kilo joules",
+                "kilo joule"}),
+        WATT_HOURS(new String[] {
+                "watt hours",
+                "watt hour" }),
+        KILOWATT_HOURS(new String[] {
+                "kilowatt hours",
+                "kilowatt hour" }),
+        CALORIES_THERMOCHEMICAL(new String[] {
+                "thermochemical calories",
+                "thermochemical calorie",
+                "calories thermochemical",
+                "calorie thermochemical"}),
+        CALORIES_IT(new String[] {
+                "it calories",
+                "it calorie",
+                "calories it",
+                "calorie it"}),
+        CALORIES_FOOD(new String[] {
+                "food calories",
+                "food calorie",
+                "calories food",
+                "calorie food",
+                "calories",
+                "calorie" }),
+        FOOT_POUNDS(new String[] {
+                "foot pounds",
+                "foot pound" }),
+        BRITISH_THERMAL_UNITS_THERMOCHEMICAL(new String[] {
+                "thermochemical british thermal units",
+                "thermochemical british thermal unit",
+                "thermochemical btus",
+                "thermochemical btu",
+                "british thermal units thermochemical",
+                "british thermal unit thermochemical",
+                "btus thermochemical",
+                "btu thermochemical" }),
+        BRITISH_THERMAL_UNITS_IT(new String[] {
+                "it british thermal units",
+                "it british thermal unit",
+                "it btus",
+                "it btu",
+                "british thermal units it",
+                "british thermal unit it",
+                "btus it",
+                "btu it" }),
+        BRITISH_THERMAL_UNITS_ISO(new String[] {
+                "iso british thermal units",
+                "iso british thermal unit",
+                "iso btus",
+                "iso btu",
+                "british thermal units iso",
+                "british thermal unit iso",
+                "btus iso",
+                "btu iso",
+                "british thermal units",
+                "british thermal unit",
+                "btus",
+                "btu" });
 
         final String[] mKeywords;
 

@@ -12,16 +12,47 @@ class ConverterArea extends Converter {
 
     // must be same order and value as R.array.area
     enum AreaUnit implements Unit {
-        SQUARE_MILLIMETERS(new String[]{ "square millimeter" }),
-        SQUARE_CENTIMETERS(new String[]{ "square centimeter" }),
-        SQUARE_METERS(new String[]{ "square meter" }),
-        SQUARE_KILOMETERS(new String[]{ "square kilometer" }),
-        ACRES(new String[]{ "square acre" }),
-        HECTARES(new String[]{ "square hectare" }),
-        SQUARE_INCHES(new String[]{ "square inch" }),
-        SQUARE_FEET(new String[]{ "square foot" }),
-        SQUARE_YARDS(new String[]{ "square yard" }),
-        SQUARE_MILES(new String[]{ "square mile" });
+        SQUARE_MILLIMETERS(new String[]{
+                "square millimeters",
+                "square millimeter",
+                "square millimetres",
+                "square millimetre",
+                "square mm" }),
+        SQUARE_CENTIMETERS(new String[]{
+                "square centimeters",
+                "square centimeter",
+                "square centimetres",
+                "square centimetre",
+                "square cm" }),
+        SQUARE_METERS(new String[]{
+                "square meters",
+                "square meter",
+                "square metres",
+                "square metre" }),
+        SQUARE_KILOMETERS(new String[]{
+                "square kilometers",
+                "square kilometer",
+                "square kilometres",
+                "square kilometre",
+                "square km" }),
+        ACRES(new String[]{
+                "acres",
+                "acre" }),
+        HECTARES(new String[]{
+                "hectares",
+                "hectare" }),
+        SQUARE_INCHES(new String[]{
+                "square inches",
+                "square inch" }),
+        SQUARE_FEET(new String[]{
+                "square feet",
+                "square foot" }),
+        SQUARE_YARDS(new String[]{
+                "square yards",
+                "square yard" }),
+        SQUARE_MILES(new String[]{
+                "square miles",
+                "square mile" });
 
         final String[] mKeywords;
 

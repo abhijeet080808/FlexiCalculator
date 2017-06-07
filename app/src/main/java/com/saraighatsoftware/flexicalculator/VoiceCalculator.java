@@ -102,7 +102,6 @@ class VoiceCalculator implements RecognitionListener {
                 new ConverterAngle(context)
         };
 
-        // TODO improve keywords
         // mapping of converter unit vs keywords
         mConverterKeywords = new HashMap<>();
         for (Converter converter : mConverters) {
@@ -115,7 +114,7 @@ class VoiceCalculator implements RecognitionListener {
         }
 
         // matches - 1.5 litre to ml
-        mConverterPattern = Pattern.compile("([0-9]+.*[0-9]*) ([a-z]+) to ([a-z]+)");
+        mConverterPattern = Pattern.compile("([0-9]+\\.*[0-9]*) ([a-z ]+) to ([a-z ]+)");
 
         mLastResult = "";
 

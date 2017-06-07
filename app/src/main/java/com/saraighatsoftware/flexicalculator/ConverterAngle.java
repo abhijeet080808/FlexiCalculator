@@ -12,9 +12,15 @@ class ConverterAngle extends Converter {
 
     // must be same order and value as R.array.angle
     enum AngleUnit implements Unit {
-        DEGREES(new String[] { "degree" }),
-        RADIANS(new String[] { "radian" }),
-        GRADIANS(new String[] { "gradian" });
+        DEGREES(new String[] {
+                "degrees",
+                "degree" }),
+        RADIANS(new String[] {
+                "radians",
+                "radian" }),
+        GRADIANS(new String[] {
+                "gradians",
+                "gradian" });
 
         final String[] mKeywords;
 

@@ -12,20 +12,55 @@ class ConverterWeight extends Converter {
 
     // must be same order and value as R.array.weight
     enum WeightUnit implements Unit {
-        CARATS(new String[] { "carat" }),
-        MILLIGRAMS(new String[] { "milligram" }),
-        CENTIGRAMS(new String[] { "centigram" }),
-        DECIGRAMS(new String[] { "decigram" }),
-        GRAMS(new String[] { "gram" }),
-        DEKAGRAMS(new String[] { "dekagram" }),
-        HECTOGRAMS(new String[] { "hectogram" }),
-        KILOGRAMS(new String[] { "kilogram" }),
-        METRIC_TONNES(new String[] { "metric tonne" }),
-        OUNCES(new String[] { "ounce" }),
-        POUNDS(new String[] { "pound" }),
-        STONES(new String[] { "stone" }),
-        SHORT_TONS_US(new String[] { "short ton" }),
-        LONG_TONS_UK(new String[] { "long ton" });
+        CARATS(new String[] {
+                "carats",
+                "carat" }),
+        MILLIGRAMS(new String[] {
+                "milligrams",
+                "milligram",
+                "mg" }),
+        CENTIGRAMS(new String[] {
+                "centigrams",
+                "centigram" }),
+        DECIGRAMS(new String[] {
+                "decigrams",
+                "decigram" }),
+        GRAMS(new String[] {
+                "grams",
+                "gram" }),
+        DEKAGRAMS(new String[] {
+                "dekagrams",
+                "dekagram" }),
+        HECTOGRAMS(new String[] {
+                "hectograms",
+                "hectogram" }),
+        KILOGRAMS(new String[] {
+                "kilograms",
+                "kilogram",
+                "kg" }),
+        METRIC_TONNES(new String[] {
+                "metric tonnes",
+                "metric tonne",
+                "metric tons",
+                "metric ton" }),
+        OUNCES(new String[] {
+                "ounces",
+                "ounce",
+                "oz" }),
+        POUNDS(new String[] {
+                "pounds",
+                "pound",
+                "lbs",
+                "lb" }),
+        STONES(new String[] {
+                "stones",
+                "stone" }),
+        SHORT_TONS_US(new String[] {
+                "short tons",
+                "short ton" }),
+        LONG_TONS_UK(new String[] {
+                "long tons",
+                "long ton" });
 
         final String[] mKeywords;
 

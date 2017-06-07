@@ -12,12 +12,26 @@ class ConverterPressure extends Converter {
 
     // must be same order and value as R.array.pressure
     enum PressureUnit implements Unit {
-        ATMOSPHERES(new String[] { "atmosphere" }),
-        BARS(new String[] { "bar" }),
-        PASCALS(new String[] { "pascal" }),
-        KILOPASCALS(new String[] { "kilopascal" }),
-        POUNDS_PER_SQUARE_INCH(new String[] { "pounds per square inch" }),
-        TORRS(new String[] { "torr" });
+        ATMOSPHERES(new String[] {
+                "atmospheres",
+                "atmosphere",
+                "atm" }),
+        BARS(new String[] {
+                "bars",
+                "bar" }),
+        PASCALS(new String[] {
+                "pascals",
+                "pascal" }),
+        KILOPASCALS(new String[] {
+                "kilopascals",
+                "kilopascal" }),
+        POUNDS_PER_SQUARE_INCH(new String[] {
+                "pounds per square inch",
+                "pound per square inch",
+                "psi" }),
+        TORRS(new String[] {
+                "torrs",
+                "torr" });
 
         final String[] mKeywords;
 

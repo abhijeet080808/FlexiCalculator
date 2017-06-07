@@ -12,28 +12,72 @@ class ConverterData extends Converter {
 
     // must be same order and value as R.array.data
     enum DataUnit implements Unit {
-        BITS(new String[] { "bit" }),
-        BYTES(new String[] { "byte" }),
-        KILOBITS(new String[] { "kilobit" }),
-        KIBIBITS(new String[] { "kibibit" }),
-        KILOBYTES(new String[] { "kilobyte" }),
-        KIBIBYTES(new String[] { "kibibyte" }),
-        MEGABITS(new String[] { "megabit" }),
-        MEBIBITS(new String[] { "mebibit" }),
-        MEGABYTES(new String[] { "megabyte" }),
-        MEBIBYTES(new String[] { "mebibyte" }),
-        GIGABITS(new String[] { "gigabit" }),
-        GIBIBITS(new String[] { "gibibit" }),
-        GIGABYTES(new String[] { "gigabyte" }),
-        GIBIBYTES(new String[] { "gibibyte" }),
-        TERABITS(new String[] { "terabit" }),
-        TEBIBITS(new String[] { "tebibit" }),
-        TERABYTES(new String[] { "terabyte" }),
-        TEBIBYTES(new String[] { "tebibyte" }),
-        PETABITS(new String[] { "petabit" }),
-        PEBIBITS(new String[] { "pebibit" }),
-        PETABYTES(new String[] { "petabyte" }),
-        PEBIBYTES(new String[] { "pebibyte" });
+        BITS(new String[] {
+                "bits",
+                "bit" }),
+        BYTES(new String[] {
+                "bytes",
+                "byte" }),
+        KILOBITS(new String[] {
+                "kilobits",
+                "kilobit" }),
+        KIBIBITS(new String[] {
+                "kibibits",
+                "kibibit" }),
+        KILOBYTES(new String[] {
+                "kilobytes",
+                "kilobyte" }),
+        KIBIBYTES(new String[] {
+                "kibibytes",
+                "kibibyte" }),
+        MEGABITS(new String[] {
+                "megabits",
+                "megabit" }),
+        MEBIBITS(new String[] {
+                "mebibits",
+                "mebibit" }),
+        MEGABYTES(new String[] {
+                "megabytes",
+                "megabyte" }),
+        MEBIBYTES(new String[] {
+                "mebibytes",
+                "mebibyte" }),
+        GIGABITS(new String[] {
+                "gigabits",
+                "gigabit" }),
+        GIBIBITS(new String[] {
+                "gibibits",
+                "gibibit" }),
+        GIGABYTES(new String[] {
+                "gigabytes",
+                "gigabyte" }),
+        GIBIBYTES(new String[] {
+                "gibibytes",
+                "gibibyte" }),
+        TERABITS(new String[] {
+                "terabits",
+                "terabit" }),
+        TEBIBITS(new String[] {
+                "tebibits",
+                "tebibit" }),
+        TERABYTES(new String[] {
+                "terabytes",
+                "terabyte" }),
+        TEBIBYTES(new String[] {
+                "tebibytes",
+                "tebibyte" }),
+        PETABITS(new String[] {
+                "petabits",
+                "petabit" }),
+        PEBIBITS(new String[] {
+                "pebibits",
+                "pebibit" }),
+        PETABYTES(new String[] {
+                "petabytes",
+                "petabyte" }),
+        PEBIBYTES(new String[] {
+                "pebibytes",
+                "pebibyte" });
 
         final String[] mKeywords;
 

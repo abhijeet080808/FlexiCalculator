@@ -12,17 +12,52 @@ class ConverterLength extends Converter {
 
     // must be same order and value as R.array.length
     enum LengthUnit implements Unit {
-        NANOMETERS(new String[] { "nanometre" }),
-        MICRONS(new String[] { "micron" }),
-        MILLIMETERS(new String[] { "millimetre" }),
-        CENTIMETERS(new String[] { "centimetre" }),
-        METERS(new String[] { "metre" }),
-        KILOMETERS(new String[] { "kilometre" }),
-        INCHES(new String[] { "inch" }),
-        FEET(new String[] { "foot" }),
-        YARDS(new String[] { "yard" }),
-        MILES(new String[] { "mile" }),
-        NAUTICAL_MILES(new String[] { "nautical mile" });
+        NANOMETERS(new String[] {
+                "nanometers",
+                "nanometer",
+                "nanometres",
+                "nanometre" }),
+        MICRONS(new String[] {
+                "microns",
+                "micron" }),
+        MILLIMETERS(new String[] {
+                "millimeters",
+                "millimeter",
+                "millimetres",
+                "millimetre",
+                "mm" }),
+        CENTIMETERS(new String[] {
+                "centimeters",
+                "centimeter",
+                "centimetres",
+                "centimetre",
+                "cm" }),
+        METERS(new String[] {
+                "meters",
+                "meter",
+                "metres",
+                "metre" }),
+        KILOMETERS(new String[] {
+                "kilometers",
+                "kilometer",
+                "kilometres",
+                "kilometre",
+                "km" }),
+        INCHES(new String[] {
+                "inches",
+                "inch" }),
+        FEET(new String[] {
+                "feet",
+                "foot" }),
+        YARDS(new String[] {
+                "yards",
+                "yard" }),
+        MILES(new String[] {
+                "miles",
+                "mile" }),
+        NAUTICAL_MILES(new String[] {
+                "nautical miles",
+                "nautical mile" });
 
         final String[] mKeywords;
 
