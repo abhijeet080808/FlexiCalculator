@@ -6,4 +6,5 @@
     <color name="windowBackground">#212121</color>
 
     <color name="colorCalcText">@color/windowBackground</color>
+    <color name="colorVoiceHighlight">#FF7043</color>
 </resources>

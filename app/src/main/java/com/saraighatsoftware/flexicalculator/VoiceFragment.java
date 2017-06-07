@@ -86,7 +86,7 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
                 }
             }
         });
-        mButtonVoice.setTypeface(FontCache.GetLight(context));
+        mButtonVoice.setTypeface(FontCache.GetRegular(context));
 
         mTextDisplay = (TextView) root_view.findViewById(R.id.text_display_voice);
         mTextDisplay.setTypeface(FontCache.GetLight(context));
@@ -108,10 +108,13 @@ public class VoiceFragment extends Fragment implements VoiceResultListener {
         mListenState = state;
         if (state == ListenState.IDLE) {
             mButtonVoice.setText(getResources().getString(R.string.listen));
+            mButtonVoice.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
         } else if (state == ListenState.LISTENING) {
             mButtonVoice.setText(getResources().getString(R.string.listening));
+            mButtonVoice.setTextColor(ContextCompat.getColor(getContext(), R.color.colorVoiceHighlight));
         } else if (state == ListenState.PROCESSING){
             mButtonVoice.setText(getResources().getString(R.string.processing));
+            mButtonVoice.setTextColor(ContextCompat.getColor(getContext(), R.color.colorVoiceHighlight));
         }
     }
 

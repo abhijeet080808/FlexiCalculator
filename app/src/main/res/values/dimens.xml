@@ -14,4 +14,7 @@
     <dimen name="toolbar_font_size">24sp</dimen>
 
     <dimen name="spinner_font_size">22sp</dimen>
+
+    <dimen name="voice_button_margin">28dp</dimen>
+
 </resources>

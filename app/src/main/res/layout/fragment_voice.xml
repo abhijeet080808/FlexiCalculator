@@ -36,8 +36,10 @@
         android:id="@+id/button_voice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="?android:attr/buttonBarButtonStyle"
+        android:paddingTop="@dimen/voice_button_margin"
+        android:paddingBottom="@dimen/voice_button_margin"
         android:text="@string/listen"
-        android:textSize="@dimen/main_buttons_font_size"/>
+        android:textSize="@dimen/main_buttons_font_size"
+        style="?android:attr/buttonBarButtonStyle"/>
 
 </LinearLayout>
