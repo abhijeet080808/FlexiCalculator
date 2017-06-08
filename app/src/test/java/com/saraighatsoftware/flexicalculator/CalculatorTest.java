@@ -35,8 +35,8 @@ public class CalculatorTest {
         tests.add(Pair.of("15", "5 + ( 2 * ( 2 + 4 - 1 ) )"));
         tests.add(Pair.of("35", "5 + ( 2 * ( 2 + 4 - 1 ) ) * ( 2 + 1 )"));
         tests.add(Pair.of("35", "( 2 * ( 2 + 4 - 1 ) ) * ( 2 + 1 ) + 5"));
-        tests.add(Pair.of("3.142857", "( 22 / 7 )"));
-        tests.add(Pair.of("4.714286", "( 33 / 7 )"));
+        tests.add(Pair.of("3.142857143", "( 22 / 7 )"));
+        tests.add(Pair.of("4.714285714", "( 33 / 7 )"));
         tests.add(Pair.of("1.1", ".1 + 1"));
         tests.add(Pair.of("1.1", "1 + .1"));
         tests.add(Pair.of("1.1", "0.1 + 1"));
@@ -51,7 +51,7 @@ public class CalculatorTest {
         tests.add(Pair.of("0", "cos 90"));
         tests.add(Pair.of("1", "tan ( 45 + 10 - ( 2 * 5 ) )"));
         tests.add(Pair.of("2", "log 100"));
-        tests.add(Pair.of("2.995732", "ln 20"));
+        tests.add(Pair.of("2.995732274", "ln 20"));
         tests.add(Pair.of("100", "500 * 20 %"));
         tests.add(Pair.of("100", "20 % * 500"));
         tests.add(Pair.of("125", "5 ! + 5"));
@@ -85,9 +85,9 @@ public class CalculatorTest {
                         "000000000000000000000000000000000000000000000000000000000000000000000000" +
                         "00000000000000000000000000000000000000000000000000000000000000000000000",
                 "10 " + Operator.POWER + " 500"));
-        tests.add(Pair.of("1.414214", "2 " + Operator.POWER + " 0.5"));
-        tests.add(Pair.of("45.254834", "2 " + Operator.POWER + " 5.5"));
-        tests.add(Pair.of("0.176777", "2 " + Operator.POWER + " -2.5"));
+        tests.add(Pair.of("1.414213562", "2 " + Operator.POWER + " 0.5"));
+        tests.add(Pair.of("45.254833996", "2 " + Operator.POWER + " 5.5"));
+        tests.add(Pair.of("0.176776695", "2 " + Operator.POWER + " -2.5"));
         tests.add(Pair.of("0.25", "2 " + Operator.POWER + " -2"));
         tests.add(Pair.of("0.25", "-2 " + Operator.POWER + " -2"));
         tests.add(Pair.of("4", "-2 " + Operator.POWER + " 2"));
@@ -159,12 +159,12 @@ public class CalculatorTest {
                         Calculator.Base.BIN,
                         Calculator.AngularUnit.DEGREE));
 
-        assertEquals("0.707107",
+        assertEquals("0.707106781",
                 mCalculator.Evaluate(
                         new ArrayList<>(Arrays.asList(("sin 45").split(" "))),
                         Calculator.Base.DEC,
                         Calculator.AngularUnit.DEGREE));
-        assertEquals("0.707107",
+        assertEquals("0.707106781",
                 mCalculator.Evaluate(
                         new ArrayList<>(Arrays.asList(("cos 45").split(" "))),
                         Calculator.Base.DEC,
@@ -175,17 +175,17 @@ public class CalculatorTest {
                         Calculator.Base.DEC,
                         Calculator.AngularUnit.DEGREE));
 
-        assertEquals("0.850904",
+        assertEquals("0.850903525",
                 mCalculator.Evaluate(
                         new ArrayList<>(Arrays.asList(("sin 45").split(" "))),
                         Calculator.Base.DEC,
                         Calculator.AngularUnit.RADIAN));
-        assertEquals("0.525322",
+        assertEquals("0.525321989",
                 mCalculator.Evaluate(
                         new ArrayList<>(Arrays.asList(("cos 45").split(" "))),
                         Calculator.Base.DEC,
                         Calculator.AngularUnit.RADIAN));
-        assertEquals("1.619775",
+        assertEquals("1.619775191",
                 mCalculator.Evaluate(
                         new ArrayList<>(Arrays.asList(("tan 45").split(" "))),
                         Calculator.Base.DEC,
