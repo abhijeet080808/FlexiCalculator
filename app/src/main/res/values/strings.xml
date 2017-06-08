@@ -61,6 +61,8 @@
     <string name="degree">deg</string>
     <string name="radian">rad</string>
 
+    <string name="swap">Swap</string>
+
     <string-array name="categories">
         <item>Volume</item>
         <item>Weight</item>

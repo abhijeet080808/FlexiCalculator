@@ -1,6 +1,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -23,61 +24,84 @@
             android:layout_height="wrap_content"
             android:padding="4dp" />
 
-        <HorizontalScrollView
-            android:id="@+id/scroll_display_input"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/display">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/text_display_input"
+            <ImageButton
+                android:id="@+id/button_swap"
+                android:contentDescription="@string/swap"
                 android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_swap_vert_24dp"
+                style="?android:attr/buttonBarButtonStyle" />
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingBottom="0dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:gravity="center_vertical"
-                android:layout_gravity="end"
-                android:includeFontPadding="true"
-                android:textSize="@dimen/display_font_size"
-                android:textColor="@color/colorCalcText"/>
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-        </HorizontalScrollView>
+                <HorizontalScrollView
+                    android:id="@+id/scroll_display_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/display">
 
-        <Spinner
-            android:id="@+id/spinner_input_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp" />
+                    <TextView
+                        android:id="@+id/text_display_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="0dp"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="end"
+                        android:includeFontPadding="true"
+                        android:textSize="@dimen/display_font_size"
+                        android:textColor="@color/colorCalcText"/>
 
-        <HorizontalScrollView
-            android:id="@+id/scroll_display_output"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/display">
+                </HorizontalScrollView>
 
-            <TextView
-                android:id="@+id/text_display_output"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingBottom="0dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:gravity="center_vertical"
-                android:layout_gravity="end"
-                android:includeFontPadding="true"
-                android:textSize="@dimen/display_font_size"
-                android:textColor="@color/colorCalcText"/>
+                <Spinner
+                    android:id="@+id/spinner_input_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp" />
 
-        </HorizontalScrollView>
+                <HorizontalScrollView
+                    android:id="@+id/scroll_display_output"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/display">
 
-        <Spinner
-            android:id="@+id/spinner_output_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp" />
+                    <TextView
+                        android:id="@+id/text_display_output"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="0dp"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="end"
+                        android:includeFontPadding="true"
+                        android:textSize="@dimen/display_font_size"
+                        android:textColor="@color/colorCalcText"/>
+
+                </HorizontalScrollView>
+
+                <Spinner
+                    android:id="@+id/spinner_output_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -306,6 +307,14 @@ public class ConverterFragment extends Fragment {
         });
         button.setTypeface(FontCache.GetRegular(context));
 
+        ImageButton image_button = (ImageButton) root_view.findViewById(R.id.button_swap);
+        image_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                swap();
+            }
+        });
+
         updateText(scroll_position_input, scroll_position_output);
 
         return root_view;
@@ -339,6 +348,14 @@ public class ConverterFragment extends Fragment {
     private void clear() {
         mInput.delete(0, mInput.length());
         evaluate();
+    }
+
+    private void swap() {
+        final int input = mSpinnerInput.getSelectedItemPosition();
+        final int output = mSpinnerOutput.getSelectedItemPosition();
+
+        mSpinnerInput.setSelection(output);
+        mSpinnerOutput.setSelection(input);
     }
 
     private void evaluate() {
