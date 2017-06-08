@@ -15,7 +15,8 @@
         android:id="@+id/spinner_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp" />
+        android:layout_marginTop="@dimen/spinner_vertical_margin"
+        android:layout_marginBottom="@dimen/spinner_vertical_margin" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,6 +30,11 @@
             android:layout_height="match_parent"
             app:srcCompat="@drawable/ic_swap_vert_24dp"
             style="?android:attr/buttonBarButtonStyle" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/space_margin" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -46,10 +52,12 @@
                     android:id="@+id/text_display_input"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="0dp"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp"
+                    android:paddingTop="@dimen/appbar_padding_top"
+                    android:paddingBottom="@dimen/display_padding_bottom"
+                    android:paddingLeft="@dimen/display_padding_left"
+                    android:paddingRight="@dimen/display_padding_right"
+                    android:paddingStart="@dimen/display_padding_left"
+                    android:paddingEnd="@dimen/display_padding_right"
                     android:gravity="center_vertical"
                     android:layout_gravity="end"
                     android:includeFontPadding="true"
@@ -62,7 +70,8 @@
                 android:id="@+id/spinner_input_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="4dp" />
+                android:layout_marginTop="@dimen/spinner_vertical_margin"
+                android:layout_marginBottom="@dimen/spinner_vertical_margin" />
 
             <HorizontalScrollView
                 android:id="@+id/scroll_display_output"
@@ -74,10 +83,12 @@
                     android:id="@+id/text_display_output"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="0dp"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp"
+                    android:paddingTop="@dimen/appbar_padding_top"
+                    android:paddingBottom="@dimen/display_padding_bottom"
+                    android:paddingLeft="@dimen/display_padding_left"
+                    android:paddingRight="@dimen/display_padding_right"
+                    android:paddingStart="@dimen/display_padding_left"
+                    android:paddingEnd="@dimen/display_padding_right"
                     android:gravity="center_vertical"
                     android:layout_gravity="end"
                     android:includeFontPadding="true"
@@ -90,7 +101,8 @@
                 android:id="@+id/spinner_output_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="4dp" />
+                android:layout_marginTop="@dimen/spinner_vertical_margin"
+                android:layout_marginBottom="@dimen/spinner_vertical_margin" />
 
         </LinearLayout>
 

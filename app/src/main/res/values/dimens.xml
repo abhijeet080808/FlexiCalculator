@@ -10,10 +10,18 @@
     <dimen name="main_buttons_font_size">24sp</dimen>
     <dimen name="operator_buttons_font_size">28sp</dimen>
 
+    <dimen name="display_padding_top">5dp</dimen>
+    <dimen name="display_padding_bottom">0dp</dimen>
+    <dimen name="display_padding_left">4dp</dimen>
+    <dimen name="display_padding_right">4dp</dimen>
+
     <dimen name="tab_font_size">20sp</dimen>
     <dimen name="toolbar_font_size">24sp</dimen>
 
     <dimen name="spinner_font_size">22sp</dimen>
+    <dimen name="spinner_vertical_margin">4dp</dimen>
+
+    <dimen name="space_margin">2dp</dimen>
 
     <dimen name="voice_display_font_size">28sp</dimen>
     <dimen name="voice_button_margin">28dp</dimen>
