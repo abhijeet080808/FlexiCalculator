@@ -3,11 +3,8 @@
 FlexiCalculator is a beautifully designed calculator and unit converter app that takes care of your
 mathematical calculation and unit conversion needs.
 
-Salient Features -
-- No loss of precision due to usage of Arbitrary Precision BigDecimal and BigInteger data types
-- Precision of up to 9 decimal digits
+#### The Calculate Module supports the following -
 
-The Calculate Module supports the following -
 - Basic Addition, Subtraction, Multiplication and Division functions
 - Power, Factorial, Percentage and Modulus calculations
 - Trigonometric Sine, Cosine and Tan calculations
@@ -18,13 +15,15 @@ The Calculate Module supports the following -
 - Precision of up to 9 decimal digits and no loss of precision due to usage of arbitrary precision
 data types
 
-The Convert Module supports the following -
+#### The Convert Module supports the following -
+
 - Conversion among many different units of Volume, Weight, Length, Area, Fuel Economy, Temperature, 
 Pressure, Energy, Power, Torque, Speed, Time, Data, Angle.
 - Precision of up to 9 decimal digits and no loss of precision due to usage of arbitrary precision
 data types
 
-The Speak Module supports the following -
+#### The Speak Module supports the following -
+
 - All calculations supported by the Calculate Module can be done by just using your voice. For eg -
     - "one plus 2" will result in "1+2=3"
     - "five percent of one thousand" will result in "5%×1000=50"
