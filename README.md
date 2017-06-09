@@ -3,7 +3,7 @@
 FlexiCalculator is a beautifully designed calculator and unit converter app that takes care of your
 mathematical calculation and unit conversion needs.
 
-### Calculate Module
+## Calculate Module
 
 ![Calculate Module](misc/device_tab1_framed.png?raw=true)
 
@@ -19,18 +19,18 @@ It supports the following -
 - Precision of up to 9 decimal digits and no loss of precision due to usage of arbitrary precision
 data types
 
-### Convert Module
+## Convert Module
 
 ![Convert Module](misc/device_tab2_framed.png?raw=true)
 
 It supports the following -
 
 - Conversion among many different units of Volume, Weight, Length, Area, Fuel Economy, Temperature, 
-Pressure, Energy, Power, Torque, Speed, Time, Data, Angle.
+Pressure, Energy, Power, Torque, Speed, Time, Data and Angle.
 - Precision of up to 9 decimal digits and no loss of precision due to usage of arbitrary precision
 data types
 
-### Speak Module
+## Speak Module
 
 ![Speak Module](misc/device_tab3_framed.png?raw=true)
 
