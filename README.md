@@ -44,3 +44,11 @@ It supports the following -
     - "hundred ml to liter" will result in "100 MILLILITERS is 0.1 LITERS"
     - "hundred kph to mph" will result in "100 KILOMETERS_PER_HOUR is 62.137119224 MILES_PER_HOUR"
 - Usage of Google backed Speech Recognition results in remarkable recognition accuracy
+
+## Developer Notes
+
+This app uses Crashlytics crash reporting and real time analytics. To build successfully, valid
+apiKey and apiSecret should be filled in the app/fabric.properties file. More details at
+[here](https://docs.fabric.io/android/fabric/settings/api-keys.html),
+[here](https://docs.fabric.io/android/fabric/settings/working-in-teams.html#android-projects) and
+[here](https://docs.fabric.io/android/fabric/manage-your-settings/organization.html#managing-credentials)
