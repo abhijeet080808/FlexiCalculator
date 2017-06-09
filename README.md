@@ -3,7 +3,11 @@
 FlexiCalculator is a beautifully designed calculator and unit converter app that takes care of your
 mathematical calculation and unit conversion needs.
 
-#### The Calculate Module supports the following -
+### Calculate Module
+
+![Alt text](misc/device_tab1_framed.png?raw=true "Title")
+
+It supports the following -
 
 - Basic Addition, Subtraction, Multiplication and Division functions
 - Power, Factorial, Percentage and Modulus calculations
@@ -15,14 +19,22 @@ mathematical calculation and unit conversion needs.
 - Precision of up to 9 decimal digits and no loss of precision due to usage of arbitrary precision
 data types
 
-#### The Convert Module supports the following -
+### Convert Module
+
+![Alt text](misc/device_tab2_framed.png?raw=true "Title")
+
+It supports the following -
 
 - Conversion among many different units of Volume, Weight, Length, Area, Fuel Economy, Temperature, 
 Pressure, Energy, Power, Torque, Speed, Time, Data, Angle.
 - Precision of up to 9 decimal digits and no loss of precision due to usage of arbitrary precision
 data types
 
-#### The Speak Module supports the following -
+### Speak Module
+
+![Alt text](misc/device_tab3_framed.png?raw=true "Title")
+
+It supports the following -
 
 - All calculations supported by the Calculate Module can be done by just using your voice. For eg -
     - "one plus two" will result in "1+2=3"
