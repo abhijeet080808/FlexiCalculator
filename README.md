@@ -48,7 +48,7 @@ It supports the following -
 ## Developer Notes
 
 This app uses Crashlytics crash reporting and real time analytics. To build successfully, valid
-apiKey and apiSecret should be present in the app/fabric.properties file. More details
+apiKey and apiSecret must be present in the `app/fabric.properties` file. More details
 [here](https://docs.fabric.io/android/fabric/settings/api-keys.html),
 [here](https://docs.fabric.io/android/fabric/settings/working-in-teams.html#android-projects) and
 [here](https://docs.fabric.io/android/fabric/manage-your-settings/organization.html#managing-credentials)
