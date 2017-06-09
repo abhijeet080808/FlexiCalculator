@@ -318,7 +318,7 @@ class Calculator {
             case SQUARE_ROOT:
                 return new BigDecimal(Math.sqrt(operand.doubleValue()));
             case SQUARE:
-                return new BigDecimal(Math.pow(operand.doubleValue(), 2));
+                return operand.pow(2);
             default:
                 throw new IllegalArgumentException(
                         "Calculator::operate: Invalid operator " + operator);

@@ -316,8 +316,8 @@ class VoiceCalculator implements RecognitionListener {
 
                 mLastResult = result;
 
-                mResultListener.OnListenResult(infix_string);
-                mResultListener.OnListenResult(result);
+                mResultListener.OnListenResult(
+                        infix_string + mContext.getString(R.string.equal) + result);
                 Log.v(TAG, "Parsed " + infix_string + " as " + result);
 
                 return true;
