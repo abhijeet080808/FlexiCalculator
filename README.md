@@ -7,7 +7,7 @@ mathematical calculation and unit conversion needs.
 
 - Basic Addition, Subtraction, Multiplication and Division functions
 - Power, Factorial, Percentage and Modulus calculations
-- Trigonometric Sine, Cosine and Tan calculations
+- Trigonometric Sine, Cosine and Tangent calculations
 - Logarithmic base 10 and base e calculations
 - Programmer functions including Left Shift, Right Shift, AND, OR, XOR
 - Choice of angular unit - Degree or Radian
@@ -25,7 +25,7 @@ data types
 #### The Speak Module supports the following -
 
 - All calculations supported by the Calculate Module can be done by just using your voice. For eg -
-    - "one plus 2" will result in "1+2=3"
+    - "one plus two" will result in "1+2=3"
     - "five percent of one thousand" will result in "5%×1000=50"
     - "one plus open bracket three plus five close bracket" will result in "1+(3+5)=9"
 - All unit conversions supported by the Convert Module can be done by just using your voice. For eg -
