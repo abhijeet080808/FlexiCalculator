@@ -1,6 +1,6 @@
 # FlexiCalculator
 
-FlexiCalculator is a beautifully designed calculator and unit converter app that takes care of your
+FlexiCalculator is a beautifully designed calculator and unit converter app for Android that takes care of your
 mathematical calculation and unit conversion needs.
 
 ## Calculate Module
