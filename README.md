@@ -5,7 +5,7 @@ mathematical calculation and unit conversion needs.
 
 ### Calculate Module
 
-![Alt text](misc/device_tab1_framed.png?raw=true "Title")
+![Calculate Module](misc/device_tab1_framed.png?raw=true)
 
 It supports the following -
 
@@ -21,7 +21,7 @@ data types
 
 ### Convert Module
 
-![Alt text](misc/device_tab2_framed.png?raw=true "Title")
+![Convert Module](misc/device_tab2_framed.png?raw=true)
 
 It supports the following -
 
@@ -32,7 +32,7 @@ data types
 
 ### Speak Module
 
-![Alt text](misc/device_tab3_framed.png?raw=true "Title")
+![Speak Module](misc/device_tab3_framed.png?raw=true)
 
 It supports the following -
 
