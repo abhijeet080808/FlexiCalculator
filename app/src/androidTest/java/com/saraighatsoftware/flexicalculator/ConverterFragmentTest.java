@@ -58,10 +58,10 @@ public class ConverterFragmentTest {
         // change output unit and check
         onView(withId(R.id.spinner_output_type)).perform(ViewActions.click());
         onData(allOf(is(instanceOf(String.class)), is("Fluid Ounces (US)"))).perform(ViewActions.click());
-        onView(allOf(withId(R.id.text_display_output), isDisplayed())).check(matches(withText("33.814023")));
+        onView(allOf(withId(R.id.text_display_output), isDisplayed())).check(matches(withText("33.814022702")));
 
         // delete one digit and check
-        click(R.id.button_delete, "100", "3.381402");
+        click(R.id.button_delete, "100", "3.38140227");
 
     }
 

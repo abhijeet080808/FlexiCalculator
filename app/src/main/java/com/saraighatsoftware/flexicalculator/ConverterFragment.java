@@ -26,6 +26,8 @@ public class ConverterFragment extends Fragment {
     private static final String ARG_INPUT_SCROLL_POS = "input_scroll_pos";
     private static final String ARG_OUTPUT_SCROLL_POS = "output_scroll_pos";
     private static final String ARG_LAST_SELECTED_CATEGORY = "last_selected_category";
+    private static final String ARG_LAST_SELECTED_INPUT = "last_selected_input";
+    private static final String ARG_LAST_SELECTED_OUTPUT = "last_selected_output";
 
     private TextView mTextDisplayInput;
     private TextView mTextDisplayOutput;
@@ -43,6 +45,8 @@ public class ConverterFragment extends Fragment {
     private String mOutput;
 
     private int mLastSelectedCategory;
+    private int mLastSelectedInput;
+    private int mLastSelectedOutput;
 
     public ConverterFragment() {
     }
@@ -57,6 +61,8 @@ public class ConverterFragment extends Fragment {
         outState.putIntArray(ARG_OUTPUT_SCROLL_POS,
                 new int[]{ mScrollDisplayOutput.getScrollX(), mScrollDisplayOutput.getScrollY()});
         outState.putInt(ARG_LAST_SELECTED_CATEGORY, mLastSelectedCategory);
+        outState.putInt(ARG_LAST_SELECTED_INPUT, mLastSelectedInput);
+        outState.putInt(ARG_LAST_SELECTED_OUTPUT, mLastSelectedOutput);
     }
 
     @Override
@@ -92,12 +98,16 @@ public class ConverterFragment extends Fragment {
             mInput = new StringBuffer();
             mOutput = "";
             mLastSelectedCategory = -1;
+            mLastSelectedInput = -1;
+            mLastSelectedOutput = -1;
         } else {
             mInput = new StringBuffer(savedInstanceState.getString(ARG_INPUT_TEXT));
             mOutput = savedInstanceState.getString(ARG_OUTPUT_TEXT);
             scroll_position_input = savedInstanceState.getIntArray(ARG_INPUT_SCROLL_POS);
             scroll_position_output = savedInstanceState.getIntArray(ARG_OUTPUT_SCROLL_POS);
             mLastSelectedCategory = savedInstanceState.getInt(ARG_LAST_SELECTED_CATEGORY);
+            mLastSelectedInput = savedInstanceState.getInt(ARG_LAST_SELECTED_INPUT);
+            mLastSelectedOutput = savedInstanceState.getInt(ARG_LAST_SELECTED_OUTPUT);
         }
 
         View root_view = inflater.inflate(R.layout.fragment_converter, container, false);
@@ -138,27 +148,29 @@ public class ConverterFragment extends Fragment {
         mSpinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // this is erroneously called when activity is created or fragment is (re)created
+                // this is also erroneously called when activity is created or fragment is (re)created
                 final int category = mSpinnerCategory.getSelectedItemPosition();
-
-                input_type_adapter.clear();
-                for (String item : mConverters[category].getUnits()) {
-                    input_type_adapter.add(item);
-                }
-                mSpinnerInput.setSelection(0);
-                input_type_adapter.notifyDataSetChanged();
-
-                output_type_adapter.clear();
-                for (String item : mConverters[category].getUnits()) {
-                    output_type_adapter.add(item);
-                }
-                mSpinnerOutput.setSelection(1);
-                output_type_adapter.notifyDataSetChanged();
-
-                if (category != mLastSelectedCategory) {
+                if (mLastSelectedCategory == -1) {
+                    // view is just created and savedInstanceState is null
+                    // set default input and output spinner selections
+                    mLastSelectedCategory = category;
+                    mLastSelectedInput = 0;
+                    mLastSelectedOutput = 1;
+                    // the listeners for these 2 spinners do not fire
+                    setInputAndOutputSpinners(category, mLastSelectedInput, mLastSelectedOutput);
+                } else if (category != mLastSelectedCategory) {
+                    // a different category is selected
                     clear();
+                    mLastSelectedCategory = category;
+                    mLastSelectedInput = 0;
+                    mLastSelectedOutput = 1;
+                    // the listeners for these 2 spinners do not fire
+                    setInputAndOutputSpinners(category, mLastSelectedInput, mLastSelectedOutput);
+                } else { // mLastSelectedCategory == category
+                    // savedInstanceState returned old positions
+                    // the listeners for these 2 spinners do not fire
+                    setInputAndOutputSpinners(category, mLastSelectedInput, mLastSelectedOutput);
                 }
-                mLastSelectedCategory = category;
             }
 
             @Override
@@ -170,7 +182,10 @@ public class ConverterFragment extends Fragment {
         mSpinnerInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                evaluate();
+                if (mLastSelectedInput != position) {
+                    evaluate();
+                    mLastSelectedInput = position;
+                } // else ignore the listener call
             }
 
             @Override
@@ -182,7 +197,10 @@ public class ConverterFragment extends Fragment {
         mSpinnerOutput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                evaluate();
+                if (mLastSelectedOutput != position) {
+                    evaluate();
+                    mLastSelectedOutput = position;
+                } // else ignore the listener call
             }
 
             @Override
@@ -320,6 +338,27 @@ public class ConverterFragment extends Fragment {
         return root_view;
     }
 
+    private void setInputAndOutputSpinners(
+            final int category,
+            final int input_position,
+            final int output_position) {
+        final CustomArrayAdapter input_type_adapter = (CustomArrayAdapter) mSpinnerInput.getAdapter();
+        input_type_adapter.clear();
+        for (String item : mConverters[category].getUnits()) {
+            input_type_adapter.add(item);
+        }
+        mSpinnerInput.setSelection(input_position);
+        input_type_adapter.notifyDataSetChanged();
+
+        final CustomArrayAdapter output_type_adapter = (CustomArrayAdapter) mSpinnerOutput.getAdapter();
+        output_type_adapter.clear();
+        for (String item : mConverters[category].getUnits()) {
+            output_type_adapter.add(item);
+        }
+        mSpinnerOutput.setSelection(output_position);
+        output_type_adapter.notifyDataSetChanged();
+    }
+
     private void expressionListener(String token) {
         // this is the one and only POINT
         if (token.equals(Calculator.POINT) && mInput.indexOf(Calculator.POINT) == -1) {
@@ -347,14 +386,18 @@ public class ConverterFragment extends Fragment {
 
     private void clear() {
         mInput.delete(0, mInput.length());
-        evaluate();
+        mOutput = "";
+        updateText(null, null);
     }
 
     private void swap() {
         final int input = mSpinnerInput.getSelectedItemPosition();
         final int output = mSpinnerOutput.getSelectedItemPosition();
 
+        // stop both listeners from firing
+        mLastSelectedInput = output;
         mSpinnerInput.setSelection(output);
+        // only this listener will fire
         mSpinnerOutput.setSelection(input);
     }
 

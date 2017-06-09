@@ -70,8 +70,8 @@ public class ConverterTest {
 
         ConverterEnergy mConverterEnergy = new ConverterEnergy(null);
         assertEquals("1055.06", mConverterEnergy.Convert("1", BRITISH_THERMAL_UNITS_ISO, JOULES));
-        assertEquals("1055.055853", mConverterEnergy.Convert("1", BRITISH_THERMAL_UNITS_IT, JOULES));
-        assertEquals("1054.350264", mConverterEnergy.Convert("1", BRITISH_THERMAL_UNITS_THERMOCHEMICAL, JOULES));
+        assertEquals("1055.05585262", mConverterEnergy.Convert("1", BRITISH_THERMAL_UNITS_IT, JOULES));
+        assertEquals("1054.350264489", mConverterEnergy.Convert("1", BRITISH_THERMAL_UNITS_THERMOCHEMICAL, JOULES));
         assertEquals("2118465544267813", mConverterEnergy.Convert("1562500000000000", FOOT_POUNDS, JOULES));
         assertEquals("1000", mConverterEnergy.Convert("1", CALORIES_FOOD, CALORIES_THERMOCHEMICAL));
         assertEquals("4186.8", mConverterEnergy.Convert("1000", CALORIES_IT, JOULES));
@@ -81,9 +81,9 @@ public class ConverterTest {
         assertEquals("6241509126000000000", mConverterEnergy.Convert("1", JOULES, ELECTRON_VOLTS));
 
         ConverterFuelEconomy mConverterFuelEconomy = new ConverterFuelEconomy(null);
-        assertEquals("0.832674", mConverterFuelEconomy.Convert("1", MILES_PER_GALLON_UK, MILES_PER_GALLON_US));
-        assertEquals("0.354006", mConverterFuelEconomy.Convert("1", MILES_PER_GALLON_UK, KILOMETERS_PER_LITER));
-        assertEquals("282.480936", mConverterFuelEconomy.Convert("1", MILES_PER_GALLON_UK, LITERS_PER_100_KILOMETERS));
+        assertEquals("0.832674185", mConverterFuelEconomy.Convert("1", MILES_PER_GALLON_UK, MILES_PER_GALLON_US));
+        assertEquals("0.35400619", mConverterFuelEconomy.Convert("1", MILES_PER_GALLON_UK, KILOMETERS_PER_LITER));
+        assertEquals("282.480936332", mConverterFuelEconomy.Convert("1", MILES_PER_GALLON_UK, LITERS_PER_100_KILOMETERS));
 
         ConverterLength mConverterLength = new ConverterLength(null);
         assertEquals("1.852", mConverterLength.Convert("1", NAUTICAL_MILES, KILOMETERS));
@@ -98,7 +98,7 @@ public class ConverterTest {
         ConverterPower mConverterPower = new ConverterPower(null);
         assertEquals("52752792631", mConverterPower.Convert("3000000000", BTUS_IT_PER_MINUTE, JOULES_PER_SECOND));
         assertEquals("1", mConverterPower.Convert("33000", FOOT_POUNDS_PER_MINUTE, HORSEPOWER_MECHANICAL));
-        assertEquals("1.01387", mConverterPower.Convert("1", HORSEPOWER_MECHANICAL, PFERDESTARKE));
+        assertEquals("1.013869665", mConverterPower.Convert("1", HORSEPOWER_MECHANICAL, PFERDESTARKE));
         assertEquals("746", mConverterPower.Convert("1", HORSEPOWER_ELECTRICAL, JOULES_PER_SECOND));
         assertEquals("1000000000", mConverterPower.Convert("1", GIGAWATTS, JOULES_PER_SECOND));
         assertEquals("1000000", mConverterPower.Convert("1", MEGAWATTS, WATTS));
@@ -108,7 +108,7 @@ public class ConverterTest {
         assertEquals("101325", mConverterPressure.Convert("760", TORRS, PASCALS));
         assertEquals("1000", mConverterPressure.Convert("1", KILOPASCALS, PASCALS));
         assertEquals("1.01325", mConverterPressure.Convert("1", ATMOSPHERES, BARS));
-        assertEquals("6.894757", mConverterPressure.Convert("1", POUNDS_PER_SQUARE_INCH, KILOPASCALS));
+        assertEquals("6.894757293", mConverterPressure.Convert("1", POUNDS_PER_SQUARE_INCH, KILOPASCALS));
 
         ConverterSpeed mConverterSpeed = new ConverterSpeed(null);
         assertEquals("343", mConverterSpeed.Convert("1", MACH, METERS_PER_SECOND));
