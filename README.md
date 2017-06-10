@@ -37,12 +37,12 @@ data types
 It supports the following -
 
 - All calculations supported by the Calculate Module can be done by just using your voice. For eg -
-    - "one plus two" will result in "1+2=3"
-    - "five percent of one thousand" will result in "5%×1000=50"
-    - "one plus open bracket three plus five close bracket" will result in "1+(3+5)=9"
+    - Speaking "one plus two" will result in "1+2=3"
+    - Speaking "five percent of one thousand" will result in "5%×1000=50"
+    - Speaking "one plus open bracket three plus five close bracket" will result in "1+(3+5)=9"
 - All unit conversions supported by the Convert Module can be done by just using your voice. For eg -
-    - "hundred ml to liter" will result in "100 MILLILITERS is 0.1 LITERS"
-    - "hundred kph to mph" will result in "100 KILOMETERS_PER_HOUR is 62.137119224 MILES_PER_HOUR"
+    - Speaking "hundred ml to liter" will result in "100 MILLILITERS is 0.1 LITERS"
+    - Speaking "hundred kph to mph" will result in "100 KILOMETERS_PER_HOUR is 62.137119224 MILES_PER_HOUR"
 - Usage of Google Speech Recognition API results in remarkable recognition accuracy.
 - Both offline as well as online Speech Recognition is possible. However, online Speech Recognition
 will result in better voice recognition accuracy.
