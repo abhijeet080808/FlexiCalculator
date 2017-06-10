@@ -1,6 +1,6 @@
 # Privacy Policy
 
-Saraighat Software - abhijeet080808 built the FlexiCalculator app as an open source app. This SERVICE is provided for use as is.
+Saraighat Software - abhijeet080808 built the FlexiCalculator as an open source app. This SERVICE is provided for use as is.
 
 We value and respect your privacy. This is why we do NOT store anything you type or say in the app on any of our servers. 
 Anything you produce on the app, remains on your device. 
