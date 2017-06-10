@@ -45,7 +45,7 @@ It supports the following -
     - "hundred kph to mph" will result in "100 KILOMETERS_PER_HOUR is 62.137119224 MILES_PER_HOUR"
 - Usage of Google Speech Recognition API results in remarkable recognition accuracy.
 - Both offline as well as online Speech Recognition is possible. However, online Speech Recognition
-will result in better voice recogntion accuracy.
+will result in better voice recognition accuracy.
 
 ## Developer Notes
 
