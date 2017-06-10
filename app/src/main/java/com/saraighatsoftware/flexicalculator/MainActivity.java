@@ -18,7 +18,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
 
-    // TODO Log class, small screen
+    // TODO small screen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
