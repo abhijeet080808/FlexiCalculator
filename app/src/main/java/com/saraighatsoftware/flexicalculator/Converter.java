@@ -1,7 +1,5 @@
 package com.saraighatsoftware.flexicalculator;
 
-import android.util.Log;
-
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.fraction.BigFraction;
@@ -13,6 +11,8 @@ import java.util.List;
 abstract class Converter {
 
     private static final String TAG = "Converter";
+
+    static final int INTERNAL_SCALE = 12;
 
     interface Unit {
         String[] GetKeywords();
@@ -70,13 +70,13 @@ abstract class Converter {
     }
 
     String Convert(String value, Unit input, Unit output)
-            throws NullArgumentException, MathArithmeticException {
+            throws NullArgumentException, MathArithmeticException, NumberFormatException {
         if (input == output) {
             return value;
         }
         // convert to base unit first
         BigFraction in = ToBigFraction(new BigDecimal(value));
-        Log.v(TAG, "Converting " + in + " from " + input + " to " + output);
+        Logger.v(TAG, "Converting " + in + " from " + input + " to " + output);
         if (input != getBaseUnit()) {
             in = in.divide(getConversionFactor(new ConversionPair(getBaseUnit(), input)));
         }
@@ -85,7 +85,8 @@ abstract class Converter {
         if (output != getBaseUnit()) {
             out = out.multiply(getConversionFactor(new ConversionPair(getBaseUnit(), output)));
         }
-        Log.v(TAG, "Converted to " + out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
-        return ResultFormat.Format(out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
+        BigDecimal out_decimal = out.bigDecimalValue(INTERNAL_SCALE, BigDecimal.ROUND_HALF_EVEN);
+        Logger.v(TAG, "Converted to " + out_decimal);
+        return ResultFormat.Format(out_decimal);
     }
 }

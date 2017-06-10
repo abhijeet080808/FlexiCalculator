@@ -1,7 +1,6 @@
 package com.saraighatsoftware.flexicalculator;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NullArgumentException;
@@ -15,6 +14,8 @@ import java.util.List;
 class ConverterFuelEconomy extends Converter {
 
     private static final String TAG = "ConverterFuelEconomy";
+
+    private static final BigFraction HUNDRED = new BigFraction(100);
 
     // must be same order and value as R.array.fuel_economy
     enum FuelEconomyUnit implements Unit {
@@ -124,7 +125,7 @@ class ConverterFuelEconomy extends Converter {
     }
 
     String Convert(String value, Unit input, Unit output)
-            throws NullArgumentException, MathArithmeticException {
+            throws NullArgumentException, MathArithmeticException, NumberFormatException {
         if (input != FuelEconomyUnit.LITERS_PER_100_KILOMETERS &&
                 output != FuelEconomyUnit.LITERS_PER_100_KILOMETERS) {
             return super.Convert(value, input, output);
@@ -133,47 +134,44 @@ class ConverterFuelEconomy extends Converter {
                 output == FuelEconomyUnit.LITERS_PER_100_KILOMETERS) {
             return value;
         }
+
         // only handle special case input LITERS_PER_100_KILOMETERS here
         if (input == FuelEconomyUnit.LITERS_PER_100_KILOMETERS) {
-            try {
-                // convert to base unit first
-                BigFraction in = ToBigFraction(new BigDecimal(value));
-                Log.v(TAG, "Converting " + in + " from " + input + " to " + output);
-                // convert from liters per 100 kms to kms per liter
-                in = new BigFraction(100L, 1L).divide(in);
-                // convert to base unit
-                in = in.divide(getConversionFactor(
-                        new ConversionPair(getBaseUnit(), FuelEconomyUnit.KILOMETERS_PER_LITER)));
-                // convert to output format
-                BigFraction out = in;
-                if (output != getBaseUnit()) {
-                    out = out.multiply(getConversionFactor(new ConversionPair(getBaseUnit(), output)));
-                }
-                Log.v(TAG, "Converted to " + out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
-                return ResultFormat.Format(out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
-            } catch (Exception e) {
-                return "0";
+            // convert to base unit first
+            BigFraction in = ToBigFraction(new BigDecimal(value));
+            Logger.v(TAG, "Converting " + in + " from " + input + " to " + output);
+            // convert from liters per 100 kms to kms per liter
+            in = HUNDRED.divide(in);
+            // convert to base unit
+            in = in.divide(getConversionFactor(
+                    new ConversionPair(getBaseUnit(), FuelEconomyUnit.KILOMETERS_PER_LITER)));
+            // convert to output format
+            BigFraction out = in;
+            if (output != getBaseUnit()) {
+                out = out.multiply(getConversionFactor(new ConversionPair(getBaseUnit(), output)));
             }
+            BigDecimal out_decimal = out.bigDecimalValue(INTERNAL_SCALE, BigDecimal.ROUND_HALF_EVEN);
+            Logger.v(TAG, "Converted to " + out_decimal);
+            return ResultFormat.Format(out_decimal);
+
         } else { // only handle special case output LITERS_PER_100_KILOMETERS here
-            try {
-                // convert to base unit first
-                BigFraction in = ToBigFraction(new BigDecimal(value));
-                Log.v(TAG, "Converting " + in + " from " + input + " to " + output);
-                if (input != getBaseUnit()) {
-                    in = in.divide(getConversionFactor(new ConversionPair(getBaseUnit(), input)));
-                }
-                // convert to output format
-                BigFraction out = in;
-                // convert to km/l first
-                out = out.multiply(getConversionFactor(
-                        new ConversionPair(getBaseUnit(), FuelEconomyUnit.KILOMETERS_PER_LITER)));
-                // convert from kms per liter to liters per 100 kms
-                out = new BigFraction(100L, 1L).divide(out);
-                Log.v(TAG, "Converted to " + out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
-                return ResultFormat.Format(out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
-            } catch (Exception e) {
-                return "0";
+
+            // convert to base unit first
+            BigFraction in = ToBigFraction(new BigDecimal(value));
+            Logger.v(TAG, "Converting " + in + " from " + input + " to " + output);
+            if (input != getBaseUnit()) {
+                in = in.divide(getConversionFactor(new ConversionPair(getBaseUnit(), input)));
             }
+            // convert to output format
+            BigFraction out = in;
+            // convert to km/l first
+            out = out.multiply(getConversionFactor(
+                    new ConversionPair(getBaseUnit(), FuelEconomyUnit.KILOMETERS_PER_LITER)));
+            // convert from kms per liter to liters per 100 kms
+            out = HUNDRED.divide(out);
+            BigDecimal out_decimal = out.bigDecimalValue(INTERNAL_SCALE, BigDecimal.ROUND_HALF_EVEN);
+            Logger.v(TAG, "Converted to " + out_decimal);
+            return ResultFormat.Format(out_decimal);
         }
     }
 

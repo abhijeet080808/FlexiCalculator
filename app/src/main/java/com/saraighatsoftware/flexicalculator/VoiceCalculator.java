@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -289,7 +288,7 @@ class VoiceCalculator implements RecognitionListener {
     }
 
     private boolean calculate(final ArrayList<String> inputList) {
-        Log.v(TAG, "Parsing " + inputList);
+        Logger.v(TAG, "Parsing " + inputList);
         for (String input: inputList) {
             // replace recognized operator keywords
             String replaced_input =
@@ -308,7 +307,7 @@ class VoiceCalculator implements RecognitionListener {
 
             try {
                 String infix_string = StringUtils.join(infix_expression, "");
-                Log.v(TAG, "Parsing " + infix_string);
+                Logger.v(TAG, "Parsing " + infix_string);
                 String result = mCalculator.Evaluate(
                         infix_expression,
                         Calculator.Base.DEC,
@@ -318,7 +317,7 @@ class VoiceCalculator implements RecognitionListener {
 
                 mResultListener.OnListenResult(
                         infix_string + mContext.getString(R.string.equal) + result);
-                Log.v(TAG, "Parsed " + infix_string + " as " + result);
+                Logger.v(TAG, "Parsed " + infix_string + " as " + result);
 
                 return true;
             } catch (Exception e) {
@@ -329,7 +328,7 @@ class VoiceCalculator implements RecognitionListener {
     }
 
     private boolean convert(final ArrayList<String> inputList) {
-        Log.v(TAG, "Converting " + inputList);
+        Logger.v(TAG, "Converting " + inputList);
         // process strings like convert 1 ml to litre
         for (String input : inputList) {
             input = input.toLowerCase();
@@ -344,75 +343,89 @@ class VoiceCalculator implements RecognitionListener {
 
                 if (input_unit != null && output_unit != null) {
                     String result;
-                    Converter converter;
+                    Converter converter = getConverter(input_unit, output_unit);
                     // as per mConverters initialization above
                     try {
-                        if (input_unit instanceof ConverterVolume.VolumeUnit &&
-                                output_unit instanceof ConverterVolume.VolumeUnit) {
-                            converter = mConverters[0];
-                        } else if (input_unit instanceof ConverterWeight.WeightUnit &&
-                                output_unit instanceof ConverterWeight.WeightUnit) {
-                            converter = mConverters[1];
-                        } else if (input_unit instanceof ConverterLength.LengthUnit &&
-                                output_unit instanceof ConverterLength.LengthUnit) {
-                            converter = mConverters[2];
-                        } else if (input_unit instanceof ConverterArea.AreaUnit &&
-                                output_unit instanceof ConverterArea.AreaUnit) {
-                            converter = mConverters[3];
-                        } else if (input_unit instanceof ConverterFuelEconomy.FuelEconomyUnit &&
-                                output_unit instanceof ConverterFuelEconomy.FuelEconomyUnit) {
-                            converter = mConverters[4];
-                        } else if (input_unit instanceof ConverterTemperature.TemperatureUnit &&
-                                output_unit instanceof ConverterTemperature.TemperatureUnit) {
-                            converter = mConverters[5];
-                        } else if (input_unit instanceof ConverterPressure.PressureUnit &&
-                                output_unit instanceof ConverterPressure.PressureUnit) {
-                            converter = mConverters[6];
-                        } else if (input_unit instanceof ConverterEnergy.EnergyUnit &&
-                                output_unit instanceof ConverterEnergy.EnergyUnit) {
-                            converter = mConverters[7];
-                        } else if (input_unit instanceof ConverterPower.PowerUnit &&
-                                output_unit instanceof ConverterPower.PowerUnit) {
-                            converter = mConverters[8];
-                        } else if (input_unit instanceof ConverterTorque.TorqueUnit &&
-                                output_unit instanceof ConverterTorque.TorqueUnit) {
-                            converter = mConverters[9];
-                        } else if (input_unit instanceof ConverterSpeed.SpeedUnit &&
-                                output_unit instanceof ConverterSpeed.SpeedUnit) {
-                            converter = mConverters[10];
-                        } else if (input_unit instanceof ConverterTime.TimeUnit &&
-                                output_unit instanceof ConverterTime.TimeUnit) {
-                            converter = mConverters[11];
-                        } else if (input_unit instanceof ConverterData.DataUnit &&
-                                output_unit instanceof ConverterData.DataUnit) {
-                            converter = mConverters[12];
-                        } else if (input_unit instanceof ConverterAngle.AngleUnit &&
-                                output_unit instanceof ConverterAngle.AngleUnit) {
-                            converter = mConverters[13];
-                        } else {
-                            // unknown units or mismatched units
-                            continue;
-                        }
-
                         result = converter.Convert(input_value, input_unit, output_unit);
                         mResultListener.OnListenResult(input_value
                                         + " " + input_unit
                                         + " " + mContext.getString(R.string.is)
                                         + " " + result
                                         + " " + output_unit);
-                        Log.v(TAG, "Converted " + input_value + " " + input_unit +
+                        Logger.v(TAG, "Converted " + input_value + " " + input_unit +
                                 " to " + result + " " + output_unit);
                         return true;
                     } catch (Exception e) {
                         // do nothing
                     }
                 } else {
-                    Log.v(TAG, "Unknown units " + input_unit_string + " " + output_unit_string);
+                    Logger.v(TAG, "Unknown units " + input_unit_string + " " + output_unit_string);
                 }
             } else {
-                Log.v(TAG, "Unknown conversion command " + input);
+                Logger.v(TAG, "Unknown conversion command " + input);
             }
         }
         return false;
+    }
+
+    private Converter getConverter(Converter.Unit inputUnit, Converter.Unit outputUnit) {
+        if (inputUnit instanceof ConverterVolume.VolumeUnit &&
+                outputUnit instanceof ConverterVolume.VolumeUnit) {
+            return mConverters[0];
+        }
+        if (inputUnit instanceof ConverterWeight.WeightUnit &&
+                outputUnit instanceof ConverterWeight.WeightUnit) {
+            return mConverters[1];
+        }
+        if (inputUnit instanceof ConverterLength.LengthUnit &&
+                outputUnit instanceof ConverterLength.LengthUnit) {
+            return mConverters[2];
+        }
+        if (inputUnit instanceof ConverterArea.AreaUnit &&
+                outputUnit instanceof ConverterArea.AreaUnit) {
+            return mConverters[3];
+        }
+        if (inputUnit instanceof ConverterFuelEconomy.FuelEconomyUnit &&
+                outputUnit instanceof ConverterFuelEconomy.FuelEconomyUnit) {
+            return mConverters[4];
+        }
+        if (inputUnit instanceof ConverterTemperature.TemperatureUnit &&
+                outputUnit instanceof ConverterTemperature.TemperatureUnit) {
+            return mConverters[5];
+        }
+        if (inputUnit instanceof ConverterPressure.PressureUnit &&
+                outputUnit instanceof ConverterPressure.PressureUnit) {
+            return mConverters[6];
+        }
+        if (inputUnit instanceof ConverterEnergy.EnergyUnit &&
+                outputUnit instanceof ConverterEnergy.EnergyUnit) {
+            return mConverters[7];
+        }
+        if (inputUnit instanceof ConverterPower.PowerUnit &&
+                outputUnit instanceof ConverterPower.PowerUnit) {
+            return mConverters[8];
+        }
+        if (inputUnit instanceof ConverterTorque.TorqueUnit &&
+                outputUnit instanceof ConverterTorque.TorqueUnit) {
+            return mConverters[9];
+        }
+        if (inputUnit instanceof ConverterSpeed.SpeedUnit &&
+                outputUnit instanceof ConverterSpeed.SpeedUnit) {
+            return mConverters[10];
+        }
+        if (inputUnit instanceof ConverterTime.TimeUnit &&
+                outputUnit instanceof ConverterTime.TimeUnit) {
+            return mConverters[11];
+        }
+        if (inputUnit instanceof ConverterData.DataUnit &&
+                outputUnit instanceof ConverterData.DataUnit) {
+            return mConverters[12];
+        }
+        if (inputUnit instanceof ConverterAngle.AngleUnit &&
+                outputUnit instanceof ConverterAngle.AngleUnit) {
+            return mConverters[13];
+        }
+        // unknown units or mismatched units
+        return null;
     }
 }

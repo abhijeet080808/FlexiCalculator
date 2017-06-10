@@ -1,7 +1,6 @@
 package com.saraighatsoftware.flexicalculator;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.apache.commons.math3.exception.MathArithmeticException;
 import org.apache.commons.math3.exception.NullArgumentException;
@@ -14,6 +13,9 @@ import java.util.List;
 class ConverterTemperature extends Converter {
 
     private static final String TAG = "ConverterTemperature";
+
+    private static final BigFraction FIVE_BY_NINE = new BigFraction(5, 9);
+    private static final BigFraction KELVIN_OFFSET = new BigFraction(27315, 100);
 
     // must be same order and value as R.array.temperature
     enum TemperatureUnit implements Unit {
@@ -76,44 +78,36 @@ class ConverterTemperature extends Converter {
 
     @Override
     String Convert(String value, Unit input, Unit output)
-            throws NullArgumentException, MathArithmeticException {
-        try {
-            BigFraction in = ToBigFraction(new BigDecimal(value));
-            Log.v(TAG, "Converting " + in + " from " + input + " to " + output);
-            BigFraction out;
-            final BigFraction five_by_nine = new BigFraction(5, 9);
-            final BigFraction kelvin_offset = new BigFraction(27315, 100);
-
-            if (input == output) {
-                out = in;
-            } else if (input == TemperatureUnit.CELSIUS && output == TemperatureUnit.FAHRENHEIT) {
-                // F = (C * 9/5) + 32
-                out = in.divide(five_by_nine).add(32);
-            } else if (input == TemperatureUnit.FAHRENHEIT && output == TemperatureUnit.CELSIUS) {
-                // C = (F - 32) * 5/9
-                out = in.subtract(32).multiply(five_by_nine);
-            } else if (input == TemperatureUnit.CELSIUS && output == TemperatureUnit.KELVIN) {
-                // K = C + 273.15
-                out = in.add(kelvin_offset);
-            } else if (input == TemperatureUnit.KELVIN && output == TemperatureUnit.CELSIUS) {
-                // C = K - 273.15
-                out = in.subtract(kelvin_offset);
-            } else if (input == TemperatureUnit.FAHRENHEIT && output == TemperatureUnit.KELVIN) {
-                // K = ((F - 32) * 5/9) + 273.15
-                out = in.subtract(32).multiply(five_by_nine).add(kelvin_offset);
-            } else if (input == TemperatureUnit.KELVIN && output == TemperatureUnit.FAHRENHEIT) {
-                // F = ((K - 273.15) * 9/5) + 32
-                out = in.subtract(kelvin_offset).divide(five_by_nine).add(32);
-            } else {
-                // unknown conversion
-                out = BigFraction.ZERO;
-            }
-
-            Log.v(TAG, "Converted to " + out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
-            return ResultFormat.Format(out.bigDecimalValue(12, BigDecimal.ROUND_HALF_EVEN));
+            throws NullArgumentException, MathArithmeticException, NumberFormatException {
+        BigFraction in = ToBigFraction(new BigDecimal(value));
+        Logger.v(TAG, "Converting " + in + " from " + input + " to " + output);
+        BigFraction out;
+        if (input == output) {
+            out = in;
+        } else if (input == TemperatureUnit.CELSIUS && output == TemperatureUnit.FAHRENHEIT) {
+            // F = (C * 9/5) + 32
+            out = in.divide(FIVE_BY_NINE).add(32);
+        } else if (input == TemperatureUnit.FAHRENHEIT && output == TemperatureUnit.CELSIUS) {
+            // C = (F - 32) * 5/9
+            out = in.subtract(32).multiply(FIVE_BY_NINE);
+        } else if (input == TemperatureUnit.CELSIUS && output == TemperatureUnit.KELVIN) {
+            // K = C + 273.15
+            out = in.add(KELVIN_OFFSET);
+        } else if (input == TemperatureUnit.KELVIN && output == TemperatureUnit.CELSIUS) {
+            // C = K - 273.15
+            out = in.subtract(KELVIN_OFFSET);
+        } else if (input == TemperatureUnit.FAHRENHEIT && output == TemperatureUnit.KELVIN) {
+            // K = ((F - 32) * 5/9) + 273.15
+            out = in.subtract(32).multiply(FIVE_BY_NINE).add(KELVIN_OFFSET);
+        } else if (input == TemperatureUnit.KELVIN && output == TemperatureUnit.FAHRENHEIT) {
+            // F = ((K - 273.15) * 9/5) + 32
+            out = in.subtract(KELVIN_OFFSET).divide(FIVE_BY_NINE).add(32);
+        } else {
+            // unknown conversion
+            out = BigFraction.ZERO;
         }
-        catch (Exception e) {
-            return "0";
-        }
+        BigDecimal out_decimal = out.bigDecimalValue(INTERNAL_SCALE, BigDecimal.ROUND_HALF_EVEN);
+        Logger.v(TAG, "Converted to " + out_decimal);
+        return ResultFormat.Format(out_decimal);
     }
 }

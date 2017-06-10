@@ -3,7 +3,6 @@ package com.saraighatsoftware.flexicalculator;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -420,7 +419,7 @@ public class ConverterFragment extends Fragment {
                         mConverters[category].getUnitFromInteger(input),
                         mConverters[category].getUnitFromInteger(output));
             } catch (Exception e) {
-                Log.v(TAG, "evaluate ", e);
+                Logger.v(TAG, "evaluate ", e);
                 mOutput = "";
             }
         }

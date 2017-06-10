@@ -1,7 +1,5 @@
 package com.saraighatsoftware.flexicalculator;
 
-import android.util.Log;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -108,25 +106,25 @@ class Calculator {
 
         for (String item : infixExpression) {
             if (IsOperand(item, base)) {
-                Log.v(TAG, "Processing " + item);
+                Logger.v(TAG, "Processing " + item);
                 operands.push(getBigDecimal(item, base));
             } else if (item.equals(Operator.OPEN_BRACKET.Symbol())) {
-                Log.v(TAG, "Processing " + item);
+                Logger.v(TAG, "Processing " + item);
                 operators.push(Operator.OPEN_BRACKET);
             } else if (item.equals(Operator.CLOSE_BRACKET.Symbol())) {
-                Log.v(TAG, "Processing " + item);
+                Logger.v(TAG, "Processing " + item);
                 while (!operators.peek().equals(Operator.OPEN_BRACKET)) {
                     Operator operator = operators.pop();
                     if (operator.Type() == Operator.OperatorType.PRE_UNARY ||
                             operator.Type() == Operator.OperatorType.POST_UNARY) {
                         BigDecimal operand = operands.pop();
-                        Log.v(TAG, "Got close bracket - "
+                        Logger.v(TAG, "Got close bracket - "
                                 + operator + " " + operand);
                         operands.push(operate(operator, operand, angularUnit));
                     } else {
                         BigDecimal operand2 = operands.pop();
                         BigDecimal operand1 = operands.pop();
-                        Log.v(TAG, "Got close bracket - "
+                        Logger.v(TAG, "Got close bracket - "
                                 + operand1 + " " + operator + " " + operand2);
                         operands.push(operate(operator, operand1, operand2));
                     }
@@ -134,7 +132,7 @@ class Calculator {
                 operators.pop(); // discard the open bracket
             } else { // it is an operator
                 // process all operators with higher or same precedence as current operator
-                Log.v(TAG, "Processing " + item);
+                Logger.v(TAG, "Processing " + item);
                 Operator current_operator = mOpFinder.Get(item);
                 while (!operators.isEmpty() && (
                         (!current_operator.IsRightAssoc() && operators.peek().Precedence() <= current_operator.Precedence()) ||
@@ -150,13 +148,13 @@ class Calculator {
                     if (operator.Type() == Operator.OperatorType.PRE_UNARY ||
                             operator.Type() == Operator.OperatorType.POST_UNARY) {
                         BigDecimal operand = operands.pop();
-                        Log.v(TAG, "Got higher precedence than " + item + " - "
+                        Logger.v(TAG, "Got higher precedence than " + item + " - "
                                 + operator + " " + operand);
                         operands.push(operate(operator, operand, angularUnit));
                     } else {
                         BigDecimal operand2 = operands.pop();
                         BigDecimal operand1 = operands.pop();
-                        Log.v(TAG, "Got higher precedence than " + item + " - "
+                        Logger.v(TAG, "Got higher precedence than " + item + " - "
                                 + operand1 + " " + operator + " " + operand2);
                         operands.push(operate(operator, operand1, operand2));
                     }
@@ -170,13 +168,13 @@ class Calculator {
             if (operator.Type() == Operator.OperatorType.PRE_UNARY ||
                     operator.Type() == Operator.OperatorType.POST_UNARY) {
                 BigDecimal operand = operands.pop();
-                Log.v(TAG, "Got operator in stack - "
+                Logger.v(TAG, "Got operator in stack - "
                         + operator + " " + operand);
                 operands.push(operate(operator, operand, angularUnit));
             } else {
                 BigDecimal operand2 = operands.pop();
                 BigDecimal operand1 = operands.pop();
-                Log.v(TAG, "Got operator in stack - "
+                Logger.v(TAG, "Got operator in stack - "
                         + operand1 + " " + operator + " " + operand2);
                 operands.push(operate(operator, operand1, operand2));
             }
@@ -230,7 +228,7 @@ class Calculator {
                                final BigDecimal operand1,
                                final BigDecimal operand2)
             throws IllegalArgumentException, ArithmeticException {
-        Log.v(TAG, "Processing " + operand1 + " " + operator + " " + operand2);
+        Logger.v(TAG, "Processing " + operand1 + " " + operator + " " + operand2);
 
         switch (operator) {
             case ADD:
@@ -284,7 +282,7 @@ class Calculator {
                                final BigDecimal operand,
                                final AngularUnit angularUnit)
             throws IllegalArgumentException, ArithmeticException {
-        Log.v(TAG, "Processing " + operator + " " + operand);
+        Logger.v(TAG, "Processing " + operator + " " + operand);
 
         // sin/cos/tan expects value in degree
         switch (operator) {
@@ -485,7 +483,7 @@ class Calculator {
                     precision = (point_pos >= 0) ? precision - 1 : precision;
                     precision = is_negative ? precision - 1 : precision;
                     final int scale = (point_pos >= 0) ? existingOperand.length() - point_pos - 1 : 0;
-                    Log.v(TAG, existingOperand + " scale " + scale + " precision " + precision);
+                    Logger.v(TAG, existingOperand + " scale " + scale + " precision " + precision);
                     return (precision < INPUT_PRECISION && scale < INPUT_SCALE);
                 }
             } else {

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -536,7 +535,7 @@ public class CalculatorFragment extends Fragment {
                         mInfixExpression.add(new_operand);
                         mIsResultSet = true;
                     } catch (Exception e) {
-                        Log.v(TAG, "convert ", e);
+                        Logger.v(TAG, "convert ", e);
                     }
                 } else {
                     mInfixExpression.clear();
@@ -772,18 +771,18 @@ public class CalculatorFragment extends Fragment {
         if (mInfixExpression.isEmpty()) return;
 
         try {
-            Log.v(TAG, "Evaluating "
+            Logger.v(TAG, "Evaluating "
                     + "(" + mBase
                     + "," + mAngularUnit
                     + ") - " + mInfixExpression.toString());
             String result = mCalculator.Evaluate(mInfixExpression, mBase, mAngularUnit);
-            Log.v(TAG, "Result - " + result);
+            Logger.v(TAG, "Result - " + result);
             mInfixExpression.clear();
             mInfixExpression.add(result);
             mIsResultSet = true;
             updateText(null);
         } catch (Exception e) {
-            Log.v(TAG, "evaluate ", e);
+            Logger.v(TAG, "evaluate ", e);
             mInfixExpression.clear();
             updateText(null);
         }

@@ -36,6 +36,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            versionNameSuffix ' DEVELOPMENT'
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
