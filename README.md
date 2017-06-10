@@ -43,7 +43,7 @@ It supports the following -
 - All unit conversions supported by the Convert Module can be done by just using your voice. For eg -
     - "hundred ml to liter" will result in "100 MILLILITERS is 0.1 LITERS"
     - "hundred kph to mph" will result in "100 KILOMETERS_PER_HOUR is 62.137119224 MILES_PER_HOUR"
-- Usage of Google backed Speech Recognition results in remarkable recognition accuracy
+- Usage of Google Speech Recognition API results in remarkable recognition accuracy
 
 ## Developer Notes
 
